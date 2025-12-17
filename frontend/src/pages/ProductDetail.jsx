@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useCart } from "../context/useCart";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const mockProducts = [
   {
@@ -34,11 +36,10 @@ export default function ProductDetail() {
     );
   }
 
-  const handleAdd = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
-  };
+ const handleAdd = () => {
+   addToCart({ ...product, quantity });
+ };
+
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12">
@@ -59,22 +60,48 @@ export default function ProductDetail() {
 
         {/* Cantidad */}
         <div className="flex items-center gap-4">
-          <label className="font-semibold">Cantidad</label>
-          <input
-            type="number"
-            min={1}
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-20 border rounded px-2 py-1"
-          />
+          <span className="font-semibold">Cantidad</span>
+
+          <div className="flex items-center border rounded">
+            <button
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              className="px-3 py-1 text-xl"
+            >
+              −
+            </button>
+
+            <span className="px-4">{quantity}</span>
+
+            <button
+              onClick={() => setQuantity((q) => q + 1)}
+              className="px-3 py-1 text-xl"
+            >
+              +
+            </button>
+          </div>
         </div>
 
-        <button
-          onClick={handleAdd}
-          className="bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded font-bold w-fit"
-        >
-          Agregar al carrito
-        </button>
+        <div className="flex gap-4 mt-6">
+          <button
+            onClick={handleAdd}
+            className="bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded font-bold"
+          >
+            Agregar al carrito
+          </button>
+
+          <Link
+            to="/cart"
+            className="border border-primary text-primary px-6 py-3 rounded font-bold hover:bg-primary hover:text-white transition"
+          >
+            Ver carrito
+          </Link>
+          <Link
+            to="/shop"
+            className="mt-4 inline-block text-gray-500 hover:underline"
+          >
+            ← Seguir comprando
+          </Link>
+        </div>
       </div>
     </div>
   );

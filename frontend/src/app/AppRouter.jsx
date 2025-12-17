@@ -5,6 +5,8 @@ import Turns from "../pages/Turns";
 import Cart from "../pages/Cart";
 import Layout from "./Layout";
 import ProductDetail from "../pages/ProductDetail";
+import Checkout from "../pages/Checkout";
+
 
 
 export default function AppRouter() {
@@ -17,6 +19,7 @@ export default function AppRouter() {
           <Route path="/turns" element={<Turns />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </Layout>
     </BrowserRouter>

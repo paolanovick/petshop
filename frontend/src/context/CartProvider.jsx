@@ -11,16 +11,37 @@ export function CartProvider({ children }) {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Agregar producto (con cantidad)
   const addToCart = (product) => {
     setCart((prev) => {
       const existing = prev.find((p) => p.id === product.id);
+
       if (existing) {
         return prev.map((p) =>
-          p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
+          p.id === product.id
+            ? { ...p, quantity: p.quantity + product.quantity }
+            : p
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+
+      return [...prev, product];
     });
+  };
+
+  // Aumentar cantidad
+  const increaseQty = (id) => {
+    setCart((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, quantity: p.quantity + 1 } : p))
+    );
+  };
+
+  // Disminuir cantidad
+  const decreaseQty = (id) => {
+    setCart((prev) =>
+      prev
+        .map((p) => (p.id === id ? { ...p, quantity: p.quantity - 1 } : p))
+        .filter((p) => p.quantity > 0)
+    );
   };
 
   const removeFromCart = (id) => {
@@ -33,7 +54,15 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, totalItems }}
+      value={{
+        cart,
+        addToCart,
+        increaseQty,
+        decreaseQty,
+        removeFromCart,
+        clearCart,
+        totalItems,
+      }}
     >
       {children}
     </CartContext.Provider>

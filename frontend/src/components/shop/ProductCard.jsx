@@ -26,7 +26,7 @@ export default function ProductCard({ product }) {
 
         {/* Botón */}
         <button
-          onClick={() => addToCart(product)}
+          onClick={() => addToCart({ ...product, quantity: 1 })}
           className="mt-2 bg-primary hover:bg-primaryDark text-white py-2 rounded font-semibold"
         >
           Agregar al carrito

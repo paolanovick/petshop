@@ -1,4 +1,6 @@
 import { useCart } from "../context/useCart";
+import { Link } from "react-router-dom";
+
 
 export default function Cart() {
   const { cart, removeFromCart, clearCart } = useCart();
@@ -55,12 +57,12 @@ export default function Cart() {
             Total: <span className="text-primary">${total}</span>
           </p>
 
-          <button
-            className="mt-4 bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded font-bold"
-            disabled
+          <Link
+            to="/checkout"
+            className="mt-4 bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded font-bold inline-block"
           >
-            Continuar (Pago próximamente)
-          </button>
+            Continuar
+          </Link>
         </div>
       </div>
     </div>
