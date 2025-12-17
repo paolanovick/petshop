@@ -1,0 +1,216 @@
+Pet Shop — Resumen de avance (Setup + Inicio de producto)
+📌 Objetivo
+
+Arrancar desde cero el proyecto Pet Shop con una base sólida, escalable y profesional, separando frontend y backend, y preparando el terreno para:
+
+tienda online
+
+turnera (servicios)
+
+pagos (Mercado Pago)
+
+dashboard admin
+
+automatizaciones con n8n
+
+🧱 Arquitectura definida
+
+Estructura separada desde el inicio:
+
+petshop/
+├── frontend/   (React + Vite)
+├── backend/    (Node + Express)
+└── n8n/        (automatizaciones, más adelante)
+
+🎨 Frontend — Estado actual
+Stack
+
+React
+
+Vite
+
+React Router
+
+Tailwind CSS v3 (estable)
+
+Estructura modular y escalable
+
+Estructura del frontend (actualizada)
+frontend/
+└── src/
+    ├── app/
+    │   ├── AppRouter.jsx
+    │   └── Layout.jsx
+    │
+    ├── components/
+    │   ├── layout/
+    │   │   ├── Header.jsx
+    │   │   └── Footer.jsx
+    │   │
+    │   ├── home/
+    │   │   ├── Hero.jsx
+    │   │   └── Categories.jsx
+    │   │
+    │   └── shop/
+    │       ├── ProductCard.jsx
+    │       └── ProductGrid.jsx
+    │
+    ├── pages/
+    │   ├── Home.jsx
+    │   ├── Shop.jsx
+    │   ├── Turns.jsx
+    │   └── Cart.jsx
+    │
+    ├── services/
+    ├── context/
+    ├── utils/
+    ├── App.jsx
+    ├── main.jsx
+    └── index.css
+
+🧭 Routing
+
+React Router funcionando correctamente
+
+Rutas base creadas:
+
+/ → Home
+
+/shop → Tienda
+
+/turns → Turnos
+
+/cart → Carrito
+
+Layout global con Header + Footer
+
+🎨 Tailwind CSS
+
+Se intentó Tailwind v4 → problemas reales con Vite + Windows
+
+Decisión técnica: volver a Tailwind v3 (estable)
+
+Tailwind funcionando correctamente:
+
+clases aplican
+
+build OK
+
+sin errores de tooling
+
+Prueba definitiva superada:
+
+fondo negro
+
+texto verde grande
+
+estilos aplicados correctamente
+
+🎨 Identidad visual
+
+Se definió identidad a partir del logo “Pet Shop Vagabundo”
+
+Paleta basada en:
+
+rojo principal
+
+rojo oscuro
+
+negro/gris oscuro
+
+blanco
+
+Colores custom agregados a tailwind.config.js
+
+Se evita usar colores genéricos (verde/azul) como primarios
+
+🏠 Home (producto real iniciado)
+
+Home ya no es placeholder
+
+Componentes creados:
+
+Hero con CTA “Comprar productos” / “Sacar turno”
+
+Categories con acceso a categorías principales
+
+Home solo compone componentes (sin lógica)
+
+🛍️ Shop (base estilo Mercado Libre)
+
+Página /shop creada
+
+Componentes:
+
+ProductCard (reutilizable)
+
+ProductGrid (mock inicial)
+
+Grilla de productos visible:
+
+imagen placeholder
+
+nombre
+
+precio destacado
+
+botón “Agregar al carrito”
+
+Pensado para conectar luego con backend y stock real
+
+🧠 Decisiones técnicas importantes
+
+Se priorizó estabilidad sobre novedad
+
+Tailwind v3 elegido por:
+
+compatibilidad
+
+menor fricción
+
+foco en avanzar producto
+
+Separación clara entre:
+
+setup
+
+layout
+
+páginas
+
+componentes
+
+Uso de mocks en frontend para avanzar UI sin depender del backend
+
+✅ Estado actual
+
+Proyecto inicializado correctamente
+
+Frontend funcionando
+
+Router funcionando
+
+Tailwind funcionando
+
+Identidad visual definida
+
+Home real implementado
+
+Shop base implementado
+
+Base sólida lista para features complejas
+
+🔜 Próximos pasos (cuando se retome)
+
+Context del carrito (estado global + contador en Header)
+
+Detalle de producto (ProductDetail estilo Mercado Libre)
+
+Turnera (estructura de servicios y calendario)
+
+Inicio backend (productos, stock, turnos)
+
+🛑 Estado actual:
+👉 Se terminó la fase de setup.
+👉 El proyecto ya está en fase de construcción de producto.
+
