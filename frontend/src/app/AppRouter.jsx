@@ -4,6 +4,8 @@ import Shop from "../pages/Shop";
 import Turns from "../pages/Turns";
 import Cart from "../pages/Cart";
 import Layout from "./Layout";
+import ProductDetail from "../pages/ProductDetail";
+
 
 export default function AppRouter() {
   return (
@@ -14,6 +16,7 @@ export default function AppRouter() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/turns" element={<Turns />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
       </Layout>
     </BrowserRouter>
