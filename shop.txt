@@ -213,4 +213,206 @@ Inicio backend (productos, stock, turnos)
 🛑 Estado actual:
 👉 Se terminó la fase de setup.
 👉 El proyecto ya está en fase de construcción de producto.
+# 🐾 Pet Shop Vagabundo - Diseño Gris Plata con Rojo #a73132
+
+## 🎨 Nuevo Esquema de Colores
+
+```css
+--primary-red: #a73132      /* Rojo exacto del logo */
+--silver: #c0c0c0           /* Gris plata */
+--silver-light: #d8d8d8     /* Gris plata claro */
+--silver-dark: #a8a8a8      /* Gris plata oscuro */
+```
+
+## 📋 Instalación Paso a Paso
+
+### 1️⃣ Instalar dependencias
+
+```bash
+cd frontend
+npm install lucide-react
+```
+
+### 2️⃣ Agregar fuente Adlery Blockletter
+
+En `index.html` dentro del `<head>`:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logoSF-transparent.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Shop Vagabundo</title>
+    
+    <!-- Fuente Adlery Blockletter -->
+    <link href="https://db.onlinewebfonts.com/c/2d2c9ea0da0512e779689778b2587d02?family=Adlery+Pro+Blockletter" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+```
+
+### 3️⃣ Copiar logos
+
+Coloca AMBOS archivos de logo en `public/`:
+
+```
+frontend/public/
+  ├── logoSF.png              👈 Logo original (backup)
+  └── logoSF-transparent.png  👈 Logo SIN fondo blanco (USAR ESTE)
+```
+
+**⚠️ IMPORTANTE:** El archivo `logoSF-transparent.png` ya tiene el fondo blanco removido.
+
+### 4️⃣ Actualizar tailwind.config.js
+
+Reemplaza tu archivo con el nuevo que incluye:
+- Color rojo #a73132
+- Colores gris plata
+- Fuente Adlery Blockletter
+
+```javascript
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        primary: "#a73132",        // Rojo del logo
+        primaryDark: "#8a2728",    // Rojo oscuro
+        primaryLight: "#c94b4c",   // Rojo claro
+        silver: "#c0c0c0",         // Gris plata
+        silverLight: "#d8d8d8",    // Gris plata claro
+        silverDark: "#a8a8a8",     // Gris plata oscuro
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Adlery Pro Blockletter', 'Impact', 'sans-serif'],
+      },
+      // ... resto de configuración
+    },
+  },
+  plugins: [],
+}
+```
+
+### 5️⃣ Reemplazar componentes
+
+```
+src/components/
+  ├── home/
+  │   └── Hero.jsx           👈 ACTUALIZADO: Fondo gris plata
+  │
+  ├── layout/
+  │   ├── Header.jsx         👈 ACTUALIZADO: Logo transparente  
+  │   └── Footer.jsx         👈 ACTUALIZADO: Logo transparente
+  │
+  └── products/
+      └── ProductCard.jsx    👈 ACTUALIZADO: Colores rojo #a73132
+```
+
+### 6️⃣ Verificar
+
+```bash
+npm run dev
+```
+
+Deberías ver:
+
+✅ **Hero**: Fondo gris plata degradado
+✅ **Título**: "PET SHOP VAGABUNDO" en rojo #a73132 con sombra negra
+✅ **Logo**: Sin fondo blanco, flotando con animación
+✅ **Botones**: Rojo #a73132 como botón principal
+✅ **Header**: Logo transparente con texto rojo
+✅ **Footer**: Logo transparente con texto rojo
+
+## 🎨 Características del Nuevo Diseño
+
+### Hero Section
+- ✨ Fondo: Gradiente gris plata suave
+- ✨ Título: Rojo #a73132 con sombra negra (textShadow)
+- ✨ Logo: Transparente, flotando con animación
+- ✨ CTAs: Botón rojo sólido + botón outline rojo
+
+### Header
+- ✨ Fondo: Blanco transparente → Blanco sólido al scroll
+- ✨ Logo: Transparente con glow rojo al hover
+- ✨ Texto: Rojo #a73132 con sombra negra
+- ✨ Carrito: Botón rojo con badge negro
+
+### Product Cards
+- ✨ Precio: Rojo #a73132
+- ✨ Botón: Fondo rojo #a73132
+- ✨ Tags: Fondo rojo/10% (transparencia)
+- ✨ Border hover: Rojo #a73132
+
+### Footer
+- ✨ Logo: Transparente
+- ✨ Texto: Rojo #a73132 con sombra
+- ✨ Links hover: Rojo #a73132
+- ✨ Newsletter: Botón rojo
+
+## 🎯 Efecto de Sombra en el Texto
+
+El nombre tiene sombra negra como en el logo usando CSS inline:
+
+```jsx
+style={{
+  textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(0, 0, 0, 0.4)'
+}}
+```
+
+Esto crea:
+- Sombra principal negra (3px offset)
+- Sombra sutil secundaria para profundidad
+
+## 🔍 Solución de Problemas
+
+### ❌ El logo tiene fondo blanco
+
+**Solución:** Usa `logoSF-transparent.png` en lugar de `logoSF.png`
+
+```jsx
+// ✅ CORRECTO
+<img src="/logoSF-transparent.png" alt="..." />
+
+// ❌ INCORRECTO
+<img src="/logoSF.png" alt="..." />
+```
+
+### ❌ El color rojo no coincide
+
+**Solución:** 
+1. Verifica que copiaste el `tailwind.config.js` actualizado
+2. El color debe ser exactamente: `#a73132`
+3. Reinicia el servidor: `npm run dev`
+
+### ❌ La sombra del texto no se ve
+
+**Solución:** La sombra está en CSS inline, verifica que los componentes tengan:
+
+```jsx
+style={{
+  textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8)'
+}}
+```
+
+## 📸 Vista Previa del Resultado
+
+**Hero:**
+- Fondo suave gris plateado
+- "PET SHOP VAGABUNDO" en rojo intenso con sombra negra
+- Logo del perrito sin fondo, flotando sutilmente
+- Botones: rojo sólido principal, rojo outline secundario
+
+**Paleta General:**
+- Fondo: Gris plata → Blanco
+- Acentos: Rojo #a73132
+- Texto: Gris oscuro para lectura
+- Efectos: Sombras negras en títulos
+
+¡El diseño ahora coincide perfectamente con tu logo! 🎉
 
