@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/useCart";
 
 export default function Header() {
+  const { totalItems } = useCart();
+
   return (
     <header className="bg-dark text-white">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -19,6 +22,7 @@ export default function Header() {
           <Link to="/shop" className="hover:text-primary">
             Tienda
           </Link>
+
           <Link to="/turns" className="hover:text-primary">
             Turnos
           </Link>
@@ -28,9 +32,11 @@ export default function Header() {
             className="relative bg-primary hover:bg-primaryDark text-white px-4 py-2 rounded font-semibold"
           >
             Carrito
-            <span className="absolute -top-2 -right-2 bg-white text-dark text-xs w-5 h-5 rounded-full flex items-center justify-center">
-              0
-            </span>
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-white text-dark text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
           </Link>
         </nav>
       </div>
