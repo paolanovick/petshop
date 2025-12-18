@@ -44,24 +44,35 @@ export default function Hero() {
             </div>
 
             {/* Title con Adlery Blockletter - Rojo #a73132 con sombra negra */}
-            <div className="space-y-4">
-              <h1
-                className="font-display text-5xl md:text-7xl leading-tight tracking-wide text-primary"
-                style={{
-                  textShadow:
-                    "4px 4px 8px rgba(0, 0, 0, 0.9), -1px -1px 3px rgba(0, 0, 0, 0.5)",
-                }}
-              >
-                PET SHOP
-                <span className="block text-6xl md:text-8xl">VAGABUNDO</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-800 max-w-2xl font-sans font-medium">
-                Todo para tu mascota: alimentos premium, accesorios únicos y
-                servicios profesionales de baño y peluquería
-              </p>
+           <div className="space-y-4">
+  {/* H1 real para SEO (oculto visualmente) */}
+  <h1 className="sr-only">Pet Shop Vagabundo</h1>
 
-             
-            </div>
+  {/* TÍTULO DESKTOP / TABLET */}
+  <h1
+    className="hidden md:block font-display text-5xl md:text-7xl leading-tight tracking-wide text-primary"
+    style={{
+      textShadow:
+        "4px 4px 8px rgba(0, 0, 0, 0.9), -1px -1px 3px rgba(0, 0, 0, 0.5)",
+    }}
+  >
+    PET SHOP
+    <span className="block text-6xl md:text-8xl">VAGABUNDO</span>
+  </h1>
+
+  {/* TÍTULO MOBILE (IMAGEN DE ILLUSTRATOR) */}
+  <img
+    src="/marca.png"
+    alt="Pet Shop Vagabundo"
+    className="block md:hidden mx-auto w-full max-w-xs"
+  />
+
+  {/* TEXTO DESCRIPTIVO */}
+  <p className="text-xl md:text-2xl text-gray-800 max-w-2xl font-sans font-medium">
+    Todo para tu mascota: alimentos premium, accesorios únicos y
+    servicios profesionales de baño y peluquería
+  </p>
+</div>
 
            
 
