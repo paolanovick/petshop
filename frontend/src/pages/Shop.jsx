@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import ProductGrid from "../components/shop/ProductGrid";
 import CategoryChips from "../components/shop/CategoryChips";
 
-
 export default function Shop() {
   const location = useLocation();
 
@@ -11,7 +10,8 @@ export default function Shop() {
   const category = params.get("category");
 
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    // Siempre que cambia la categoría, subimos arriba
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.search]);
 
   return (
@@ -28,9 +28,15 @@ export default function Shop() {
           </p>
         )}
       </div>
-<CategoryChips />
 
-      <ProductGrid category={category} />
+      {/* Chips de categorías */}
+      <CategoryChips />
+
+      {/* ⬇️⬇️⬇️ ESTE ES EL CAMBIO IMPORTANTE ⬇️⬇️⬇️ */}
+      <div id="products-grid">
+        <ProductGrid category={category} />
+      </div>
+      {/* ⬆️⬆️⬆️ FIN DEL CAMBIO ⬆️⬆️⬆️ */}
     </div>
   );
 }

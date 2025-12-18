@@ -6,10 +6,12 @@ import Turns from "../pages/Turns";
 import Cart from "../pages/Cart";
 import ProductDetail from "../pages/ProductDetail";
 import Checkout from "../pages/Checkout";
+import ScrollToTop from "../components/ScrollToTop";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />

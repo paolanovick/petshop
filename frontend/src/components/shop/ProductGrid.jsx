@@ -7,13 +7,21 @@ export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const [isLiked, setIsLiked] = useState(false);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     addToCart({ ...product, quantity: 1 });
+  };
+
+  const handleLike = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsLiked(!isLiked);
   };
 
   return (
     <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition">
-      
+
       {/* IMAGE + LINK */}
       <Link to={`/product/${product.id}`} className="block">
         <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
@@ -34,14 +42,18 @@ export default function ProductCard({ product }) {
 
       {/* CONTENT */}
       <div className="p-4 space-y-3">
-        
+
         {/* LIKE */}
         <div className="flex justify-end">
           <button
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={handleLike}
             className="text-gray-400 hover:text-primary"
           >
-            <Heart className={`w-5 h-5 ${isLiked && "fill-primary text-primary"}`} />
+            <Heart
+              className={`w-5 h-5 ${
+                isLiked ? "fill-primary text-primary" : ""
+              }`}
+            />
           </button>
         </div>
 
