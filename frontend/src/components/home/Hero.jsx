@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag, Calendar, Sparkles, Heart } from "lucide-react";
 
+
+
 export default function Hero() {
   return (
     <section className="relative bg-gradient-to-br from-gray-400 via-gray-300 to-gray-200 text-gray-800 overflow-hidden">
@@ -57,28 +59,11 @@ export default function Hero() {
                 Todo para tu mascota: alimentos premium, accesorios únicos y
                 servicios profesionales de baño y peluquería
               </p>
+
+             
             </div>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link
-                to="/shop"
-                className="group relative bg-primary hover:bg-primaryDark text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  <ShoppingBag className="w-5 h-5" />
-                  Explorar productos
-                </span>
-              </Link>
-
-              <Link
-                to="/turns"
-                className="group bg-white border-3 border-primary text-primary px-8 py-4 rounded-2xl font-bold text-lg hover:bg-primary hover:text-white transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 shadow-lg"
-              >
-                <Calendar className="w-5 h-5" />
-                Reservar turno
-              </Link>
-            </div>
+           
 
             {/* Trust badges */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-6">
@@ -125,10 +110,10 @@ export default function Hero() {
 
               {/* Floating badges */}
               <div className="absolute -top-6 -right-6 bg-primary text-white px-4 py-2 rounded-full font-bold text-sm shadow-xl animate-bounce">
-                ¡Nuevo!
+                ¡Comprá ahora!
               </div>
               <div className="absolute -bottom-6 -left-6 bg-white text-primary border-2 border-primary px-4 py-2 rounded-full font-bold text-sm shadow-xl animate-bounce delay-500">
-                Ofertas
+                Pedí turno!!
               </div>
             </div>
           </div>
@@ -144,30 +129,8 @@ export default function Hero() {
           />
         </svg>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-        .delay-500 {
-          animation-delay: 500ms;
-        }
-        .delay-700 {
-          animation-delay: 700ms;
-        }
-        .delay-1000 {
-          animation-delay: 1000ms;
-        }
-      `}</style>
+      
     </section>
+    
   );
 }

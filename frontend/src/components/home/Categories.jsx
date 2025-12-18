@@ -1,5 +1,7 @@
 import { Dog, Cat, Scissors, Bone, ShoppingBag, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import FeaturedProductsCarousel from "./FeaturedProductsCarousel";
+import { useEffect, useState } from "react";
 
 const categories = [
   {
@@ -59,18 +61,35 @@ const categories = [
 ];
 
 export default function Categories() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % categories.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-4 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-6">
+        {/* Featured products */}
+        <div className="mb-24">
+          <FeaturedProductsCarousel />
+        </div>
+
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full text-red-600 font-semibold mb-4">
             <Sparkles className="w-4 h-4" />
             <span>Explora por categoría</span>
           </div>
+
           <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
             Todo lo que tu mascota necesita
           </h2>
+
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Encuentra productos y servicios de calidad premium organizados por
             categorías
@@ -79,45 +98,87 @@ export default function Categories() {
 
         {/* Categories Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {categories.map((category) => {
+          {categories.map((category, index) => {
             const Icon = category.icon;
+            const isActive = activeIndex === index;
+
             return (
               <Link
                 key={category.id}
                 to={`/shop?category=${category.name.toLowerCase()}`}
                 className="group"
               >
-                <div className="relative overflow-hidden bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                  {/* Background gradient on hover */}
+                <div
+                  className={`relative overflow-hidden bg-white rounded-2xl p-6 shadow-md transition-all duration-300
+                    ${
+                      isActive
+                        ? "shadow-2xl -translate-y-2"
+                        : "hover:shadow-2xl hover:-translate-y-2"
+                    }`}
+                >
+                  {/* Background gradient */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                  ></div>
+                    className={`absolute inset-0 bg-gradient-to-br ${
+                      category.color
+                    }
+                      transition-opacity duration-500
+                      ${
+                        isActive
+                          ? "opacity-100"
+                          : "opacity-0 group-hover:opacity-100"
+                      }`}
+                  />
 
                   {/* Content */}
                   <div className="relative z-10 flex flex-col items-center text-center space-y-3">
-                    {/* Icon container */}
+                    {/* Icon */}
                     <div
-                      className={`w-16 h-16 ${category.bgColor} rounded-2xl flex items-center justify-center group-hover:bg-white/20 transition-all group-hover:scale-110 duration-300`}
+                      className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300
+                        ${
+                          isActive
+                            ? "bg-white/20 scale-110"
+                            : `${category.bgColor} group-hover:bg-white/20 group-hover:scale-110`
+                        }`}
                     >
                       <Icon
-                        className={`w-8 h-8 ${category.textColor} group-hover:text-white transition-colors`}
+                        className={`w-8 h-8 transition-colors duration-300
+                          ${
+                            isActive
+                              ? "text-white"
+                              : `${category.textColor} group-hover:text-white`
+                          }`}
                       />
                     </div>
 
                     {/* Text */}
                     <div>
-                      <h3 className="font-bold text-gray-900 group-hover:text-white transition-colors">
+                      <h3
+                        className={`font-bold transition-colors duration-300
+                          ${
+                            isActive
+                              ? "text-white"
+                              : "text-gray-900 group-hover:text-white"
+                          }`}
+                      >
                         {category.name}
                       </h3>
-                      <p className="text-xs text-gray-500 group-hover:text-white/80 transition-colors mt-1">
+
+                      <p
+                        className={`text-xs mt-1 transition-colors duration-300
+                          ${
+                            isActive
+                              ? "text-white/80"
+                              : "text-gray-500 group-hover:text-white/80"
+                          }`}
+                      >
                         {category.count}
                       </p>
                     </div>
                   </div>
 
-                  {/* Decorative elements */}
-                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl"></div>
-                  <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl"></div>
+                  {/* Decorative blobs */}
+                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/20 rounded-full blur-xl" />
+                  <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-white/20 rounded-full blur-xl" />
                 </div>
               </Link>
             );
