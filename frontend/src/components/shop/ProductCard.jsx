@@ -1,65 +1,64 @@
-import { useCart } from "../../context/useCart";
+import { useState, useId } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Heart, Eye, Star } from "lucide-react";
-import { useState } from "react";
+import { useCart } from "../../context/useCart";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const [isLiked, setIsLiked] = useState(false);
-  const [showQuickView, setShowQuickView] = useState(false);
+  const patternId = useId(); // evita IDs duplicados
 
   const handleAddToCart = (e) => {
+    e.stopPropagation();
     e.preventDefault();
     addToCart({ ...product, quantity: 1 });
   };
 
   return (
-    <div
-      className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-      onMouseEnter={() => setShowQuickView(true)}
-      onMouseLeave={() => setShowQuickView(false)}
-    >
-      {/* Badge de oferta */}
+    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+      {/* Discount badge */}
       {product.discount && (
-        <div className="absolute top-4 left-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+        <div className="absolute top-4 left-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold">
           -{product.discount}%
         </div>
       )}
 
-      {/* Like button */}
+      {/* Like */}
       <button
-        onClick={() => setIsLiked(!isLiked)}
-        className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsLiked(!isLiked);
+        }}
+        className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow"
       >
         <Heart
-          className={`w-5 h-5 transition-all ${
+          className={`w-5 h-5 ${
             isLiked ? "fill-primary text-primary" : "text-gray-400"
           }`}
         />
       </button>
 
-      {/* Image container */}
-      <Link to={`/product/${product.id}`} className="block relative">
-        <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-          {/* Placeholder con patrón */}
-          <div className="absolute inset-0 opacity-10">
-            <svg className="w-full h-full" viewBox="0 0 100 100">
+      {/* Image */}
+      <Link to={`/product/${product.id}`} className="block">
+        <div className="aspect-square bg-gray-50 relative overflow-hidden flex items-center justify-center">
+          {/* Placeholder pattern */}
+          <svg className="absolute inset-0 opacity-5">
+            <defs>
               <pattern
-                id="paw-pattern"
-                x="0"
-                y="0"
+                id={patternId}
                 width="20"
                 height="20"
                 patternUnits="userSpaceOnUse"
               >
                 <path
-                  d="M10 5c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm-3 3c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm6 0c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zM10 9c2 0 3 1 3 3 0 1-1 2-2 2H9c-1 0-2-1-2-2 0-2 1-3 3-3z"
+                  d="M10 5c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2z"
                   fill="currentColor"
                 />
               </pattern>
-              <rect width="100" height="100" fill="url(#paw-pattern)" />
-            </svg>
-          </div>
+            </defs>
+            <rect width="100%" height="100%" fill={`url(#${patternId})`} />
+          </svg>
 
           {product.image ? (
             <img
@@ -68,39 +67,24 @@ export default function ProductCard({ product }) {
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
-            <div className="text-center text-gray-300">
-              <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-2">
-                <ShoppingCart className="w-12 h-12 text-gray-400" />
-              </div>
-              <span className="text-sm font-medium">Imagen próximamente</span>
+            <div className="text-gray-400 flex flex-col items-center">
+              <ShoppingCart className="w-12 h-12 mb-2" />
+              <span className="text-sm">Imagen próximamente</span>
             </div>
           )}
-
-          {/* Quick view overlay */}
-          <div
-            className={`absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center gap-2 transition-opacity duration-300 ${
-              showQuickView ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors shadow-lg">
-              <Eye className="w-5 h-5" />
-            </button>
-          </div>
         </div>
       </Link>
 
       {/* Content */}
       <div className="p-5 space-y-3">
-        {/* Category tag */}
         {product.category && (
-          <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
+          <span className="inline-block px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full">
             {product.category}
           </span>
         )}
 
-        {/* Name */}
         <Link to={`/product/${product.id}`}>
-          <h3 className="font-bold text-gray-800 text-lg group-hover:text-primary transition-colors line-clamp-2 min-h-[3.5rem]">
+          <h3 className="font-bold text-gray-800 text-lg line-clamp-2 hover:text-primary transition">
             {product.name}
           </h3>
         </Link>
@@ -118,51 +102,25 @@ export default function ProductCard({ product }) {
             />
           ))}
           <span className="text-sm text-gray-500 ml-1">
-            ({product.reviews || "24"})
+            ({product.reviews || 24})
           </span>
         </div>
 
-        {/* Price and button */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-          <div>
-            {product.oldPrice && (
-              <span className="text-sm text-gray-400 line-through block">
-                ${product.oldPrice}
-              </span>
-            )}
-            <span className="text-2xl font-black text-primary">
-              ${product.price}
-            </span>
-          </div>
+        {/* Price + CTA */}
+        <div className="flex items-center justify-between pt-3 border-t">
+          <span className="text-2xl font-black text-primary">
+            ${product.price}
+          </span>
 
           <button
             onClick={handleAddToCart}
-            className="bg-primary hover:bg-primaryDark text-white px-4 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center gap-2"
+            className="bg-primary hover:bg-primaryDark text-white px-4 py-2 rounded-xl font-semibold flex items-center gap-2 transition hover:scale-105"
           >
             <ShoppingCart className="w-4 h-4" />
             <span className="hidden sm:inline">Agregar</span>
           </button>
         </div>
-
-        {/* Stock indicator */}
-        {product.stock && (
-          <div className="flex items-center gap-2 text-xs">
-            <div
-              className={`w-2 h-2 rounded-full ${
-                product.stock > 10 ? "bg-green-500" : "bg-yellow-500"
-              }`}
-            ></div>
-            <span className="text-gray-500">
-              {product.stock > 10
-                ? "En stock"
-                : `Solo ${product.stock} disponibles`}
-            </span>
-          </div>
-        )}
       </div>
-
-      {/* Hover shadow effect */}
-      <div className="absolute inset-0 border-2 border-primary rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
     </div>
   );
 }
