@@ -11,13 +11,21 @@ export default function ServiceSelector({ selected, onSelect }) {
       <div className="flex gap-4">
         {services.map((s) => (
           <button
-            key={s.id}
-            onClick={() => onSelect(s)}
-            className={`px-6 py-3 rounded border font-semibold
-              ${selected?.id === s.id ? "bg-primary text-white" : "bg-white"}`}
-          >
-            {s.name}
-          </button>
+  key={s.id}
+  onClick={() => onSelect(s)}
+  className={`
+    flex-1 p-6 rounded-2xl border-2 text-center transition
+    ${selected?.id === s.id
+      ? "border-primary bg-primary/10 shadow-lg"
+      : "border-gray-200 hover:border-primary"}
+  `}
+>
+  <div className="text-2xl mb-2">
+    {s.id === "bath" ? "🛁" : "✂️"}
+  </div>
+  <div className="font-bold text-lg">{s.name}</div>
+</button>
+
         ))}
       </div>
     </div>

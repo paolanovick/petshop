@@ -27,37 +27,24 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <img
-                src="/logoSF.png"
-                alt="Pet Shop Vagabundo"
-                className={`transition-all duration-300 ${
-                  isScrolled ? "h-16 w-16" : "h-20 w-20"
-                } object-contain group-hover:scale-110`}
-              />
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 bg-primary rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-opacity"></div>
-            </div>
-            <div className="hidden md:block">
-              <div
-                className="font-display text-lg text-primary"
-                style={{
-                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-                }}
-              >
-                PET SHOP
-              </div>
-              <div
-                className="font-display text-xl text-primary"
-                style={{
-                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-                }}
-              >
-                VAGABUNDO
-              </div>
-            </div>
-          </Link>
+         <Link to="/" className="flex items-center gap-3">
+  <img
+    src="/logoSF.png"
+    alt="Pet Shop Vagabundo"
+    className="w-20 h-20"
+  />
+
+  <img
+    src="/titulo.png"
+    alt="Pet Shop Vagabundo"
+    className="
+      h-20
+      w-auto
+      object-contain
+      hidden sm:block
+    "
+  />
+</Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-2">

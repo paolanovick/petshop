@@ -1,7 +1,9 @@
 export default function TurnCalendar({ selected, onSelect }) {
   return (
     <div className="mb-6">
-      <h2 className="font-semibold mb-3">Elegí el día</h2>
+     <h2 className="font-semibold mb-3">
+  📅 ¿Qué día te queda mejor?
+</h2>
 
       <input
         type="date"

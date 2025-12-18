@@ -13,6 +13,25 @@ export default function Hero() {
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gray-600 rounded-full blur-2xl animate-pulse delay-500"></div>
       </div>
 
+      {/* Paw pattern background */}
+<div className="absolute inset-0 pointer-events-none opacity-[0.15]">
+  <svg className="w-full h-full" viewBox="0 0 100 100">
+    <pattern
+      id="hero-paws"
+      x="0"
+      y="0"
+      width="25"
+      height="18"
+      patternUnits="userSpaceOnUse"
+    >
+      <path
+        d="M10 5c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm-3 3c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm6 0c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zM10 9c2 0 3 1 3 3 0 1-1 2-2 2H9c-1 0-2-1-2-2 0-2 1-3 3-3z"
+        fill="white"
+      />
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#hero-paws)" />
+  </svg>
+</div>
       {/* Paw prints decoration */}
       <div className="absolute inset-0 opacity-15">
         <svg
@@ -34,7 +53,7 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-6 py-24 md:py-32">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Left content */}
-          <div className="flex-1 text-center lg:text-left space-y-8">
+          <div className="flex-1 text-center lg:text-center space-y-8">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-400 shadow-lg">
               <Sparkles className="w-4 h-4 text-primary" />
@@ -44,35 +63,40 @@ export default function Hero() {
             </div>
 
             {/* Title con Adlery Blockletter - Rojo #a73132 con sombra negra */}
-           <div className="space-y-4">
-  {/* H1 real para SEO (oculto visualmente) */}
+      {/* Title */}
+<div className="space-y-9">
+
   <h1 className="sr-only">Pet Shop Vagabundo</h1>
 
-  {/* TÍTULO DESKTOP / TABLET */}
-  <h1
-    className="hidden md:block font-display text-5xl md:text-7xl leading-tight tracking-wide text-primary"
-    style={{
-      textShadow:
-        "4px 4px 8px rgba(0, 0, 0, 0.9), -1px -1px 3px rgba(0, 0, 0, 0.5)",
-    }}
+  {/* CONTENEDOR RESPONSIVE */}
+  <div
+    className="
+      flex
+      justify-center        /* mobile */
+      md:justify-center     /* tablet */
+      lg:justify-center      /* desktop */
+    "
   >
-    PET SHOP
-    <span className="block text-6xl md:text-8xl">VAGABUNDO</span>
-  </h1>
+    <img
+      src="/titulo.png"
+      alt="Pet Shop Vagabundo"
+      className="
+        w-full
+        max-w-[380px]
+        md:max-w-[460px]
+        lg:max-w-[520px]
+      "
+    />
+  </div>
 
-  {/* TÍTULO MOBILE (IMAGEN DE ILLUSTRATOR) */}
-  <img
-    src="/marca.png"
-    alt="Pet Shop Vagabundo"
-    className="block md:hidden mx-auto w-full max-w-xs"
-  />
-
-  {/* TEXTO DESCRIPTIVO */}
-  <p className="text-xl md:text-2xl text-gray-800 max-w-2xl font-sans font-medium">
+  {/* TEXTO */}
+  <p className="text-xl md:text-2xl text-gray-800 max-w-2xl font-sans font-medium mx-auto lg:mx-0">
     Todo para tu mascota: alimentos premium, accesorios únicos y
     servicios profesionales de baño y peluquería
   </p>
+
 </div>
+
 
            
 

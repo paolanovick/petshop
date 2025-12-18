@@ -49,22 +49,28 @@ export default function Footer() {
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Column 1 - Brand */}
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <img
-                src="/logoSF.png"
-                alt="Pet Shop Vagabundo"
-                className="h-20 w-20"
-              />
-              <div
-                className="font-display text-primary"
-                style={{
-                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)",
-                }}
-              >
-                <div className="text-lg">PET SHOP</div>
-                <div className="text-xl">VAGABUNDO</div>
-              </div>
-            </div>
+            <div className="flex items-center gap-4">
+  {/* LOGO */}
+  <img
+    src="/logoSF.png"
+    alt="Pet Shop Vagabundo"
+    className="w-16 h-16 md:w-20 md:h-20 object-contain"
+  />
+
+  {/* TÍTULO COMO IMAGEN */}
+  <img
+    src="/titulo.png"
+    alt="Pet Shop Vagabundo"
+    className="
+      h-10
+      md:h-12
+      lg:h-14
+      w-auto
+      object-contain
+    "
+  />
+</div>
+
             <p className="text-gray-400 text-sm leading-relaxed">
               Tu tienda de confianza para el cuidado y felicidad de tu mascota.
               Productos premium y servicios profesionales.

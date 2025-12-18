@@ -3,7 +3,9 @@ export default function TimeSlots({ selected, onSelect }) {
 
   return (
     <div className="mb-6">
-      <h2 className="font-semibold mb-3">Elegí el horario</h2>
+    <h2 className="font-semibold mb-3">
+  ⏰ Elegí un horario disponible
+</h2>
 
       <div className="flex flex-wrap gap-3">
         {slots.map((time) => (

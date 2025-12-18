@@ -103,11 +103,15 @@ export default function Categories() {
             const isActive = activeIndex === index;
 
             return (
-              <Link
-                key={category.id}
-                to={`/shop?category=${category.name.toLowerCase()}`}
-                className="group"
-              >
+             <Link
+  key={category.id}
+  to={`/shop?category=${category.name.toLowerCase()}`}
+  className="group"
+  onClick={() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }}
+>
+
                 <div
                   className={`relative overflow-hidden bg-white rounded-2xl p-6 shadow-md transition-all duration-300
                     ${
