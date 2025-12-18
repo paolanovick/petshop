@@ -1,29 +1,29 @@
-Pet Shop — Resumen de avance (Setup + Inicio de producto)
-📌 Objetivo
+Pet Shop Vagabundo — Resumen General del Proyecto
+📌 Objetivo del Proyecto
 
-Arrancar desde cero el proyecto Pet Shop con una base sólida, escalable y profesional, separando frontend y backend, y preparando el terreno para:
+Desarrollar Pet Shop Vagabundo desde cero con una base sólida, escalable y profesional, separando frontend y backend desde el inicio y dejando preparado el sistema para:
 
-tienda online
+🛒 Tienda online (productos + carrito)
 
-turnera (servicios)
+📅 Turnera de servicios (baño / peluquería)
 
-pagos (Mercado Pago)
+💳 Pagos con Mercado Pago
 
-dashboard admin
+🧑‍💼 Dashboard Admin
 
-automatizaciones con n8n
+🤖 Automatizaciones con n8n (emails, turnos, pagos, stock)
 
-🧱 Arquitectura definida
+🧱 Arquitectura Definida
 
-Estructura separada desde el inicio:
+Estructura separada y clara desde el inicio:
 
 petshop/
 ├── frontend/   (React + Vite)
-├── backend/    (Node + Express)
-└── n8n/        (automatizaciones, más adelante)
+├── backend/    (Node + Express)   ← próximo paso
+└── n8n/        (automatizaciones) ← futuro
 
-🎨 Frontend — Estado actual
-Stack
+🎨 Frontend — Estado Actual
+Stack Tecnológico
 
 React
 
@@ -31,11 +31,11 @@ Vite
 
 React Router
 
-Tailwind CSS v3 (estable)
+Tailwind CSS v3 (decisión consciente por estabilidad)
 
-Estructura modular y escalable
+lucide-react (íconos)
 
-Estructura del frontend (actualizada)
+📁 Estructura del Frontend
 frontend/
 └── src/
     ├── app/
@@ -49,7 +49,8 @@ frontend/
     │   │
     │   ├── home/
     │   │   ├── Hero.jsx
-    │   │   └── Categories.jsx
+    │   │   ├── Categories.jsx
+    │   │   └── FeaturedProductsCarousel.jsx
     │   │
     │   └── shop/
     │       ├── ProductCard.jsx
@@ -61,8 +62,8 @@ frontend/
     │   ├── Turns.jsx
     │   └── Cart.jsx
     │
-    ├── services/
     ├── context/
+    ├── services/
     ├── utils/
     ├── App.jsx
     ├── main.jsx
@@ -70,9 +71,9 @@ frontend/
 
 🧭 Routing
 
-React Router funcionando correctamente
+React Router funcionando correctamente.
 
-Rutas base creadas:
+Rutas implementadas:
 
 / → Home
 
@@ -82,337 +83,181 @@ Rutas base creadas:
 
 /cart → Carrito
 
-Layout global con Header + Footer
+Layout global con Header + Footer aplicado a todas las páginas.
 
 🎨 Tailwind CSS
+Decisión Técnica Importante
 
-Se intentó Tailwind v4 → problemas reales con Vite + Windows
+❌ Tailwind v4 → problemas reales con Vite + Windows
 
-Decisión técnica: volver a Tailwind v3 (estable)
+✅ Tailwind v3 → estable, compatible y sin fricción
 
-Tailwind funcionando correctamente:
+Estado actual:
 
-clases aplican
+Tailwind funcionando correctamente
 
-build OK
+Estilos aplican
 
-sin errores de tooling
+Build OK
 
-Prueba definitiva superada:
+Sin errores de tooling
 
-fondo negro
+🎨 Identidad Visual
 
-texto verde grande
+Basada en el logo “Pet Shop Vagabundo”
 
-estilos aplicados correctamente
+Paleta definida
+--primary-red: #a73132
+--primary-dark: #8a2728
+--primary-light: #c94b4c
+--silver: #c0c0c0
+--silver-light: #d8d8d8
+--silver-dark: #a8a8a8
 
-🎨 Identidad visual
 
-Se definió identidad a partir del logo “Pet Shop Vagabundo”
+Rojo del logo como color principal
 
-Paleta basada en:
+Gris plata para fondos
 
-rojo principal
+Negro / gris oscuro para contraste
 
-rojo oscuro
+Blanco para limpieza visual
 
-negro/gris oscuro
+Configurada en tailwind.config.js.
 
-blanco
+🏠 Home — Estado Actual (YA ES PRODUCTO REAL)
 
-Colores custom agregados a tailwind.config.js
+La Home ya no es placeholder.
 
-Se evita usar colores genéricos (verde/azul) como primarios
+Componentes Implementados
+🔥 Hero
 
-🏠 Home (producto real iniciado)
+Fondo degradado gris plata
 
-Home ya no es placeholder
+Título PET SHOP VAGABUNDO en rojo #a73132
 
-Componentes creados:
+Sombra negra tipo logo
 
-Hero con CTA “Comprar productos” / “Sacar turno”
+Logo sin fondo con animación float
 
-Categories con acceso a categorías principales
+Badges de confianza
 
-Home solo compone componentes (sin lógica)
+⭐ FeaturedProductsCarousel
 
-🛍️ Shop (base estilo Mercado Libre)
+Carrusel automático infinito
 
-Página /shop creada
+Productos destacados (mock)
+
+Pausa al hover
+
+Título centrado
+
+CTAs:
+
+“Explorar productos”
+
+“Reservar turno”
+
+🧩 Categories
+
+Categorías principales:
+
+Perros
+
+Gatos
+
+Accesorios
+
+Alimentos
+
+Peluquería
+
+Premium
+
+Hover manual + hover automático cada 3 segundos
+
+Efecto “arbolito de Navidad”
+
+Navega a /shop?category=...
+
+🛍️ Shop (Base estilo Mercado Libre)
+Página /shop
 
 Componentes:
 
-ProductCard (reutilizable)
+ProductGrid
 
-ProductGrid (mock inicial)
+ProductCard
 
-Grilla de productos visible:
+Funcionalidades actuales:
 
-imagen placeholder
+Grilla de productos
 
-nombre
+Imagen placeholder
 
-precio destacado
+Nombre
 
-botón “Agregar al carrito”
+Precio destacado
 
-Pensado para conectar luego con backend y stock real
+Botón “Agregar al carrito”
 
-🧠 Decisiones técnicas importantes
+Pensado para:
 
-Se priorizó estabilidad sobre novedad
+Conectar luego con backend
 
-Tailwind v3 elegido por:
+Stock real
 
-compatibilidad
+Categorías
 
-menor fricción
+Filtros
 
-foco en avanzar producto
+🧠 Decisiones Técnicas Clave
 
-Separación clara entre:
+Prioridad: avanzar producto real
 
-setup
+Estabilidad > hype tecnológico
 
-layout
+Separación clara de responsabilidades
 
-páginas
+Uso de mocks para avanzar UI sin backend
 
-componentes
+Código modular, escalable y mantenible
 
-Uso de mocks en frontend para avanzar UI sin depender del backend
+✅ Estado Actual del Proyecto
 
-✅ Estado actual
+✔ Proyecto inicializado correctamente
+✔ Frontend funcionando
+✔ Router funcionando
+✔ Tailwind funcionando
+✔ Identidad visual definida
+✔ Home completa y funcional
+✔ Shop base funcional
+✔ Carrusel + animaciones avanzadas
+✔ UX cuidada desde el inicio
 
-Proyecto inicializado correctamente
+🛑 Estado del Proyecto
 
-Frontend funcionando
+👉 Fase de setup FINALIZADA
+👉 Proyecto en fase de construcción de producto
 
-Router funcionando
+🔜 Próximos Pasos Naturales
 
-Tailwind funcionando
+🛒 Context del carrito (estado global + badge)
 
-Identidad visual definida
+📦 Detalle de producto (ProductDetail estilo Mercado Libre)
 
-Home real implementado
+➕ / ➖ Cantidades + subtotal
 
-Shop base implementado
+📅 Turnera (servicios + calendario)
 
-Base sólida lista para features complejas
+🧑‍💼 Backend (productos, stock, turnos)
 
-🔜 Próximos pasos (cuando se retome)
+🤖 Automatizaciones con n8n
 
-Context del carrito (estado global + contador en Header)
+💳 Mercado Pago
 
-Detalle de producto (ProductDetail estilo Mercado Libre)
+Si querés, en el próximo chat podemos arrancar directo con:
 
-Turnera (estructura de servicios y calendario)
-
-Inicio backend (productos, stock, turnos)
-
-🛑 Estado actual:
-👉 Se terminó la fase de setup.
-👉 El proyecto ya está en fase de construcción de producto.
-# 🐾 Pet Shop Vagabundo - Diseño Gris Plata con Rojo #a73132
-
-## 🎨 Nuevo Esquema de Colores
-
-```css
---primary-red: #a73132      /* Rojo exacto del logo */
---silver: #c0c0c0           /* Gris plata */
---silver-light: #d8d8d8     /* Gris plata claro */
---silver-dark: #a8a8a8      /* Gris plata oscuro */
-```
-
-## 📋 Instalación Paso a Paso
-
-### 1️⃣ Instalar dependencias
-
-```bash
-cd frontend
-npm install lucide-react
-```
-
-### 2️⃣ Agregar fuente Adlery Blockletter
-
-En `index.html` dentro del `<head>`:
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logoSF-transparent.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pet Shop Vagabundo</title>
-    
-    <!-- Fuente Adlery Blockletter -->
-    <link href="https://db.onlinewebfonts.com/c/2d2c9ea0da0512e779689778b2587d02?family=Adlery+Pro+Blockletter" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
-```
-
-### 3️⃣ Copiar logos
-
-Coloca AMBOS archivos de logo en `public/`:
-
-```
-frontend/public/
-  ├── logoSF.png              👈 Logo original (backup)
-  └── logoSF-transparent.png  👈 Logo SIN fondo blanco (USAR ESTE)
-```
-
-**⚠️ IMPORTANTE:** El archivo `logoSF-transparent.png` ya tiene el fondo blanco removido.
-
-### 4️⃣ Actualizar tailwind.config.js
-
-Reemplaza tu archivo con el nuevo que incluye:
-- Color rojo #a73132
-- Colores gris plata
-- Fuente Adlery Blockletter
-
-```javascript
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  theme: {
-    extend: {
-      colors: {
-        primary: "#a73132",        // Rojo del logo
-        primaryDark: "#8a2728",    // Rojo oscuro
-        primaryLight: "#c94b4c",   // Rojo claro
-        silver: "#c0c0c0",         // Gris plata
-        silverLight: "#d8d8d8",    // Gris plata claro
-        silverDark: "#a8a8a8",     // Gris plata oscuro
-      },
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Adlery Pro Blockletter', 'Impact', 'sans-serif'],
-      },
-      // ... resto de configuración
-    },
-  },
-  plugins: [],
-}
-```
-
-### 5️⃣ Reemplazar componentes
-
-```
-src/components/
-  ├── home/
-  │   └── Hero.jsx           👈 ACTUALIZADO: Fondo gris plata
-  │
-  ├── layout/
-  │   ├── Header.jsx         👈 ACTUALIZADO: Logo transparente  
-  │   └── Footer.jsx         👈 ACTUALIZADO: Logo transparente
-  │
-  └── products/
-      └── ProductCard.jsx    👈 ACTUALIZADO: Colores rojo #a73132
-```
-
-### 6️⃣ Verificar
-
-```bash
-npm run dev
-```
-
-Deberías ver:
-
-✅ **Hero**: Fondo gris plata degradado
-✅ **Título**: "PET SHOP VAGABUNDO" en rojo #a73132 con sombra negra
-✅ **Logo**: Sin fondo blanco, flotando con animación
-✅ **Botones**: Rojo #a73132 como botón principal
-✅ **Header**: Logo transparente con texto rojo
-✅ **Footer**: Logo transparente con texto rojo
-
-## 🎨 Características del Nuevo Diseño
-
-### Hero Section
-- ✨ Fondo: Gradiente gris plata suave
-- ✨ Título: Rojo #a73132 con sombra negra (textShadow)
-- ✨ Logo: Transparente, flotando con animación
-- ✨ CTAs: Botón rojo sólido + botón outline rojo
-
-### Header
-- ✨ Fondo: Blanco transparente → Blanco sólido al scroll
-- ✨ Logo: Transparente con glow rojo al hover
-- ✨ Texto: Rojo #a73132 con sombra negra
-- ✨ Carrito: Botón rojo con badge negro
-
-### Product Cards
-- ✨ Precio: Rojo #a73132
-- ✨ Botón: Fondo rojo #a73132
-- ✨ Tags: Fondo rojo/10% (transparencia)
-- ✨ Border hover: Rojo #a73132
-
-### Footer
-- ✨ Logo: Transparente
-- ✨ Texto: Rojo #a73132 con sombra
-- ✨ Links hover: Rojo #a73132
-- ✨ Newsletter: Botón rojo
-
-## 🎯 Efecto de Sombra en el Texto
-
-El nombre tiene sombra negra como en el logo usando CSS inline:
-
-```jsx
-style={{
-  textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(0, 0, 0, 0.4)'
-}}
-```
-
-Esto crea:
-- Sombra principal negra (3px offset)
-- Sombra sutil secundaria para profundidad
-
-## 🔍 Solución de Problemas
-
-### ❌ El logo tiene fondo blanco
-
-**Solución:** Usa `logoSF-transparent.png` en lugar de `logoSF.png`
-
-```jsx
-// ✅ CORRECTO
-<img src="/logoSF-transparent.png" alt="..." />
-
-// ❌ INCORRECTO
-<img src="/logoSF.png" alt="..." />
-```
-
-### ❌ El color rojo no coincide
-
-**Solución:** 
-1. Verifica que copiaste el `tailwind.config.js` actualizado
-2. El color debe ser exactamente: `#a73132`
-3. Reinicia el servidor: `npm run dev`
-
-### ❌ La sombra del texto no se ve
-
-**Solución:** La sombra está en CSS inline, verifica que los componentes tengan:
-
-```jsx
-style={{
-  textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8)'
-}}
-```
-
-## 📸 Vista Previa del Resultado
-
-**Hero:**
-- Fondo suave gris plateado
-- "PET SHOP VAGABUNDO" en rojo intenso con sombra negra
-- Logo del perrito sin fondo, flotando sutilmente
-- Botones: rojo sólido principal, rojo outline secundario
-
-**Paleta General:**
-- Fondo: Gris plata → Blanco
-- Acentos: Rojo #a73132
-- Texto: Gris oscuro para lectura
-- Efectos: Sombras negras en títulos
-
-¡El diseño ahora coincide perfectamente con tu logo! 🎉
-
+👉 “Implementar ProductDetail estilo Mercado Libre”
+👉 “Armar carrito global bien hecho”
+👉 “Empezar backend”

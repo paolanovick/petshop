@@ -1,4 +1,27 @@
+/* =========================
+   FUENTE ADLERY (OBLIGATORIO)
+   ========================= */
+
+@font-face {
+  font-family: "Adlery Pro Blockletter";
+  src: url("/src/assets/fonts/AdleryProBlockletter.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================
+   TAILWIND
+   ========================= */
+
 @tailwind base;
+
+@layer base {
+  body {
+    @apply font-sans text-gray-800;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;
 
@@ -50,6 +73,7 @@
 .animate-slideDown {
   animation: slideDown 0.3s ease-out;
 }
+
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -62,7 +86,7 @@
 .animate-scroll {
   animation: scroll 25s linear infinite;
 }
+
 .animate-scroll:hover {
   animation-play-state: paused;
 }
-
