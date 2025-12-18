@@ -9,18 +9,25 @@ export default function Turns() {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
 
+  const handleServiceSelect = (newService) => {
+    setService(newService);
+    setDate(null); // 🔥 resetea día
+    setTime(null); // 🔥 resetea horario
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-20">
-      {/* Header */}
-      <h1 className="text-4xl font-black mb-2 text-center">
+      {/* HEADER */}
+      <h1 className="text-4xl font-black text-center mb-2">
         Reservá el turno de tu mascota 🐶🐱
       </h1>
 
       <p className="text-gray-600 text-center mb-10">
-        Elegí el servicio, el día y el horario que más te convenga
+        Elegí un servicio, día y horario.  
+        Un turno por servicio.
       </p>
 
-      {/* Steps */}
+      {/* STEPS */}
       <div className="flex justify-center mb-10">
         <div className="flex gap-4 text-sm font-semibold">
           <span className={service ? "text-primary" : "text-gray-400"}>
@@ -38,35 +45,42 @@ export default function Turns() {
         </div>
       </div>
 
-      {/* Card */}
+      {/* CARD */}
       <div className="bg-white rounded-2xl shadow-xl p-8 space-y-8">
-        <ServiceSelector selected={service} onSelect={setService} />
+        
+        {/* SERVICE */}
+        <ServiceSelector
+          selected={service}
+          onSelect={handleServiceSelect}
+        />
 
+        {/* DATE */}
         {service && (
           <div className="border-t pt-6">
             <TurnCalendar selected={date} onSelect={setDate} />
           </div>
         )}
 
+        {/* TIME */}
         {date && (
           <div className="border-t pt-6">
             <TimeSlots selected={time} onSelect={setTime} />
           </div>
         )}
 
+        {/* SUMMARY */}
         {time && (
-          <>
-            {/* Summary */}
-            <div className="bg-primary/10 border border-primary rounded-2xl p-6">
-              <h3 className="font-bold mb-2">🐾 Resumen de tu turno</h3>
-              <p><strong>Servicio:</strong> {service.name}</p>
-              <p><strong>Día:</strong> {date}</p>
-              <p><strong>Horario:</strong> {time}</p>
-            </div>
+          <div className="bg-primary/10 border border-primary rounded-2xl p-6">
+            <h3 className="font-bold mb-2">🐾 Resumen del turno</h3>
+            <p><strong>Servicio:</strong> {service.name}</p>
+            <p><strong>Día:</strong> {date}</p>
+            <p><strong>Horario:</strong> {time}</p>
+          </div>
+        )}
 
-            {/* FORM REAL */}
-            <TurnForm service={service} date={date} time={time} />
-          </>
+        {/* FORM */}
+        {time && (
+          <TurnForm service={service} date={date} time={time} />
         )}
       </div>
     </div>
