@@ -1,95 +1,53 @@
-import { useCart } from "../../context/useCart";
-import { Link } from "react-router-dom";
-import { ShoppingCart, Heart, Star } from "lucide-react";
-import { useState } from "react";
+import ProductCard from "./ProductCard";
+import { useEffect, useState } from "react";
 
-export default function ProductCard({ product }) {
-  const { addToCart } = useCart();
-  const [isLiked, setIsLiked] = useState(false);
+export default function ProductGrid({ category }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    addToCart({ ...product, quantity: 1 });
-  };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        // Construye la URL con el filtro de categoría si existe
+        const url = category 
+          ? `/api/products?category=${category}`
+          : '/api/products';
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error al cargar productos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleLike = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsLiked(!isLiked);
-  };
+    fetchProducts();
+  }, [category]); // Se ejecuta cada vez que cambia la categoría
+
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500">Cargando productos...</p>
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500">No se encontraron productos en esta categoría</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition">
-
-      {/* IMAGE + LINK */}
-      <Link to={`/product/${product.id}`} className="block">
-        <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
-          {product.image ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-            />
-          ) : (
-            <div className="text-gray-400 flex flex-col items-center">
-              <ShoppingCart className="w-12 h-12 mb-2" />
-              <span className="text-sm">Imagen próximamente</span>
-            </div>
-          )}
-        </div>
-      </Link>
-
-      {/* CONTENT */}
-      <div className="p-4 space-y-3">
-
-        {/* LIKE */}
-        <div className="flex justify-end">
-          <button
-            onClick={handleLike}
-            className="text-gray-400 hover:text-primary"
-          >
-            <Heart
-              className={`w-5 h-5 ${
-                isLiked ? "fill-primary text-primary" : ""
-              }`}
-            />
-          </button>
-        </div>
-
-        {/* NAME */}
-        <Link to={`/product/${product.id}`}>
-          <h3 className="font-bold text-gray-800 hover:text-primary transition">
-            {product.name}
-          </h3>
-        </Link>
-
-        {/* RATING */}
-        <div className="flex items-center gap-1">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-4 h-4 ${
-                i < 4 ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* PRICE + CTA */}
-        <div className="flex items-center justify-between pt-2 border-t">
-          <span className="text-xl font-black text-primary">
-            ${product.price}
-          </span>
-
-          <button
-            onClick={handleAddToCart}
-            className="bg-primary text-white px-4 py-2 rounded-xl font-semibold hover:scale-105 transition"
-          >
-            Agregar
-          </button>
-        </div>
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
   );
 }
