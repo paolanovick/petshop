@@ -26,15 +26,15 @@ const productSchema = new mongoose.Schema({
     required: [true, 'La categoría es obligatoria'],
     enum: ['alimentos', 'accesorios', 'juguetes', 'higiene', 'otros']
   },
-  images: [{
-    type: String,
-    validate: {
-      validator: function(v) {
-        return /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i.test(v);
-      },
-      message: 'Debe ser una URL válida de imagen'
-    }
-  }],
+ images: [{
+  type: String,
+  validate: {
+    validator: function(v) {
+      return /^https?:\/\/.+/i.test(v);
+    },
+    message: 'Debe ser una URL válida'
+  }
+}],
   destacado: {
     type: Boolean,
     default: false
