@@ -1,5 +1,4 @@
 /* eslint-disable react-refresh/only-export-components */
-
 import { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext(null);
@@ -82,5 +81,9 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  return useContext(CartContext);
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart debe usarse dentro de CartProvider");
+  }
+  return context;
 }

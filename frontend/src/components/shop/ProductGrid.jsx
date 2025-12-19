@@ -25,7 +25,7 @@ export default function ProductGrid({ category }) {
     };
 
     fetchProducts();
-  }, [category]); // Se ejecuta cada vez que cambia la categoría
+  }, [category]);
 
   if (loading) {
     return (
