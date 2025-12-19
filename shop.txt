@@ -210,6 +210,31 @@ Stock real
 Categorías
 
 Filtros
+## 🛒 Sistema de Carrito
+
+**Estado:** ✅ Implementado y funcional
+
+### CartContext
+- Context API unificado en un solo archivo
+- Persistencia en localStorage
+- Funciones implementadas:
+  - `addToCart(product, quantity)`
+  - `increaseQty(id)`
+  - `decreaseQty(id)`
+  - `removeFromCart(id)`
+  - `clearCart()`
+  - Cálculo automático de `subtotal` y `totalItems`
+
+### Componentes relacionados:
+- `Cart.jsx` - Página del carrito completa
+- `ProductCard.jsx` - Botón "Agregar" conectado
+- Header con badge de cantidad de items
+
+**Decisión técnica:** 
+- Un solo archivo `CartContext.jsx` exporta tanto `CartProvider` como `useCart`
+- Evita duplicación y problemas de imports
+- Case-sensitive paths corregidos para deploy en Vercel
+
 
 🧠 Decisiones Técnicas Clave
 
@@ -236,28 +261,34 @@ Código modular, escalable y mantenible
 ✔ UX cuidada desde el inicio
 
 🛑 Estado del Proyecto
+## 🚀 Deploy
 
+**Plataforma:** Vercel (frontend)
+
+### Configuración actual:
+- ✅ Repositorio en GitHub conectado
+- ✅ Build automático en cada push
+- ✅ Paths corregidos para Linux (case-sensitive)
+- ⏳ Esperando backend para conexión completa
+
+### Preparado para:
+- Railway/Render para backend
+- Variables de entorno para API URLs
+- CORS configurado
 👉 Fase de setup FINALIZADA
 👉 Proyecto en fase de construcción de producto
 
-🔜 Próximos Pasos Naturales
+## 🎯 Próximos Pasos
 
-🛒 Context del carrito (estado global + badge)
+### Backend (EN DESARROLLO)
+- [ ] Setup Node.js + Express
+- [ ] MongoDB Atlas
+- [ ] Modelos: Product, Appointment
+- [ ] API REST: /api/products, /api/appointments
+- [ ] Deploy en Railway/Render
 
-📦 Detalle de producto (ProductDetail estilo Mercado Libre)
-
-➕ / ➖ Cantidades + subtotal
-
-📅 Turnera (servicios + calendario)
-
-🧑‍💼 Backend (productos, stock, turnos)
-
-🤖 Automatizaciones con n8n
-
-💳 Mercado Pago
-
-Si querés, en el próximo chat podemos arrancar directo con:
-
-👉 “Implementar ProductDetail estilo Mercado Libre”
-👉 “Armar carrito global bien hecho”
-👉 “Empezar backend”
+### Pendiente
+- [ ] Automatizaciones con n8n
+- [ ] Integración Mercado Pago
+- [ ] Dashboard Admin
+- [ ] Sistema de autenticación
