@@ -1,5 +1,4 @@
 import { useCart } from "../context/CartContext";
-
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -41,11 +40,11 @@ export default function Cart() {
         <div className="lg:col-span-2 space-y-6">
           {cart.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="bg-white rounded-2xl shadow-md p-5 flex gap-6 hover:shadow-xl transition"
             >
               <img
-                src={item.image}
+                src={item.images?.[0] || '/placeholder.jpg'}
                 alt={item.name}
                 className="w-28 h-28 object-cover rounded-xl"
               />
@@ -63,7 +62,7 @@ export default function Cart() {
                 <div className="flex items-center gap-4 pt-2">
                   <div className="flex items-center bg-gray-100 rounded-xl overflow-hidden">
                     <button
-                      onClick={() => decreaseQty(item.id)}
+                      onClick={() => decreaseQty(item._id)}
                       className="px-4 py-2 hover:bg-gray-200"
                     >
                       <Minus size={16} />
@@ -72,7 +71,7 @@ export default function Cart() {
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => increaseQty(item.id)}
+                      onClick={() => increaseQty(item._id)}
                       className="px-4 py-2 hover:bg-gray-200"
                     >
                       <Plus size={16} />
@@ -80,7 +79,7 @@ export default function Cart() {
                   </div>
 
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item._id)}
                     className="text-red-500 hover:text-red-700 flex items-center gap-1"
                   >
                     <Trash2 size={16} />

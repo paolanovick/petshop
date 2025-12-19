@@ -10,9 +10,9 @@ export default function ProductGrid({ category }) {
       setLoading(true);
       try {
         // Construye la URL con el filtro de categoría si existe
-        const url = category 
-          ? `/api/products?category=${category}`
-          : '/api/products';
+       const url = category 
+  ? `http://localhost:5000/api/products?category=${category}`
+  : 'http://localhost:5000/api/products';
         
         const response = await fetch(url);
         const data = await response.json();
@@ -45,9 +45,9 @@ export default function ProductGrid({ category }) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+     {products.map((product) => (
+  <ProductCard key={product._id} product={product} />
+))}
     </div>
   );
 }

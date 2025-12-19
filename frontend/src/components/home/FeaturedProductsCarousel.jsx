@@ -1,41 +1,40 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag, Calendar } from "lucide-react";
-
-
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Alimento Premium Perro",
-    price: 12500,
-    image: "/products/dog-food.jpg",
-  },
-  {
-    id: 2,
-    name: "Juguete Interactivo",
-    price: 4200,
-    image: "/products/toy.jpg",
-  },
-  {
-    id: 3,
-    name: "Cama Confort Gato",
-    price: 18900,
-    image: "/products/cat-bed.jpg",
-  },
-  {
-    id: 4,
-    name: "Correa Reforzada",
-    price: 7600,
-    image: "/products/leash.jpg",
-  },
-  {
-    id: 5,
-    name: "Shampoo Canino",
-    price: 5300,
-    image: "/products/shampoo.jpg",
-  },
-];
+import { useEffect, useState } from "react";
 
 export default function FeaturedProductsCarousel() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/products?destacado=true');
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error al cargar productos destacados:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="mt-24 mb-24">
+        <h3 className="text-4xl md:text-5xl font-black text-gray-900 mb-12 text-center">
+          Productos destacados
+        </h3>
+        <div className="text-center py-12">
+          <p className="text-gray-500">Cargando productos destacados...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="mt-24 mb-24">
       <h3 className="text-4xl md:text-5xl font-black text-gray-900 mb-12 text-center">
@@ -44,14 +43,23 @@ export default function FeaturedProductsCarousel() {
 
       <div className="relative overflow-hidden mb-16">
         <div className="flex gap-6 animate-scroll">
-          {[...featuredProducts, ...featuredProducts].map((product, index) => (
+          {/* Duplicamos el array para efecto infinito */}
+          {[...products, ...products].map((product, index) => (
             <Link
-              key={index}
-              to={`/product/${product.id}`}
+              key={`${product._id}-${index}`}
+              to={`/product/${product._id}`}
               className="min-w-[260px] bg-white rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1"
             >
-              <div className="h-40 bg-gray-100 flex items-center justify-center">
-                <span className="text-gray-400 text-sm">Imagen</span>
+              <div className="h-40 bg-gray-100 flex items-center justify-center overflow-hidden rounded-t-2xl">
+                {product.images && product.images.length > 0 ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <ShoppingBag className="w-12 h-12 text-gray-300" />
+                )}
               </div>
 
               <div className="p-4">
@@ -64,6 +72,7 @@ export default function FeaturedProductsCarousel() {
           ))}
         </div>
       </div>
+
       {/* CTAs */}
       <div className="flex flex-col sm:flex-row gap-6 justify-center mt-16">
         <Link
