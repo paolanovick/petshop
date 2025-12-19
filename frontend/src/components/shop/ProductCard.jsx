@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Heart, Eye, Star } from "lucide-react";
 import { useState } from "react";
-import { useCart } from "../../context/useCart";
+import { useCart } from "../../context/CartContext";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
