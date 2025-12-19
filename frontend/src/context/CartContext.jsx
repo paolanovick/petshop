@@ -25,7 +25,6 @@ export function CartProvider({ children }) {
             : p
         );
       }
-
       return [...prev, { ...product, quantity }];
     });
   };
