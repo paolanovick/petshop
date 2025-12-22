@@ -10,9 +10,11 @@ export default function ProductGrid({ category }) {
       setLoading(true);
       try {
         // Construye la URL con el filtro de categoría si existe
-       const url = category 
-  ? `http://localhost:5000/api/products?category=${category}`
-  : 'http://localhost:5000/api/products';
+       const baseUrl = import.meta.env.VITE_API_URL;
+
+const url = category
+  ? `${baseUrl}/api/products?category=${category}`
+  : `${baseUrl}/api/products`;
         
         const response = await fetch(url);
         const data = await response.json();

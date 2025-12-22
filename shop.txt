@@ -292,3 +292,18 @@ Código modular, escalable y mantenible
 - [ ] Integración Mercado Pago
 - [ ] Dashboard Admin
 - [ ] Sistema de autenticación
+
+en el dia de hoy hicimos
+Backend creado desde cero:
+
+MongoDB Atlas configurado
+Modelos: Product, Appointment
+Controllers y Routes funcionando
+8 productos de prueba en BD
+
+Frontend actualizado:
+
+ProductGrid conectado al backend
+FeaturedCarousel con productos destacados
+CartContext corregido (usando _id)
+Todo funcionando localmente
