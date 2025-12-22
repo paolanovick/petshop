@@ -1,41 +1,74 @@
-Pet Shop Vagabundo — Resumen General del Proyecto
-📌 Objetivo del Proyecto
+# Pet Shop Vagabundo — Resumen General del Proyecto
+
+## 📌 Objetivo del Proyecto
 
 Desarrollar Pet Shop Vagabundo desde cero con una base sólida, escalable y profesional, separando frontend y backend desde el inicio y dejando preparado el sistema para:
 
-🛒 Tienda online (productos + carrito)
-
-📅 Turnera de servicios (baño / peluquería)
-
-💳 Pagos con Mercado Pago
-
-🧑‍💼 Dashboard Admin
-
+🛒 Tienda online (productos + carrito)  
+📅 Turnera de servicios (baño / peluquería)  
+💳 Pagos con Mercado Pago  
+🧑‍💼 Dashboard Admin  
 🤖 Automatizaciones con n8n (emails, turnos, pagos, stock)
 
-🧱 Arquitectura Definida
+---
 
-Estructura separada y clara desde el inicio:
+## 🧱 Arquitectura Implementada
 
+**Arquitectura profesional en producción:**
+
+```
+Frontend (Vercel) → vagabundo.com.ar
+    ↓
+Backend API (Digital Ocean) → api.vagabundo.com.ar
+    ↓
+MongoDB Atlas (Cloud)
+```
+
+### Stack Tecnológico Completo
+
+**Frontend:**
+- React + Vite
+- React Router
+- Tailwind CSS v3
+- lucide-react
+- Context API (CartContext)
+
+**Backend:**
+- Node.js + Express
+- MongoDB + Mongoose
+- CORS configurado
+- PM2 (process manager)
+
+**Infraestructura:**
+- Frontend: Vercel (deploy automático desde GitHub)
+- Backend: Digital Ocean (Ubuntu 24)
+- Database: MongoDB Atlas
+- Proxy: Nginx + SSL (Let's Encrypt)
+- DNS: DonWeb
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
 petshop/
-├── frontend/   (React + Vite)
-├── backend/    (Node + Express)   ← próximo paso
-└── n8n/        (automatizaciones) ← futuro
+├── frontend/   (React + Vite) ✅ DEPLOYED
+├── backend/    (Node + Express) ✅ DEPLOYED
+└── n8n/        (automatizaciones) ⏳ FUTURO
+```
 
-🎨 Frontend — Estado Actual
-Stack Tecnológico
+---
 
-React
+## 🎨 Frontend — Estado Actual
 
-Vite
+### Stack Tecnológico
+- React + Vite
+- React Router
+- Tailwind CSS v3 (decisión consciente por estabilidad)
+- lucide-react (íconos)
 
-React Router
-
-Tailwind CSS v3 (decisión consciente por estabilidad)
-
-lucide-react (íconos)
-
-📁 Estructura del Frontend
+### 📁 Estructura del Frontend
+```
 frontend/
 └── src/
     ├── app/
@@ -63,158 +96,81 @@ frontend/
     │   └── Cart.jsx
     │
     ├── context/
+    │   └── CartContext.jsx
     ├── services/
     ├── utils/
     ├── App.jsx
     ├── main.jsx
     └── index.css
+```
 
-🧭 Routing
+### 🧭 Routing
+- React Router funcionando correctamente
+- Rutas implementadas:
+  - `/` → Home
+  - `/shop` → Tienda
+  - `/turns` → Turnos
+  - `/cart` → Carrito
+- Layout global con Header + Footer
 
-React Router funcionando correctamente.
+### 🎨 Identidad Visual
+Basada en el logo "Pet Shop Vagabundo"
 
-Rutas implementadas:
-
-/ → Home
-
-/shop → Tienda
-
-/turns → Turnos
-
-/cart → Carrito
-
-Layout global con Header + Footer aplicado a todas las páginas.
-
-🎨 Tailwind CSS
-Decisión Técnica Importante
-
-❌ Tailwind v4 → problemas reales con Vite + Windows
-
-✅ Tailwind v3 → estable, compatible y sin fricción
-
-Estado actual:
-
-Tailwind funcionando correctamente
-
-Estilos aplican
-
-Build OK
-
-Sin errores de tooling
-
-🎨 Identidad Visual
-
-Basada en el logo “Pet Shop Vagabundo”
-
-Paleta definida
+**Paleta definida:**
+```css
 --primary-red: #a73132
 --primary-dark: #8a2728
 --primary-light: #c94b4c
 --silver: #c0c0c0
 --silver-light: #d8d8d8
 --silver-dark: #a8a8a8
+```
 
+Configurada en `tailwind.config.js`.
 
-Rojo del logo como color principal
+### 🏠 Home — COMPLETA Y FUNCIONAL
 
-Gris plata para fondos
+#### Componentes Implementados
 
-Negro / gris oscuro para contraste
+**🔥 Hero**
+- Fondo degradado gris plata
+- Título PET SHOP VAGABUNDO en rojo #a73132
+- Sombra negra tipo logo
+- Logo sin fondo con animación float
+- Badges de confianza
 
-Blanco para limpieza visual
+**⭐ FeaturedProductsCarousel**
+- ✅ **Conectado al backend real**
+- Productos destacados (`destacado: true`)
+- Carrusel automático infinito
+- Pausa al hover
+- CTAs: "Explorar productos" y "Reservar turno"
 
-Configurada en tailwind.config.js.
+**🧩 Categories**
+- 6 categorías principales
+- Hover manual + hover automático cada 3 segundos
+- Efecto "arbolito de Navidad"
+- Navega a `/shop?category=...`
 
-🏠 Home — Estado Actual (YA ES PRODUCTO REAL)
+### 🛍️ Shop (Estilo Mercado Libre)
 
-La Home ya no es placeholder.
-
-Componentes Implementados
-🔥 Hero
-
-Fondo degradado gris plata
-
-Título PET SHOP VAGABUNDO en rojo #a73132
-
-Sombra negra tipo logo
-
-Logo sin fondo con animación float
-
-Badges de confianza
-
-⭐ FeaturedProductsCarousel
-
-Carrusel automático infinito
-
-Productos destacados (mock)
-
-Pausa al hover
-
-Título centrado
-
-CTAs:
-
-“Explorar productos”
-
-“Reservar turno”
-
-🧩 Categories
-
-Categorías principales:
-
-Perros
-
-Gatos
-
-Accesorios
-
-Alimentos
-
-Peluquería
-
-Premium
-
-Hover manual + hover automático cada 3 segundos
-
-Efecto “arbolito de Navidad”
-
-Navega a /shop?category=...
-
-🛍️ Shop (Base estilo Mercado Libre)
-Página /shop
+**Estado:** ✅ Conectado al backend
 
 Componentes:
+- `ProductGrid` - Conectado a API
+- `ProductCard` - Muestra productos reales
 
-ProductGrid
+Funcionalidades:
+- Grilla de productos desde MongoDB
+- Imágenes reales (Unsplash)
+- Stock real
+- Botón "Agregar al carrito"
 
-ProductCard
-
-Funcionalidades actuales:
-
-Grilla de productos
-
-Imagen placeholder
-
-Nombre
-
-Precio destacado
-
-Botón “Agregar al carrito”
-
-Pensado para:
-
-Conectar luego con backend
-
-Stock real
-
-Categorías
-
-Filtros
-## 🛒 Sistema de Carrito
+### 🛒 Sistema de Carrito
 
 **Estado:** ✅ Implementado y funcional
 
-### CartContext
+#### CartContext
 - Context API unificado en un solo archivo
 - Persistencia en localStorage
 - Funciones implementadas:
@@ -225,85 +181,241 @@ Filtros
   - `clearCart()`
   - Cálculo automático de `subtotal` y `totalItems`
 
-### Componentes relacionados:
+#### Componentes relacionados:
 - `Cart.jsx` - Página del carrito completa
 - `ProductCard.jsx` - Botón "Agregar" conectado
 - Header con badge de cantidad de items
 
 **Decisión técnica:** 
 - Un solo archivo `CartContext.jsx` exporta tanto `CartProvider` como `useCart`
-- Evita duplicación y problemas de imports
-- Case-sensitive paths corregidos para deploy en Vercel
+- Usando `_id` de MongoDB (no `id`)
+- Case-sensitive paths corregidos para deploy
 
+---
 
-🧠 Decisiones Técnicas Clave
+## 🔧 Backend — IMPLEMENTADO
 
-Prioridad: avanzar producto real
-
-Estabilidad > hype tecnológico
-
-Separación clara de responsabilidades
-
-Uso de mocks para avanzar UI sin backend
-
-Código modular, escalable y mantenible
-
-✅ Estado Actual del Proyecto
-
-✔ Proyecto inicializado correctamente
-✔ Frontend funcionando
-✔ Router funcionando
-✔ Tailwind funcionando
-✔ Identidad visual definida
-✔ Home completa y funcional
-✔ Shop base funcional
-✔ Carrusel + animaciones avanzadas
-✔ UX cuidada desde el inicio
-
-🛑 Estado del Proyecto
-## 🚀 Deploy
-
-**Plataforma:** Vercel (frontend)
-
-### Configuración actual:
-- ✅ Repositorio en GitHub conectado
-- ✅ Build automático en cada push
-- ✅ Paths corregidos para Linux (case-sensitive)
-- ⏳ Esperando backend para conexión completa
-
-### Preparado para:
-- Railway/Render para backend
-- Variables de entorno para API URLs
+### Stack Tecnológico
+- Node.js + Express
+- MongoDB + Mongoose
 - CORS configurado
-👉 Fase de setup FINALIZADA
-👉 Proyecto en fase de construcción de producto
+- dotenv para variables de entorno
+
+### 📁 Estructura del Backend
+```
+backend/
+├── config/
+│   └── db.js
+├── models/
+│   ├── Product.js
+│   └── Appointment.js
+├── routes/
+│   ├── products.js
+│   └── appointments.js
+├── controllers/
+│   ├── productController.js
+│   └── appointmentController.js
+├── server.js
+├── .env
+└── package.json
+```
+
+### 🗄️ Base de Datos
+
+**MongoDB Atlas configurado:**
+- Cluster: `petshop`
+- Database: `petshop`
+- Collections: `products`, `appointments`
+
+#### Modelo Product
+```javascript
+{
+  name: String,
+  description: String,
+  price: Number,
+  stock: Number,
+  category: String,
+  images: [String],
+  destacado: Boolean,
+  activo: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+**Productos actuales:** 8 productos de prueba con imágenes reales
+
+#### Categorías disponibles:
+- Alimentos
+- Juguetes
+- Accesorios
+
+### 🌐 API REST Implementada
+
+**Base URL:** `https://api.vagabundo.com.ar`
+
+#### Endpoints Productos:
+- `GET /api/products` - Listar todos
+- `GET /api/products?destacado=true` - Productos destacados
+- `GET /api/products?category=alimentos` - Por categoría
+- `GET /api/products/:id` - Detalle de producto
+- `POST /api/products` - Crear producto
+- `PUT /api/products/:id` - Actualizar producto
+- `DELETE /api/products/:id` - Eliminar producto
+
+#### Endpoints Turnos:
+- `GET /api/appointments` - Listar turnos
+- `POST /api/appointments` - Crear turno
+- `PUT /api/appointments/:id` - Actualizar turno
+- `DELETE /api/appointments/:id` - Eliminar turno
+
+---
+
+## 🚀 Deploy e Infraestructura
+
+### Frontend (Vercel)
+- ✅ Deploy automático desde GitHub
+- ✅ Dominio custom: `vagabundo.com.ar`
+- ✅ SSL automático
+- ✅ CDN global
+- ✅ Variables de entorno: `VITE_API_URL=https://api.vagabundo.com.ar`
+
+### Backend (Digital Ocean)
+- ✅ Ubuntu 24.04 LTS
+- ✅ Node.js + Express corriendo en puerto 5001
+- ✅ PM2 como process manager (`pm2 start server.js --name petshop-api`)
+- ✅ Nginx como proxy reverso
+- ✅ SSL con Let's Encrypt (Certbot)
+- ✅ Dominio: `api.vagabundo.com.ar`
+
+### Configuración Nginx
+```nginx
+server {
+    server_name api.vagabundo.com.ar;
+    
+    location / {
+        proxy_pass http://localhost:5001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/api.vagabundo.com.ar/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.vagabundo.com.ar/privkey.pem;
+}
+```
+
+### DNS (DonWeb)
+```
+Tipo  | Nombre               | Contenido
+------|----------------------|---------------------------
+A     | vagabundo.com.ar     | 216.198.79.1 (Vercel)
+A     | api.vagabundo.com.ar | 167.172.31.249 (Digital Ocean)
+```
+
+### MongoDB Atlas
+- ✅ Cluster configurado
+- ✅ IP Whitelist: `167.172.31.249/32` (servidor Digital Ocean)
+- ✅ Usuario: `petshop_admin`
+- ✅ Conexión verificada
+
+---
+
+## ✅ Estado Actual del Proyecto
+
+### ✔️ Completado
+- [x] Proyecto inicializado correctamente
+- [x] Frontend funcionando
+- [x] Router funcionando
+- [x] Tailwind funcionando
+- [x] Identidad visual definida
+- [x] Home completa y funcional
+- [x] Shop conectado a backend
+- [x] Carrusel + animaciones avanzadas
+- [x] Sistema de carrito funcional
+- [x] **Backend Node.js + Express**
+- [x] **MongoDB Atlas configurado**
+- [x] **8 productos reales en BD**
+- [x] **API REST funcionando**
+- [x] **Frontend conectado al backend**
+- [x] **Deploy frontend en Vercel**
+- [x] **Deploy backend en Digital Ocean**
+- [x] **Nginx + SSL configurado**
+- [x] **DNS configurado y propagado**
+- [x] **Arquitectura profesional completa**
+
+---
 
 ## 🎯 Próximos Pasos
 
-### Backend (EN DESARROLLO)
-- [ ] Setup Node.js + Express
-- [ ] MongoDB Atlas
-- [ ] Modelos: Product, Appointment
-- [ ] API REST: /api/products, /api/appointments
-- [ ] Deploy en Railway/Render
-
-### Pendiente
-- [ ] Automatizaciones con n8n
+### Funcionalidades Pendientes
+- [ ] Sistema de turnos (frontend)
+- [ ] Panel admin para productos
 - [ ] Integración Mercado Pago
-- [ ] Dashboard Admin
 - [ ] Sistema de autenticación
+- [ ] Automatizaciones con n8n
+- [ ] Sistema de envíos
 
-en el dia de hoy hicimos
-Backend creado desde cero:
+### Mejoras Técnicas
+- [ ] Filtros avanzados en shop
+- [ ] Búsqueda de productos
+- [ ] Paginación en listados
+- [ ] Optimización de imágenes
+- [ ] SEO optimization
+- [ ] Analytics (Google Analytics / Clarity)
 
-MongoDB Atlas configurado
-Modelos: Product, Appointment
-Controllers y Routes funcionando
-8 productos de prueba en BD
+---
 
-Frontend actualizado:
+## 🧠 Decisiones Técnicas Clave
 
-ProductGrid conectado al backend
-FeaturedCarousel con productos destacados
-CartContext corregido (usando _id)
-Todo funcionando localmente
+1. **Separación Frontend/Backend:** Arquitectura profesional escalable
+2. **Tailwind v3:** Estabilidad sobre hype tecnológico
+3. **MongoDB Atlas:** Base de datos cloud managed
+4. **Vercel + Digital Ocean:** Best of both worlds (frontend CDN + backend control)
+5. **PM2:** Process management robusto
+6. **Nginx:** Proxy reverso + SSL automático
+7. **Context API:** State management simple y efectivo
+
+---
+
+## 📝 Notas de Implementación
+
+### CORS Configurado
+```javascript
+app.use(cors({
+  origin: ['https://vagabundo.com.ar', 'http://localhost:5173'],
+  credentials: true
+}));
+```
+
+### Variables de Entorno
+
+**Frontend (.env):**
+```
+VITE_API_URL=https://api.vagabundo.com.ar
+```
+
+**Backend (.env):**
+```
+PORT=5001
+MONGODB_URI=mongodb+srv://...
+NODE_ENV=production
+```
+
+---
+
+## 🎉 Proyecto en Producción
+
+**URLs:**
+- 🌐 Sitio web: https://vagabundo.com.ar
+- 🔧 API: https://api.vagabundo.com.ar
+- 📊 MongoDB: Atlas Cloud
+
+**Estado:** ✅ FUNCIONANDO EN PRODUCCIÓN
+
+---
+
+*Última actualización: Diciembre 22, 2025*
