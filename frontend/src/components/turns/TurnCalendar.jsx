@@ -1,16 +1,24 @@
 export default function TurnCalendar({ selected, onSelect }) {
   return (
-    <div className="mb-6">
-     <h2 className="font-semibold mb-3">
-  📅 ¿Qué día te queda mejor?
-</h2>
+    <section className="mb-10">
+      <h2 className="text-xl font-bold mb-3">
+        📅 Elegí el día ideal
+      </h2>
+
+      <p className="text-sm text-gray-500 mb-4">
+        Te mostramos solo días disponibles
+      </p>
 
       <input
         type="date"
         value={selected || ""}
         onChange={(e) => onSelect(e.target.value)}
-        className="border rounded px-4 py-2"
+        className="
+          w-full max-w-xs
+          border-2 border-gray-200 rounded-xl px-4 py-3
+          focus:outline-none focus:border-primary
+        "
       />
-    </div>
+    </section>
   );
 }

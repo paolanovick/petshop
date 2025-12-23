@@ -26,6 +26,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', require('./routes/products'));
 app.use('/api/appointments', require('./routes/appointments'));
+app.use('/api/admin', require('./routes/admin'));
+
 
 // Manejo de errores 404
 app.use((req, res) => {

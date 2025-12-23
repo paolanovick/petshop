@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const appointmentController = require('../controllers/appointmentController');
 
+router.get('/availability', appointmentController.getAvailabilityByDate);
 // GET /api/appointments - Obtener todos los turnos (con filtros opcionales)
 router.get('/', appointmentController.getAllAppointments);
 
@@ -19,5 +20,7 @@ router.patch('/:id/status', appointmentController.updateAppointmentStatus);
 
 // DELETE /api/appointments/:id - Cancelar un turno
 router.delete('/:id', appointmentController.cancelAppointment);
+
+
 
 module.exports = router;
