@@ -1,24 +1,33 @@
-export default function TimeSlots({ selected, onSelect }) {
-  const slots = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
-
+export default function TimeSlots({ slots = [], selected, onSelect }) {
   return (
-    <div className="mb-6">
-    <h2 className="font-semibold mb-3">
-  ⏰ Elegí un horario disponible
-</h2>
+    <section className="mb-10">
+      <h2 className="text-xl font-bold mb-4">
+        ⏰ Elegí un horario
+      </h2>
 
       <div className="flex flex-wrap gap-3">
-        {slots.map((time) => (
-          <button
-            key={time}
-            onClick={() => onSelect(time)}
-            className={`px-4 py-2 rounded border
-              ${selected === time ? "bg-primary text-white" : "bg-white"}`}
-          >
-            {time}
-          </button>
-        ))}
+        {slots.map(({ hora, disponible }) => {
+          const active = selected === hora;
+
+          return (
+            <button
+              key={hora}
+              disabled={!disponible}
+              onClick={() => onSelect(hora)}
+              className={`
+                px-5 py-3 rounded-full text-sm font-semibold transition-all
+                ${!disponible
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : active
+                  ? "bg-primary text-white shadow-lg scale-105"
+                  : "bg-white border-2 border-gray-200 hover:border-primary hover:shadow"}
+              `}
+            >
+              {hora}
+            </button>
+          );
+        })}
       </div>
-    </div>
+    </section>
   );
 }

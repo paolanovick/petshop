@@ -17,41 +17,55 @@ export default function TurnForm({ service, date, time }) {
       body: JSON.stringify(data),
     });
 
-    alert("Turno reservado con éxito");
+    alert("🐾 ¡Turno reservado con éxito!");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-      <h2 className="font-semibold text-lg">Datos del cliente</h2>
+    <section className="mt-12 bg-gray-50 p-8 rounded-3xl border">
+      <h2 className="text-xl font-extrabold mb-2">
+        ✨ Último paso
+      </h2>
 
-      <input
-        name="name"
-        placeholder="Nombre"
-        required
-        className="w-full border px-4 py-2 rounded"
-      />
+      <p className="text-sm text-gray-600 mb-6">
+        Te confirmamos el turno por email o WhatsApp
+      </p>
 
-      <input
-        name="email"
-        type="email"
-        placeholder="Email"
-        required
-        className="w-full border px-4 py-2 rounded"
-      />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          name="name"
+          placeholder="Nombre completo"
+          required
+          className="w-full border-2 rounded-xl px-4 py-3"
+        />
 
-      <input
-        name="phone"
-        placeholder="Teléfono"
-        required
-        className="w-full border px-4 py-2 rounded"
-      />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          className="w-full border-2 rounded-xl px-4 py-3"
+        />
 
-      <button
-        type="submit"
-        className="bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded font-bold"
-      >
-        Confirmar turno
-      </button>
-    </form>
+        <input
+          name="phone"
+          placeholder="Teléfono / WhatsApp"
+          required
+          className="w-full border-2 rounded-xl px-4 py-3"
+        />
+
+        <button
+          type="submit"
+          className="
+            w-full mt-4
+            bg-primary hover:bg-primaryDark
+            text-white font-extrabold text-lg
+            py-4 rounded-xl
+            transition shadow-xl
+          "
+        >
+          🐶 Confirmar turno
+        </button>
+      </form>
+    </section>
   );
 }

@@ -37,17 +37,46 @@ exports.getAppointmentById = async (req, res) => {
 // Crear un turno
 exports.createAppointment = async (req, res) => {
   try {
-    const appointment = new Appointment(req.body);
-    await appointment.save();
-    
-    // Aquí se puede agregar webhook para n8n
-    // notifyN8N('new_appointment', appointment);
-    
+    const { fecha, hora, servicio, cliente, mascota } = req.body;
+
+    if (!fecha || !hora || !servicio || !cliente || !mascota) {
+      return res.status(400).json({ message: 'Datos incompletos' });
+    }
+
+    const existing = await Appointment.findOne({
+      fecha: new Date(fecha),
+      hora,
+      estado: { $ne: 'cancelado' },
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        message: 'Horario no disponible',
+      });
+    }
+
+    const appointment = await Appointment.create({
+      fecha,
+      hora,
+      servicio,
+      cliente,
+      mascota,
+    });
+
+    // 🔔 Hook n8n futuro
+    // notifyN8N('appointment_created', appointment);
+
     res.status(201).json(appointment);
+
   } catch (error) {
-    res.status(400).json({ message: 'Error al crear turno', error: error.message });
+    res.status(500).json({
+      message: 'Error al crear turno',
+      error: error.message,
+    });
   }
 };
+
+
 
 // Actualizar un turno
 exports.updateAppointment = async (req, res) => {
@@ -68,25 +97,25 @@ exports.updateAppointment = async (req, res) => {
 
 // Actualizar estado de un turno
 exports.updateAppointmentStatus = async (req, res) => {
-  try {
-    const { estado } = req.body;
-    const appointment = await Appointment.findByIdAndUpdate(
-      req.params.id,
-      { estado },
-      { new: true, runValidators: true }
-    );
-    if (!appointment) {
-      return res.status(404).json({ message: 'Turno no encontrado' });
-    }
-    
-    // Aquí se puede agregar webhook para n8n según el estado
-    // notifyN8N('appointment_status_changed', appointment);
-    
-    res.json(appointment);
-  } catch (error) {
-    res.status(400).json({ message: 'Error al actualizar estado', error: error.message });
+  const { estado } = req.body;
+
+  if (!['confirmado', 'cancelado', 'completado'].includes(estado)) {
+    return res.status(400).json({ message: 'Estado inválido' });
   }
+
+  const appointment = await Appointment.findByIdAndUpdate(
+    req.params.id,
+    { estado },
+    { new: true }
+  );
+
+  if (!appointment) {
+    return res.status(404).json({ message: 'Turno no encontrado' });
+  }
+
+  res.json(appointment);
 };
+
 
 // Cancelar un turno
 exports.cancelAppointment = async (req, res) => {
@@ -102,5 +131,44 @@ exports.cancelAppointment = async (req, res) => {
     res.json({ message: 'Turno cancelado correctamente', appointment });
   } catch (error) {
     res.status(500).json({ message: 'Error al cancelar turno', error: error.message });
+  }
+};
+const Appointment = require('../models/Appointment');
+const { BUSINESS_HOURS } = require('../config/appointments');
+
+exports.getAvailabilityByDate = async (req, res) => {
+  try {
+    const { fecha } = req.query;
+
+    if (!fecha) {
+      return res.status(400).json({ message: 'Fecha requerida' });
+    }
+
+    const start = new Date(fecha);
+    const end = new Date(fecha);
+    end.setHours(23, 59, 59, 999);
+
+    const appointments = await Appointment.find({
+      fecha: { $gte: start, $lte: end },
+      estado: { $ne: 'cancelado' },
+    });
+
+    const occupiedHours = appointments.map(a => a.hora);
+
+    const availability = BUSINESS_HOURS.map(hour => ({
+      hora: hour,
+      disponible: !occupiedHours.includes(hour),
+    }));
+
+    res.json({
+      fecha,
+      horarios: availability,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error al obtener disponibilidad',
+      error: error.message,
+    });
   }
 };

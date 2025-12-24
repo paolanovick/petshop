@@ -8,5 +8,8 @@ exports.loginAdmin = (req, res) => {
     return res.json({ success: true });
   }
 
-  return res.status(401).json({ success: false, message: "Credenciales inválidas" });
+  return res
+    .status(401)
+    .json({ success: false, message: "Credenciales inválidas" });
 };
+

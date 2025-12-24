@@ -9,7 +9,10 @@ export default function FeaturedProductsCarousel() {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products?destacado=true');
+        const response = await fetch(
+  `${import.meta.env.VITE_API_URL}/api/products?destacado=true`
+);
+
         const data = await response.json();
         setProducts(data);
       } catch (error) {
