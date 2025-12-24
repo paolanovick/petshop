@@ -1,5 +1,5 @@
 const Appointment = require('../models/Appointment');
-
+const { BUSINESS_HOURS } = require('../config/appointments');
 // Obtener todos los turnos (con filtros opcionales)
 exports.getAllAppointments = async (req, res) => {
   try {
@@ -133,8 +133,8 @@ exports.cancelAppointment = async (req, res) => {
     res.status(500).json({ message: 'Error al cancelar turno', error: error.message });
   }
 };
-const Appointment = require('../models/Appointment');
-const { BUSINESS_HOURS } = require('../config/appointments');
+
+
 
 exports.getAvailabilityByDate = async (req, res) => {
   try {
