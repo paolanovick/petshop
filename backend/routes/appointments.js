@@ -1,23 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const appointmentController = require('../controllers/appointmentController');
+const verifyAdmin = require("../middleware/verifyAdmin");
 
-// GET /api/appointments - Obtener todos los turnos (con filtros opcionales)
-router.get('/', appointmentController.getAllAppointments);
-
-// GET /api/appointments/:id - Obtener un turno por ID
-router.get('/:id', appointmentController.getAppointmentById);
-
-// POST /api/appointments - Crear un turno
+// 🟢 PÚBLICO — crear turno (cliente)
 router.post('/', appointmentController.createAppointment);
 
-// PUT /api/appointments/:id - Actualizar un turno
-router.put('/:id', appointmentController.updateAppointment);
+// 🔒 ADMIN — ver todos los turnos
+router.get('/', verifyAdmin, appointmentController.getAllAppointments);
 
-// PATCH /api/appointments/:id/status - Actualizar estado de un turno
-router.patch('/:id/status', appointmentController.updateAppointmentStatus);
+// 🔒 ADMIN — obtener turno por ID
+router.get('/:id', verifyAdmin, appointmentController.getAppointmentById);
 
-// DELETE /api/appointments/:id - Cancelar un turno
-router.delete('/:id', appointmentController.cancelAppointment);
+// 🔒 ADMIN — actualizar turno
+router.put('/:id', verifyAdmin, appointmentController.updateAppointment);
+
+// 🔒 ADMIN — actualizar estado
+router.patch('/:id/status', verifyAdmin, appointmentController.updateAppointmentStatus);
+
+// 🔒 ADMIN — cancelar turno
+router.delete('/:id', verifyAdmin, appointmentController.cancelAppointment);
 
 module.exports = router;
