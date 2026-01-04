@@ -16,7 +16,7 @@ const categories = [
   { id: 3, name: "Juguetes", icon: Dog, color: "from-purple-500 to-purple-600", count: "Diversión garantizada" },
   { id: 4, name: "Higiene", icon: Sparkles, color: "from-green-500 to-green-600", count: "Limpieza y cuidado" },
   { id: 5, name: "Otros", icon: Cat, color: "from-pink-500 to-pink-600", count: "Más productos" },
-  { id: 6, name: "Peluquería", icon: Scissors, color: "from-red-500 to-red-600", count: "Servicios" },
+  { id: 6, name: "Turnos", icon: Scissors, color: "from-red-500 to-red-600", count: "Baño y peluquería" },
 ];
 
 export default function Categories() {
@@ -63,7 +63,13 @@ export default function Categories() {
               <button
                 key={category.id}
                 type="button"
-               onClick={() => navigate(`/shop?category=${category.name.toLowerCase()}`)}
+              onClick={() => {
+  if (category.id === 6) {
+    navigate('/turns');
+  } else {
+    navigate(`/shop?category=${category.name.toLowerCase()}`);
+  }
+}}
                 className="relative group bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-200 hover:-translate-y-2"
               >
                 {/* GRADIENT – SUAVE */}
