@@ -1,40 +1,9 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function CategoryCarousel({ category, products, hideHeader = false, isSubcategory = false }) {
   const scrollRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-
-  // Calcular páginas totales
-  useEffect(() => {
-    if (!scrollRef.current || !products || products.length === 0) return;
-
-    const container = scrollRef.current;
-    const itemWidth = 280 + 24; // 280px card + 24px gap
-    const visibleWidth = container.clientWidth;
-    const pages = Math.ceil((products.length * itemWidth) / visibleWidth);
-    
-    setTotalPages(pages);
-  }, [products]);
-
-  // Detectar scroll para actualizar página actual
-  useEffect(() => {
-    if (!scrollRef.current) return;
-
-    const container = scrollRef.current;
-
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const visibleWidth = container.clientWidth;
-      const page = Math.round(scrollLeft / visibleWidth);
-      setCurrentPage(page);
-    };
-
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Autoplay - más rápido en móvil
   useEffect(() => {
@@ -42,26 +11,34 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
 
     const scrollContainer = scrollRef.current;
     const isMobile = window.innerWidth < 768;
-    const interval = isMobile ? 2000 : 4000;
+    const interval = isMobile ? 1000 : 2000; // 2s en móvil, 4s en desktop
 
     const autoScroll = setInterval(() => {
       const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
       const currentScroll = scrollContainer.scrollLeft;
 
       if (currentScroll >= maxScroll - 10) {
+        // Volver al inicio
         scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
+        // Avanzar
         scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
       }
     }, interval);
 
+    // Pausar autoplay al hacer hover
     const handleMouseEnter = () => clearInterval(autoScroll);
-    
+    const handleMouseLeave = () => {
+      // Reiniciar autoplay cuando sale el mouse
+    };
+
     scrollContainer.addEventListener('mouseenter', handleMouseEnter);
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       clearInterval(autoScroll);
       scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [products]);
 
@@ -79,10 +56,10 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
 
   return (
     <div id={category.id} className="bg-white rounded-2xl p-8 shadow-sm">
-      {/* Header */}
       {!hideHeader && (
         <div className="mb-6">
           {isSubcategory ? (
+            // Sin link para subcategorías
             <div className="inline-flex items-center gap-3">
               <span className="text-4xl">{category.icon}</span>
               <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 capitalize">
@@ -93,6 +70,7 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
               </span>
             </div>
           ) : (
+            // Con link para categorías principales
             <Link 
               to={`/shop?category=${category.id}`}
               className="inline-flex items-center gap-3 group hover:opacity-80 transition"
@@ -114,7 +92,6 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
         </div>
       )}
 
-      {/* Carousel */}
       <div 
         ref={scrollRef}
         className="relative overflow-x-auto scrollbar-hide"
@@ -133,38 +110,39 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                 }`}
               >
                 <Link to={`/product/${product._id}`} className="block relative">
-  {/* Badge Destacado - Ribbon diagonal */}
-  {product.destacado && !sinStock && (
-    <div className="absolute top-0 left-0 z-10 overflow-hidden w-32 h-32 pointer-events-none">
-      <div className="absolute top-6 -left-8 bg-red-600 text-white text-xs font-bold py-1 px-12 rotate-[-45deg] shadow-lg text-center">
-        DESTACADO
-      </div>
+                  {/* Badge Sin Stock sobre la imagen */}
+                 {/* Badge Destacado - Ribbon diagonal */}
+{product.destacado && !sinStock && (
+  <div className="absolute top-0 left-0 z-10 overflow-hidden w-32 h-32 pointer-events-none">
+    <div className="absolute top-6 -left-8 bg-red-600 text-white text-xs font-bold py-1 px-12 rotate-[-45deg] shadow-lg text-center uppercase">
+      Destacado
     </div>
-  )}
+  </div>
+)}
 
-  {/* Badge Sin Stock */}
-  {sinStock && (
-    <div className="absolute top-4 left-4 z-10 bg-red-600 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
-      Sin stock
-    </div>
-  )}
-  
-  <div className={`h-48 flex items-center justify-center overflow-hidden p-4 ${
-  sinStock ? 'bg-gray-200' : 'bg-gray-50'
-}`}>
-  {product.images?.[0] ? (
-    <img
-      src={product.images[0]}
-      alt={product.name}
-      className={`max-w-full max-h-full object-contain transition duration-300 ${
-        sinStock ? 'grayscale opacity-50' : 'group-hover:scale-105'
-      }`}
-    />
-  ) : (
-    <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
-  )}
-</div>
-</Link>
+{/* Badge Sin Stock */}
+{sinStock && (
+  <div className="absolute top-4 right-4 z-10 bg-red-600 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
+    Sin stock
+  </div>
+)}
+                  
+                  <div className={`h-64 flex items-center justify-center overflow-hidden p-4 ${
+                    sinStock ? 'bg-gray-200' : 'bg-gray-50'
+                  }`}>
+                    {product.images?.[0] ? (
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className={`w-full h-full object-contain transition duration-300 ${
+                          sinStock ? 'grayscale opacity-50' : 'group-hover:scale-110'
+                        }`}
+                      />
+                    ) : (
+                      <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
+                    )}
+                  </div>
+                </Link>
 
                 <div className="p-5 bg-white">
                   <h4 className={`font-bold mb-2 h-12 overflow-hidden line-clamp-2 ${
@@ -173,6 +151,7 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                     {product.name}
                   </h4>
                   
+                  {/* Descripción corta */}
                   <p className={`text-sm mb-3 h-10 overflow-hidden line-clamp-2 ${
                     sinStock ? 'text-gray-400' : 'text-gray-600'
                   }`}>
@@ -187,6 +166,7 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                     </span>
                   </div>
 
+                  {/* Botón Ver detalles */}
                   {sinStock ? (
                     <button
                       disabled
@@ -211,28 +191,6 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
           })}
         </div>
       </div>
-
-      {/* Dots Indicators */}
-      {totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-4">
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                const container = scrollRef.current;
-                const scrollAmount = container.clientWidth * index;
-                container.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-              }}
-              className={`w-2 h-2 rounded-full transition-all ${
-                currentPage === index 
-                  ? 'bg-primary w-6' 
-                  : 'bg-gray-300 hover:bg-gray-400'
-              }`}
-              aria-label={`Ir a página ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
