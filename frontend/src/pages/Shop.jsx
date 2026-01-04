@@ -73,19 +73,19 @@ export default function Shop() {
             Volver al inicio
           </Link>
           <div className="flex items-center gap-3">
-          {currentCategory && (
-  <span className="text-5xl">{currentCategory.icon}</span>
-)}
-<div>
-  <h1 className="text-4xl font-black text-gray-800">
-    {currentCategory ? currentCategory.name : "Explorá nuestros productos"}
-  </h1>
-  {!currentCategory && (
-    <p className="text-gray-600 mt-1">
-      Organizados por categoría para que encuentres todo más rápido
-    </p>
-  )}
-</div>
+            {currentCategory && (
+              <span className="text-5xl">{currentCategory.icon}</span>
+            )}
+            <div>
+              <h1 className="text-4xl font-black text-gray-800">
+                {currentCategory ? currentCategory.name : "Explorá nuestros productos"}
+              </h1>
+              {!currentCategory && (
+                <p className="text-gray-600 mt-1">
+                  Organizados por categoría para que encuentres todo más rápido
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -108,15 +108,73 @@ export default function Shop() {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="space-y-16">
-         {categoriesToShow.map((category) => (
-  <CategoryCarousel
-    key={category.id}
-    category={category}
-    products={productsByCategory[category.id] || []}
-    showViewAll={!categoryFilter}
-    hideHeader={!!categoryFilter}
-  />
-))}
+          {categoriesToShow.map((category) => {
+            const products = productsByCategory[category.id] || [];
+            
+            // Caso especial: Alimentos - separar por subcategoría
+            if (category.id === 'alimentos' && categoryFilter === 'alimentos') {
+              const perros = products.filter(p => p.subcategory === 'perros');
+              const gatos = products.filter(p => p.subcategory === 'gatos');
+              const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
+
+              return (
+                <div key={category.id} className="space-y-16">
+                  {/* Alimentos para Perros */}
+                  {perros.length > 0 && (
+                    <CategoryCarousel
+                      category={{ 
+                        id: 'alimentos-perros', 
+                        name: 'Alimentos para Perros', 
+                        icon: '🐕' 
+                      }}
+                      products={perros}
+                      showViewAll={false}
+                      hideHeader={false}
+                    />
+                  )}
+
+                  {/* Alimentos para Gatos */}
+                  {gatos.length > 0 && (
+                    <CategoryCarousel
+                      category={{ 
+                        id: 'alimentos-gatos', 
+                        name: 'Alimentos para Gatos', 
+                        icon: '🐱' 
+                      }}
+                      products={gatos}
+                      showViewAll={false}
+                      hideHeader={false}
+                    />
+                  )}
+
+                  {/* Alimentos sin clasificar o para ambos */}
+                  {ambos.length > 0 && (
+                    <CategoryCarousel
+                      category={{ 
+                        id: 'alimentos-ambos', 
+                        name: 'Alimentos Generales', 
+                        icon: '🐾' 
+                      }}
+                      products={ambos}
+                      showViewAll={false}
+                      hideHeader={false}
+                    />
+                  )}
+                </div>
+              );
+            }
+
+            // Caso normal: todas las demás categorías
+            return (
+              <CategoryCarousel
+                key={category.id}
+                category={category}
+                products={products}
+                showViewAll={!categoryFilter}
+                hideHeader={!!categoryFilter}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

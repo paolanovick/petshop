@@ -98,7 +98,15 @@ export default function CategoryDashboard() {
   const totalProducts = products.length;
   const activeProducts = products.filter(p => p.activo).length;
   const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
-  const lowStock = products.filter(p => p.stock < 5 && p.activo).length;
+    const lowStock = products.filter(p => p.stock < 5 && p.activo).length;
+   const perros = products.filter(p => p.subcategory === 'perros');
+const gatos = products.filter(p => p.subcategory === 'gatos');
+const ambos = products.filter(
+  p => p.subcategory === 'ambos' || !p.subcategory
+);
+
+
+    
 
   if (loading) {
     return (
@@ -232,91 +240,317 @@ export default function CategoryDashboard() {
                   <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                {products.map((product) => (
-                  <tr key={product._id} className="hover:bg-gray-50 transition">
-                    <td className="px-4 py-3">
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
-                        {product.images?.[0] ? (
-                          <img
-                            src={product.images[0]}
-                            alt={product.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Package className="w-8 h-8 text-gray-300" />
-                          </div>
-                        )}
-                      </div>
-                    </td>
+           <tbody className="divide-y divide-gray-200">
 
-                    <td className="px-4 py-3">
-                      <div>
-                        <p className="font-semibold text-gray-800">{product.name}</p>
-                        <p className="text-xs text-gray-500 mt-1 line-clamp-1">{product.description}</p>
-                      </div>
-                    </td>
+  {/* ===== ALIMENTOS – PERROS ===== */}
+  {category === 'alimentos' && perros.length > 0 && (
+    <tr className="bg-gray-100">
+      <td colSpan="6" className="px-4 py-3 font-bold text-gray-800">
+        🐕 Alimentos para Perros
+      </td>
+    </tr>
+  )}
+  {category === 'alimentos' &&
+    perros.map((product) => (
+      <tr key={product._id} className="hover:bg-gray-50 transition">
+        <td className="px-4 py-3">
+          <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+            {product.images?.[0] ? (
+              <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <Package className="w-8 h-8 text-gray-300" />
+              </div>
+            )}
+          </div>
+        </td>
 
-                    <td className="px-4 py-3">
-                      <span className="font-bold text-orange-600">${product.price}</span>
-                    </td>
+        <td className="px-4 py-3">
+          <p className="font-semibold text-gray-800">{product.name}</p>
+          <p className="text-xs text-gray-500 mt-1 line-clamp-1">{product.description}</p>
+        </td>
 
-                    <td className="px-4 py-3">
-                      <span
-                        className={`font-semibold ${
-                          product.stock > 10
-                            ? 'text-green-600'
-                            : product.stock > 0
-                            ? 'text-yellow-600'
-                            : 'text-red-600'
-                        }`}
-                      >
-                        {product.stock}
-                      </span>
-                    </td>
+        <td className="px-4 py-3">
+          <span className="font-bold text-orange-600">${product.price}</span>
+        </td>
 
-                    <td className="px-4 py-3">
-                      <div className="flex flex-col gap-1">
-                        {product.destacado && (
-                          <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-semibold w-fit">
-                            Destacado
-                          </span>
-                        )}
-                        {!product.activo ? (
-                          <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded font-semibold w-fit">
-                            Inactivo
-                          </span>
-                        ) : (
-                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold w-fit">
-                            Activo
-                          </span>
-                        )}
-                      </div>
-                    </td>
+        <td className="px-4 py-3">
+          <span className={`font-semibold ${
+            product.stock > 10 ? 'text-green-600' :
+            product.stock > 0 ? 'text-yellow-600' :
+            'text-red-600'
+          }`}>
+            {product.stock}
+          </span>
+        </td>
 
-                    <td className="px-4 py-3">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link
-                          to="/admin/products"
-                          state={{ editProduct: product }}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
-                          title="Editar"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(product._id)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                          title="Eliminar"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+        <td className="px-4 py-3">
+          {product.destacado && (
+            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-semibold">
+              Destacado
+            </span>
+          )}
+          <span className={`block text-xs mt-1 ${
+            product.activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          } px-2 py-0.5 rounded font-semibold w-fit`}>
+            {product.activo ? 'Activo' : 'Inactivo'}
+          </span>
+        </td>
+
+        <td className="px-4 py-3 text-right">
+          <Link
+            to="/admin/products"
+            state={{ editProduct: product }}
+            className="inline-flex p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+          >
+            <Edit2 className="w-4 h-4" />
+          </Link>
+          <button
+            onClick={() => handleDelete(product._id)}
+            className="inline-flex p-2 text-red-600 hover:bg-red-50 rounded-lg"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </td>
+      </tr>
+    ))}
+
+  {/* ===== ALIMENTOS – GATOS ===== */}
+  {category === 'alimentos' && gatos.length > 0 && (
+    <tr className="bg-gray-100">
+      <td colSpan="6" className="px-4 py-3 font-bold text-gray-800">
+        🐱 Alimentos para Gatos
+      </td>
+    </tr>
+  )}
+  {category === 'alimentos' &&
+    gatos.map((product) => (
+      <tr key={product._id} className="hover:bg-gray-50 transition">
+        {/* MISMO CONTENIDO QUE PERROS */}
+        <td className="px-4 py-3">
+          <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+            {product.images?.[0] ? (
+              <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <Package className="w-8 h-8 text-gray-300" />
+              </div>
+            )}
+          </div>
+        </td>
+
+        <td className="px-4 py-3">
+          <p className="font-semibold text-gray-800">{product.name}</p>
+          <p className="text-xs text-gray-500 mt-1 line-clamp-1">{product.description}</p>
+        </td>
+
+        <td className="px-4 py-3">
+          <span className="font-bold text-orange-600">${product.price}</span>
+        </td>
+
+        <td className="px-4 py-3">
+          <span className={`font-semibold ${
+            product.stock > 10 ? 'text-green-600' :
+            product.stock > 0 ? 'text-yellow-600' :
+            'text-red-600'
+          }`}>
+            {product.stock}
+          </span>
+        </td>
+
+        <td className="px-4 py-3">
+          {product.destacado && (
+            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-semibold">
+              Destacado
+            </span>
+          )}
+          <span className={`block text-xs mt-1 ${
+            product.activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          } px-2 py-0.5 rounded font-semibold w-fit`}>
+            {product.activo ? 'Activo' : 'Inactivo'}
+          </span>
+        </td>
+
+        <td className="px-4 py-3 text-right">
+          <Link
+            to="/admin/products"
+            state={{ editProduct: product }}
+            className="inline-flex p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+          >
+            <Edit2 className="w-4 h-4" />
+          </Link>
+          <button
+            onClick={() => handleDelete(product._id)}
+            className="inline-flex p-2 text-red-600 hover:bg-red-50 rounded-lg"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </td>
+      </tr>
+    ))}
+
+  {/* ===== ALIMENTOS – AMBOS ===== */}
+  {category === 'alimentos' && ambos.length > 0 && (
+    <tr className="bg-gray-100">
+      <td colSpan="6" className="px-4 py-3 font-bold text-gray-800">
+        🐾 Alimentos para Ambos
+      </td>
+    </tr>
+  )}
+  {category === 'alimentos' &&
+    ambos.map((product) => (
+      <tr key={product._id} className="hover:bg-gray-50 transition">
+        {/* MISMO CONTENIDO */}
+        <td className="px-4 py-3">
+          <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+            {product.images?.[0] ? (
+              <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <Package className="w-8 h-8 text-gray-300" />
+              </div>
+            )}
+          </div>
+        </td>
+
+        <td className="px-4 py-3">
+          <p className="font-semibold text-gray-800">{product.name}</p>
+          <p className="text-xs text-gray-500 mt-1 line-clamp-1">{product.description}</p>
+        </td>
+
+        <td className="px-4 py-3">
+          <span className="font-bold text-orange-600">${product.price}</span>
+        </td>
+
+        <td className="px-4 py-3">
+          <span className={`font-semibold ${
+            product.stock > 10 ? 'text-green-600' :
+            product.stock > 0 ? 'text-yellow-600' :
+            'text-red-600'
+          }`}>
+            {product.stock}
+          </span>
+        </td>
+
+        <td className="px-4 py-3">
+          {product.destacado && (
+            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-semibold">
+              Destacado
+            </span>
+          )}
+          <span className={`block text-xs mt-1 ${
+            product.activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          } px-2 py-0.5 rounded font-semibold w-fit`}>
+            {product.activo ? 'Activo' : 'Inactivo'}
+          </span>
+        </td>
+
+        <td className="px-4 py-3 text-right">
+          <Link
+            to="/admin/products"
+            state={{ editProduct: product }}
+            className="inline-flex p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+          >
+            <Edit2 className="w-4 h-4" />
+          </Link>
+          <button
+            onClick={() => handleDelete(product._id)}
+            className="inline-flex p-2 text-red-600 hover:bg-red-50 rounded-lg"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </td>
+      </tr>
+    ))}
+
+  {/* ===== OTRAS CATEGORÍAS ===== */}
+ {category !== 'alimentos' &&
+  products.map((product) => (
+    <tr key={product._id} className="hover:bg-gray-50 transition">
+      <td className="px-4 py-3">
+        <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+          {product.images?.[0] ? (
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <Package className="w-8 h-8 text-gray-300" />
+            </div>
+          )}
+        </div>
+      </td>
+
+      <td className="px-4 py-3">
+        <p className="font-semibold text-gray-800">{product.name}</p>
+        <p className="text-xs text-gray-500 mt-1 line-clamp-1">
+          {product.description}
+        </p>
+      </td>
+
+      <td className="px-4 py-3">
+        <span className="font-bold text-orange-600">${product.price}</span>
+      </td>
+
+      <td className="px-4 py-3">
+        <span
+          className={`font-semibold ${
+            product.stock > 10
+              ? 'text-green-600'
+              : product.stock > 0
+              ? 'text-yellow-600'
+              : 'text-red-600'
+          }`}
+        >
+          {product.stock}
+        </span>
+      </td>
+
+      <td className="px-4 py-3">
+        <div className="flex flex-col gap-1">
+          {product.destacado && (
+            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-semibold w-fit">
+              Destacado
+            </span>
+          )}
+          {!product.activo ? (
+            <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded font-semibold w-fit">
+              Inactivo
+            </span>
+          ) : (
+            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold w-fit">
+              Activo
+            </span>
+          )}
+        </div>
+      </td>
+
+      <td className="px-4 py-3">
+        <div className="flex items-center justify-end gap-2">
+          <Link
+            to="/admin/products"
+            state={{ editProduct: product }}
+            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+            title="Editar"
+          >
+            <Edit2 className="w-4 h-4" />
+          </Link>
+          <button
+            onClick={() => handleDelete(product._id)}
+            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+            title="Eliminar"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
+
             </table>
           )}
         </div>
