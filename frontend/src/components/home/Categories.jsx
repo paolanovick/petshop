@@ -11,12 +11,12 @@ import FeaturedProductsCarousel from "./FeaturedProductsCarousel";
 import { useEffect, useState } from "react";
 
 const categories = [
-  { id: 1, name: "Perros", icon: Dog, color: "from-blue-500 to-blue-600", count: "120+ productos" },
-  { id: 2, name: "Gatos", icon: Cat, color: "from-purple-500 to-purple-600", count: "85+ productos" },
-  { id: 3, name: "Accesorios", icon: ShoppingBag, color: "from-green-500 to-green-600", count: "200+ productos" },
-  { id: 4, name: "Alimentos", icon: Bone, color: "from-orange-500 to-orange-600", count: "150+ productos" },
-  { id: 5, name: "Peluquería", icon: Scissors, color: "from-pink-500 to-pink-600", count: "Servicios" },
-  { id: 6, name: "Premium", icon: Sparkles, color: "from-red-500 to-red-600", count: "Exclusivos" },
+  { id: 1, name: "Alimentos", icon: Bone, color: "from-orange-500 to-orange-600", count: "Para perros y gatos" },
+  { id: 2, name: "Accesorios", icon: ShoppingBag, color: "from-blue-500 to-blue-600", count: "Collares, correas..." },
+  { id: 3, name: "Juguetes", icon: Dog, color: "from-purple-500 to-purple-600", count: "Diversión garantizada" },
+  { id: 4, name: "Higiene", icon: Sparkles, color: "from-green-500 to-green-600", count: "Limpieza y cuidado" },
+  { id: 5, name: "Otros", icon: Cat, color: "from-pink-500 to-pink-600", count: "Más productos" },
+  { id: 6, name: "Peluquería", icon: Scissors, color: "from-red-500 to-red-600", count: "Servicios" },
 ];
 
 export default function Categories() {
@@ -63,9 +63,7 @@ export default function Categories() {
               <button
                 key={category.id}
                 type="button"
-                onClick={() =>
-                  navigate(`/shop?category=${category.name.toLowerCase()}`)
-                }
+               onClick={() => navigate(`/shop?category=${category.name.toLowerCase()}`)}
                 className="relative group bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-200 hover:-translate-y-2"
               >
                 {/* GRADIENT – SUAVE */}

@@ -25,13 +25,14 @@ export default function ProductsAdmin() {
 
   const [formData, setFormData] = useState({
     name: '',
-    description: '',
-    price: '',
-    stock: '',
-    category: 'alimentos',
-    images: [''],
-    destacado: false,
-    activo: true,
+  description: '',
+  price: '',
+  stock: '',
+  category: 'alimentos',
+  subcategory: null,  // ← AGREGAR
+  images: [''],
+  destacado: false,
+  activo: true,
   });
 
   useEffect(() => {
@@ -122,26 +123,28 @@ export default function ProductsAdmin() {
     if (product) {
       setEditingProduct(product);
       setFormData({
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        stock: product.stock,
-        category: product.category,
-        images: product.images.length > 0 ? product.images : [''],
-        destacado: product.destacado,
-        activo: product.activo,
+         name: product.name,
+  description: product.description,
+  price: product.price,
+  stock: product.stock,
+  category: product.category,
+  subcategory: product.subcategory || null,  // ← AGREGAR
+  images: product.images.length > 0 ? product.images : [''],
+  destacado: product.destacado,
+  activo: product.activo,
       });
     } else {
       setEditingProduct(null);
       setFormData({
         name: '',
-        description: '',
-        price: '',
-        stock: '',
-        category: 'alimentos',
-        images: [''],
-        destacado: false,
-        activo: true,
+  description: '',
+  price: '',
+  stock: '',
+  category: 'alimentos',
+  subcategory: null,  // ← AGREGAR
+  images: [''],
+  destacado: false,
+  activo: true,
       });
     }
     setShowModal(true);
@@ -231,7 +234,8 @@ export default function ProductsAdmin() {
                 {cat.label}
               </option>
             ))}
-          </select>
+                  </select>
+                  
         </div>
 
         {error && (
@@ -444,7 +448,22 @@ export default function ProductsAdmin() {
                     </option>
                   ))}
                 </select>
-              </div>
+                          </div>
+                          <div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Subcategoría (opcional)
+  </label>
+  <select
+    value={formData.subcategory || ''}
+    onChange={(e) => setFormData({ ...formData, subcategory: e.target.value || null })}
+    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+  >
+    <option value="">Sin subcategoría</option>
+    <option value="perros">Para Perros</option>
+    <option value="gatos">Para Gatos</option>
+    <option value="ambos">Para Ambos</option>
+  </select>
+</div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Imágenes (URLs)</label>
