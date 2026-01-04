@@ -680,3 +680,41 @@ Frontend (Vercel) ✅
 ✅ Logout funcional
 ✅ Redirección automática si no hay token
 
+Implementado hoy:
+
+✅ Sistema de notificaciones Toast
+
+Carrito: agregar, eliminar, actualizar cantidad
+Admin: crear, editar, eliminar productos
+
+
+✅ Carrito visible fuera del menú hamburguesa
+
+Desktop: siempre visible
+Móvil: junto al botón hamburguesa
+
+
+✅ Botón "Ver detalles" en tarjetas
+
+Descripción corta visible
+Stock oculto de la tarjeta
+
+
+✅ Productos sin stock - Estado visual
+
+Tarjeta en gris con grayscale
+Badge "Sin stock"
+Botón deshabilitado
+
+
+✅ Sistema de destacados y ofertas
+
+Campo oferta en backend
+Badges: ⭐ Destacado y 🔥 Oferta
+
+
+✅ Vista grid al clickear categorías
+
+Carouseles → Grid completo
+Títulos clickeables
+Redirección de URLs viejas

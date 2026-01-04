@@ -99,7 +99,7 @@ exports.updateAppointment = async (req, res) => {
 exports.updateAppointmentStatus = async (req, res) => {
   const { estado } = req.body;
 
-  if (!['confirmado', 'cancelado', 'completado'].includes(estado)) {
+  if (!['pendiente', 'confirmado', 'terminado', 'rechazado'].includes(estado)) {
     return res.status(400).json({ message: 'Estado inválido' });
   }
 
