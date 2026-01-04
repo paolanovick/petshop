@@ -108,9 +108,15 @@ export default function Shop() {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="space-y-16">
-          {categoriesToShow.map((category) => (
-            <CategoryCarousel key={category.id} category={category} products={productsByCategory[category.id] || []} showViewAll={!categoryFilter} />
-          ))}
+         {categoriesToShow.map((category) => (
+  <CategoryCarousel
+    key={category.id}
+    category={category}
+    products={productsByCategory[category.id] || []}
+    showViewAll={!categoryFilter}
+    hideHeader={!!categoryFilter}
+  />
+))}
         </div>
       </div>
     </div>
