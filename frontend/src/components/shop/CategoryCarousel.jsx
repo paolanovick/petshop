@@ -133,28 +133,38 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                 }`}
               >
                 <Link to={`/product/${product._id}`} className="block relative">
-                  {sinStock && (
-                    <div className="absolute top-4 left-4 z-10 bg-red-600 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
-                      Sin stock
-                    </div>
-                  )}
-                  
-                  <div className={`h-48 flex items-center justify-center overflow-hidden p-4 ${
-                    sinStock ? 'bg-gray-200' : 'bg-gray-50'
-                  }`}>
-                    {product.images?.[0] ? (
-                      <img
-                        src={product.images[0]}
-                        alt={product.name}
-                        className={`max-w-full max-h-full object-contain transition duration-300 ${
-                          sinStock ? 'grayscale opacity-50' : 'group-hover:scale-105'
-                        }`}
-                      />
-                    ) : (
-                      <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
-                    )}
-                  </div>
-                </Link>
+  {/* Badge Destacado - Ribbon diagonal */}
+  {product.destacado && !sinStock && (
+    <div className="absolute top-0 left-0 z-10 overflow-hidden w-32 h-32 pointer-events-none">
+      <div className="absolute top-6 -left-8 bg-red-600 text-white text-xs font-bold py-1 px-12 rotate-[-45deg] shadow-lg text-center">
+        DESTACADO
+      </div>
+    </div>
+  )}
+
+  {/* Badge Sin Stock */}
+  {sinStock && (
+    <div className="absolute top-4 left-4 z-10 bg-red-600 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
+      Sin stock
+    </div>
+  )}
+  
+  <div className={`h-48 flex items-center justify-center overflow-hidden p-4 ${
+  sinStock ? 'bg-gray-200' : 'bg-gray-50'
+}`}>
+  {product.images?.[0] ? (
+    <img
+      src={product.images[0]}
+      alt={product.name}
+      className={`max-w-full max-h-full object-contain transition duration-300 ${
+        sinStock ? 'grayscale opacity-50' : 'group-hover:scale-105'
+      }`}
+    />
+  ) : (
+    <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
+  )}
+</div>
+</Link>
 
                 <div className="p-5 bg-white">
                   <h4 className={`font-bold mb-2 h-12 overflow-hidden line-clamp-2 ${
@@ -194,18 +204,7 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                     </Link>
                   )}
 
-                  <div className="flex gap-2 flex-wrap">
-                    {product.destacado && !sinStock && (
-                      <span className="inline-block px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded">
-                        ⭐ Destacado
-                      </span>
-                    )}
-                    {product.oferta && !sinStock && (
-                      <span className="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded">
-                        🔥 Oferta
-                      </span>
-                    )}
-                  </div>
+                 
                 </div>
               </div>
             );
