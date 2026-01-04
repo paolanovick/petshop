@@ -119,55 +119,57 @@ export default function Shop() {
       })}
     </div>
   ) : (
-    // ============ VISTA CAROUSELES - Sin filtro ============
-    <div className="space-y-16">
-      {categoriesToShow.map((category) => {
-        const products = productsByCategory[category.id] || [];
-        
-        // Caso especial: Alimentos - separar por subcategoría
-        if (category.id === 'alimentos') {
-          const perros = products.filter(p => p.subcategory === 'perros');
-          const gatos = products.filter(p => p.subcategory === 'gatos');
-          const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
+   // ============ VISTA CAROUSELES - Sin filtro ============
+<div className="space-y-16">
+  {categoriesToShow.map((category) => {
+    const products = productsByCategory[category.id] || [];
+    
+    // Caso especial: Alimentos - separar por subcategoría
+    if (category.id === 'alimentos') {
+      const perros = products.filter(p => p.subcategory === 'perros');
+      const gatos = products.filter(p => p.subcategory === 'gatos');
+      const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
 
-          return (
-            <div key={category.id} className="space-y-16">
-              {perros.length > 0 && (
-                <CategoryCarousel
-                  category={{ id: 'alimentos-perros', name: 'Alimentos para Perros', icon: '🐕' }}
-                  products={perros}
-                  hideHeader={false}
-                />
-              )}
-              {gatos.length > 0 && (
-                <CategoryCarousel
-                  category={{ id: 'alimentos-gatos', name: 'Alimentos para Gatos', icon: '🐱' }}
-                  products={gatos}
-                  hideHeader={false}
-                />
-              )}
-              {ambos.length > 0 && (
-                <CategoryCarousel
-                  category={{ id: 'alimentos-ambos', name: 'Alimentos Generales', icon: '🐾' }}
-                  products={ambos}
-                  hideHeader={false}
-                />
-              )}
-            </div>
-          );
-        }
+      return (
+        <div key={category.id} className="space-y-16">
+          {perros.length > 0 && (
+            <CategoryCarousel
+              category={{ id: 'alimentos-perros', name: 'Alimentos para Perros', icon: '🐕' }}
+              products={perros}
+              hideHeader={false}
+            />
+          )}
+          {gatos.length > 0 && (
+            <CategoryCarousel
+              category={{ id: 'alimentos-gatos', name: 'Alimentos para Gatos', icon: '🐱' }}
+              products={gatos}
+              hideHeader={false}
+            />
+          )}
+          {ambos.length > 0 && (
+            <CategoryCarousel
+              category={{ id: 'alimentos-ambos', name: 'Alimentos Generales', icon: '🐾' }}
+              products={ambos}
+              hideHeader={false}
+            />
+          )}
+        </div>
+      );
+    }
 
-        // Caso normal: todas las demás categorías
-        return (
-          <CategoryCarousel
-            key={category.id}
-            category={category}
-            products={products}
-            hideHeader={false}
-          />
-        );
-      })}
-    </div>
+    // Caso normal: todas las demás categorías
+    if (products.length === 0) return null;
+    
+    return (
+      <CategoryCarousel
+        key={category.id}
+        category={category}
+        products={products}
+        hideHeader={false}
+      />
+    );
+  })}
+</div>
   )}
 </div>
     </div>
