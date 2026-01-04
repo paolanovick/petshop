@@ -3,12 +3,11 @@ import { useAuth } from '../../context/AuthContext';
 import { Calendar, Package, Users, LogOut, Dog, Cat, ShoppingBag, Utensils, Scissors, Star } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'perros', name: 'Perros', icon: Dog, color: 'bg-orange-100 text-orange-600 hover:bg-orange-200' },
-  { id: 'gatos', name: 'Gatos', icon: Cat, color: 'bg-purple-100 text-purple-600 hover:bg-purple-200' },
-  { id: 'accesorios', name: 'Accesorios', icon: ShoppingBag, color: 'bg-blue-100 text-blue-600 hover:bg-blue-200' },
   { id: 'alimentos', name: 'Alimentos', icon: Utensils, color: 'bg-green-100 text-green-600 hover:bg-green-200' },
-  { id: 'peluqueria', name: 'Peluquería', icon: Scissors, color: 'bg-pink-100 text-pink-600 hover:bg-pink-200' },
-  { id: 'premium', name: 'Premium', icon: Star, color: 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200' },
+  { id: 'accesorios', name: 'Accesorios', icon: ShoppingBag, color: 'bg-blue-100 text-blue-600 hover:bg-blue-200' },
+  { id: 'juguetes', name: 'Juguetes', icon: Dog, color: 'bg-purple-100 text-purple-600 hover:bg-purple-200' },
+  { id: 'higiene', name: 'Higiene', icon: Cat, color: 'bg-pink-100 text-pink-600 hover:bg-pink-200' },
+  { id: 'otros', name: 'Otros', icon: Package, color: 'bg-gray-100 text-gray-600 hover:bg-gray-200' },
 ];
 
 export default function DashboardAdmin() {

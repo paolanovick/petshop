@@ -114,9 +114,12 @@ export default function Cart() {
             <span className="text-primary">${subtotal}</span>
           </div>
 
-          <button className="mt-6 w-full bg-primary hover:bg-primaryDark text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition hover:scale-105">
-            Continuar compra
-          </button>
+         <Link
+  to="/checkout"
+  className="mt-6 w-full bg-primary hover:bg-primaryDark text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition hover:scale-105 block text-center"
+>
+  Continuar compra
+</Link>
         </div>
       </div>
     </div>

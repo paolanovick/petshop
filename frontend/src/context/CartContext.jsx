@@ -14,41 +14,41 @@ export function CartProvider({ children }) {
   }, [cart]);
 
   const addToCart = (product, quantity = 1) => {
-    setCart((prev) => {
-      const existing = prev.find((p) => p.id === product.id);
+  setCart((prev) => {
+    const existing = prev.find((p) => p._id === product._id);
 
-      if (existing) {
-        return prev.map((p) =>
-          p.id === product.id
-            ? { ...p, quantity: p.quantity + quantity }
-            : p
-        );
-      }
-      return [...prev, { ...product, quantity }];
-    });
-  };
+    if (existing) {
+      return prev.map((p) =>
+        p._id === product._id
+          ? { ...p, quantity: p.quantity + quantity }
+          : p
+      );
+    }
+    return [...prev, { ...product, quantity }];
+  });
+};
 
-  const increaseQty = (id) => {
-    setCart((prev) =>
-      prev.map((p) =>
-        p.id === id ? { ...p, quantity: p.quantity + 1 } : p
+ const increaseQty = (id) => {
+  setCart((prev) =>
+    prev.map((p) =>
+      p._id === id ? { ...p, quantity: p.quantity + 1 } : p
+    )
+  );
+};
+
+ const decreaseQty = (id) => {
+  setCart((prev) =>
+    prev
+      .map((p) =>
+        p._id === id ? { ...p, quantity: p.quantity - 1 } : p
       )
-    );
-  };
+      .filter((p) => p.quantity > 0)
+  );
+};
 
-  const decreaseQty = (id) => {
-    setCart((prev) =>
-      prev
-        .map((p) =>
-          p.id === id ? { ...p, quantity: p.quantity - 1 } : p
-        )
-        .filter((p) => p.quantity > 0)
-    );
-  };
-
-  const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((p) => p.id !== id));
-  };
+ const removeFromCart = (id) => {
+  setCart((prev) => prev.filter((p) => p._id !== id));
+};
 
   const clearCart = () => setCart([]);
 
