@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag, ChevronRight } from "lucide-react";
 
-export default function CategoryCarousel({ category, products, showViewAll = false, hideHeader = false }) {
+export default function CategoryCarousel({ category, products = false, hideHeader = false }) {
   if (!products || products.length === 0) {
     return (
       <div className="bg-white rounded-2xl p-12 text-center">
@@ -17,28 +17,22 @@ export default function CategoryCarousel({ category, products, showViewAll = fal
   return (
     <div id={category.id} className="bg-white rounded-2xl p-8 shadow-sm">
       {!hideHeader && (
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <span className="text-4xl">{category.icon}</span>
-            <h3 className="text-3xl font-bold text-gray-800 capitalize">
-              {category.name}
-            </h3>
-            <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-semibold rounded-full">
-              {products.length} {products.length === 1 ? 'producto' : 'productos'}
-            </span>
-          </div>
-          
-          {showViewAll && products.length > 6 && (
-            <Link
-              to={`/shop?category=${category.id}`}
-              className="flex items-center gap-2 text-primary hover:text-primaryDark font-semibold transition group"
-            >
-              Ver solo esta categoría
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition" />
-            </Link>
-          )}
-        </div>
-      )}
+  <div className="mb-6">
+    <Link 
+      to={`/shop?category=${category.id}`}
+      className="inline-flex items-center gap-3 group hover:opacity-80 transition"
+    >
+      <span className="text-4xl">{category.icon}</span>
+      <h3 className="text-3xl font-bold text-gray-800 capitalize group-hover:text-primary transition">
+        {category.name}
+      </h3>
+      <ChevronRight className="w-7 h-7 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition" />
+      <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-semibold rounded-full">
+        {products.length} {products.length === 1 ? 'producto' : 'productos'}
+      </span>
+    </Link>
+  </div>
+)}
 
 <div className="relative overflow-x-auto scrollbar-hide">
   <div className="flex gap-6 pb-4">

@@ -2,6 +2,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import CategoryCarousel from "../components/shop/CategoryCarousel";
+import ProductGridCard from "../components/shop/ProductGridCard";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -90,93 +91,85 @@ export default function Shop() {
         </div>
       </div>
 
-      {!categoryFilter && (
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide">
-              <span className="text-gray-600 font-semibold flex-shrink-0">Ir a:</span>
-              {CATEGORIES.map((cat) => (
-                <a key={cat.id} href={`#${cat.id}`} className="px-4 py-2 rounded-lg font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition flex items-center gap-2 flex-shrink-0">
-                  <span>{cat.icon}</span>
-                  {cat.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+
 
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="space-y-16">
-          {categoriesToShow.map((category) => {
-            const products = productsByCategory[category.id] || [];
-            
-            // Caso especial: Alimentos - separar por subcategoría
-            if (category.id === 'alimentos' && categoryFilter === 'alimentos') {
-              const perros = products.filter(p => p.subcategory === 'perros');
-              const gatos = products.filter(p => p.subcategory === 'gatos');
-              const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
+  {categoryFilter ? (
+    // ============ VISTA GRID - Cuando hay filtro ============
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {categoriesToShow.map((category) => {
+        const products = productsByCategory[category.id] || [];
+        
+        // Para Alimentos: combinar todas las subcategorías
+        if (category.id === 'alimentos') {
+          const perros = products.filter(p => p.subcategory === 'perros');
+          const gatos = products.filter(p => p.subcategory === 'gatos');
+          const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
+          const allProducts = [...perros, ...gatos, ...ambos];
+          
+          return allProducts.map(product => (
+            <ProductGridCard key={product._id} product={product} />
+          ));
+        }
+        
+        // Otras categorías
+        return products.map(product => (
+          <ProductGridCard key={product._id} product={product} />
+        ));
+      })}
+    </div>
+  ) : (
+    // ============ VISTA CAROUSELES - Sin filtro ============
+    <div className="space-y-16">
+      {categoriesToShow.map((category) => {
+        const products = productsByCategory[category.id] || [];
+        
+        // Caso especial: Alimentos - separar por subcategoría
+        if (category.id === 'alimentos') {
+          const perros = products.filter(p => p.subcategory === 'perros');
+          const gatos = products.filter(p => p.subcategory === 'gatos');
+          const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
 
-              return (
-                <div key={category.id} className="space-y-16">
-                  {/* Alimentos para Perros */}
-                  {perros.length > 0 && (
-                    <CategoryCarousel
-                      category={{ 
-                        id: 'alimentos-perros', 
-                        name: 'Alimentos para Perros', 
-                        icon: '🐕' 
-                      }}
-                      products={perros}
-                      showViewAll={false}
-                      hideHeader={false}
-                    />
-                  )}
+          return (
+            <div key={category.id} className="space-y-16">
+              {perros.length > 0 && (
+                <CategoryCarousel
+                  category={{ id: 'alimentos-perros', name: 'Alimentos para Perros', icon: '🐕' }}
+                  products={perros}
+                  hideHeader={false}
+                />
+              )}
+              {gatos.length > 0 && (
+                <CategoryCarousel
+                  category={{ id: 'alimentos-gatos', name: 'Alimentos para Gatos', icon: '🐱' }}
+                  products={gatos}
+                  hideHeader={false}
+                />
+              )}
+              {ambos.length > 0 && (
+                <CategoryCarousel
+                  category={{ id: 'alimentos-ambos', name: 'Alimentos Generales', icon: '🐾' }}
+                  products={ambos}
+                  hideHeader={false}
+                />
+              )}
+            </div>
+          );
+        }
 
-                  {/* Alimentos para Gatos */}
-                  {gatos.length > 0 && (
-                    <CategoryCarousel
-                      category={{ 
-                        id: 'alimentos-gatos', 
-                        name: 'Alimentos para Gatos', 
-                        icon: '🐱' 
-                      }}
-                      products={gatos}
-                      showViewAll={false}
-                      hideHeader={false}
-                    />
-                  )}
-
-                  {/* Alimentos sin clasificar o para ambos */}
-                  {ambos.length > 0 && (
-                    <CategoryCarousel
-                      category={{ 
-                        id: 'alimentos-ambos', 
-                        name: 'Alimentos Generales', 
-                        icon: '🐾' 
-                      }}
-                      products={ambos}
-                      showViewAll={false}
-                      hideHeader={false}
-                    />
-                  )}
-                </div>
-              );
-            }
-
-            // Caso normal: todas las demás categorías
-            return (
-              <CategoryCarousel
-                key={category.id}
-                category={category}
-                products={products}
-                showViewAll={!categoryFilter}
-                hideHeader={!!categoryFilter}
-              />
-            );
-          })}
-        </div>
-      </div>
+        // Caso normal: todas las demás categorías
+        return (
+          <CategoryCarousel
+            key={category.id}
+            category={category}
+            products={products}
+            hideHeader={false}
+          />
+        );
+      })}
+    </div>
+  )}
+</div>
     </div>
   );
 }
