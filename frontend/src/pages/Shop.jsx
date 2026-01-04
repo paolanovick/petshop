@@ -73,15 +73,19 @@ export default function Shop() {
             Volver al inicio
           </Link>
           <div className="flex items-center gap-3">
-            {currentCategory && <span className="text-5xl">{currentCategory.icon}</span>}
-            <div>
-              <h1 className="text-4xl font-black text-gray-800">
-                {currentCategory ? currentCategory.name : "Explorá nuestros productos"}
-              </h1>
-              <p className="text-gray-600 mt-1">
-                {currentCategory ? `Productos de la categoría ${currentCategory.name.toLowerCase()}` : "Organizados por categoría para que encuentres todo más rápido"}
-              </p>
-            </div>
+          {currentCategory && (
+  <span className="text-5xl">{currentCategory.icon}</span>
+)}
+<div>
+  <h1 className="text-4xl font-black text-gray-800">
+    {currentCategory ? currentCategory.name : "Explorá nuestros productos"}
+  </h1>
+  {!currentCategory && (
+    <p className="text-gray-600 mt-1">
+      Organizados por categoría para que encuentres todo más rápido
+    </p>
+  )}
+</div>
           </div>
         </div>
       </div>
