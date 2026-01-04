@@ -44,6 +44,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  oferta: {
+  type: Boolean,
+  default: false
+},
   activo: {
     type: Boolean,
     default: true

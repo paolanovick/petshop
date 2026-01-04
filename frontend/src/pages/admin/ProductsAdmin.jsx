@@ -32,6 +32,7 @@ export default function ProductsAdmin() {
   subcategory: null,  // ← AGREGAR
   images: [''],
   destacado: false,
+   oferta: false,  // ← AGREGAR ESTA LÍNEA
   activo: true,
   });
 
@@ -131,6 +132,7 @@ export default function ProductsAdmin() {
   subcategory: product.subcategory || null,  // ← AGREGAR
   images: product.images.length > 0 ? product.images : [''],
   destacado: product.destacado,
+   oferta: product.oferta || false,  // ← AGREGAR ESTA LÍNEA
   activo: product.activo,
       });
     } else {
@@ -497,26 +499,36 @@ export default function ProductsAdmin() {
               </div>
 
               <div className="flex items-center gap-6">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.destacado}
-                    onChange={(e) => setFormData({ ...formData, destacado: e.target.checked })}
-                    className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
-                  />
-                  <span className="text-sm font-medium text-gray-700">Producto destacado</span>
-                </label>
+  <label className="flex items-center gap-2 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={formData.destacado}
+      onChange={(e) => setFormData({ ...formData, destacado: e.target.checked })}
+      className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+    />
+    <span className="text-sm font-medium text-gray-700">Producto destacado</span>
+  </label>
 
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.activo}
-                    onChange={(e) => setFormData({ ...formData, activo: e.target.checked })}
-                    className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
-                  />
-                  <span className="text-sm font-medium text-gray-700">Producto activo</span>
-                </label>
-              </div>
+  <label className="flex items-center gap-2 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={formData.oferta}
+      onChange={(e) => setFormData({ ...formData, oferta: e.target.checked })}
+      className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+    />
+    <span className="text-sm font-medium text-gray-700">Producto en oferta</span>
+  </label>
+
+  <label className="flex items-center gap-2 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={formData.activo}
+      onChange={(e) => setFormData({ ...formData, activo: e.target.checked })}
+      className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+    />
+    <span className="text-sm font-medium text-gray-700">Producto activo</span>
+  </label>
+</div>
 
               <div className="flex gap-3 pt-4">
                 <button
