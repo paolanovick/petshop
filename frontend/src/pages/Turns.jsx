@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import ServiceSelector from "../components/ServiceSelector";
-import TurnCalendar from "../components/TurnCalendar";
-import TimeSlots from "../components/TimeSlots";
+import ServiceSelector from "../components/turns/ServiceSelector";
+import TurnCalendar from "../components/turns/TurnCalendar";
+import TimeSlots from "../components/turns/TimeSlots";
+
 
 export default function Turns() {
   const [service, setService] = useState(null);
@@ -24,28 +25,43 @@ export default function Turns() {
   const [error, setError] = useState(null);
 
   // 🔄 Cargar disponibilidad cuando cambia la fecha
+ 
+  // 🔄 Resetear fecha y horarios cuando cambia el servicio
   useEffect(() => {
-    if (!date) return;
+    setDate("");
+    setTime(null);
+    setSlots([]);
+  }, [service]);
 
-    const fetchAvailability = async () => {
-      setLoadingSlots(true);
-      setTime(null);
-      try {
-        const res = await fetch(
-          `https://api.vagabundo.com.ar/api/appointments/availability?fecha=${date}`
-        );
-        const data = await res.json();
-        setSlots(data.horarios || []);
-      } catch (err) {
-        console.error(err);
-        setError("Error al cargar horarios");
-      } finally {
-        setLoadingSlots(false);
-      }
-    };
-
-    fetchAvailability();
+  // 🔄 Resetear horario cuando cambia la fecha
+  useEffect(() => {
+    setTime(null);
   }, [date]);
+
+useEffect(() => {
+  if (!date) return;
+
+  const fetchAvailability = async () => {
+    setLoadingSlots(true);
+    setError(null);
+
+    try {
+      const res = await fetch(
+        `https://api.vagabundo.com.ar/api/appointments/availability?fecha=${date}`
+      );
+      const data = await res.json();
+      setSlots(data.horarios || []);
+    } catch (err) {
+      console.error(err);
+      setError("Error al cargar horarios");
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
+
+  fetchAvailability();
+}, [date]);
+
 
   const handleChange = (e) => {
     setForm({

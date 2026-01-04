@@ -1,4 +1,6 @@
 export default function TurnCalendar({ selected, onSelect }) {
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <section className="mb-10">
       <h2 className="text-xl font-bold mb-3">
@@ -11,6 +13,7 @@ export default function TurnCalendar({ selected, onSelect }) {
 
       <input
         type="date"
+        min={today}
         value={selected || ""}
         onChange={(e) => onSelect(e.target.value)}
         className="
