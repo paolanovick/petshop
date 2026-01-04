@@ -18,8 +18,17 @@ export default function Shop() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const categoryFilter = params.get("category");
+  
+  // Redirección para URLs viejas de subcategorías
+  useEffect(() => {
+    if (categoryFilter && ['alimentos-perros', 'alimentos-gatos', 'alimentos-ambos'].includes(categoryFilter)) {
+      window.location.href = '/shop?category=alimentos';
+    }
+  }, [categoryFilter]);
+  
   const [productsByCategory, setProductsByCategory] = useState({});
   const [loading, setLoading] = useState(true);
+  // ... resto del código
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -158,7 +167,7 @@ export default function Shop() {
   <CategoryCarousel
     category={{ 
       id: 'alimentos',  // ← Cambiar de 'alimentos-ambos' a 'alimentos'
-      name: 'Alimentos Generales', 
+      name: 'Alimentos', 
       icon: '🐾' 
     }}
     products={ambos}
