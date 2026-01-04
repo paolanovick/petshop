@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import Layout from "./Layout";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
@@ -14,9 +15,29 @@ import ProductsAdmin from "../pages/admin/ProductsAdmin";
 import PrivateRoute from "../components/auth/PrivateRoute";
 import CategoryDashboard from "../pages/admin/CategoryDashboard";
 
-export default function AppRouter() {
+function AppContent() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Limpiar carrito al recargar
+    const handleBeforeUnload = () => {
+      localStorage.removeItem('cart');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Redirigir al inicio si se recargó la página
+    if (window.performance && performance.navigation.type === 1) {
+      navigate('/');
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [navigate]);
+
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <Routes>
         {/* Rutas públicas con Layout */}
@@ -59,7 +80,8 @@ export default function AppRouter() {
             </PrivateRoute>
           }
         />
-         <Route
+        
+        <Route
           path="/admin/category/:category"
           element={
             <PrivateRoute>
@@ -68,8 +90,14 @@ export default function AppRouter() {
           }
         />
       </Routes>
-     
-      
+    </>
+  );
+}
+
+export default function AppRouter() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }
