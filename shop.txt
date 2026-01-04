@@ -718,3 +718,12 @@ Badges: ⭐ Destacado y 🔥 Oferta
 Carouseles → Grid completo
 Títulos clickeables
 Redirección de URLs viejas
+
+✅ Completado:
+
+✅ Autoplay carouseles - 1s móvil, 2s desktop
+✅ Badge destacado - Ribbon diagonal rojo "DESTACADO"
+✅ Imágenes ajustadas - object-contain en carousel y detalle
+✅ Limpiar carrito - Al recargar página se vacía y vuelve al inicio
+✅ Cambiar Peluquería → Turnos
+✅ Estados de turnos - Confirmado/Terminado/Rechazado
