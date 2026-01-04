@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag, ChevronRight } from "lucide-react";
 
-export default function CategoryCarousel({ category, products = false, hideHeader = false }) {
+export default function CategoryCarousel({ category, products, hideHeader = false, isSubcategory = false }) {
   if (!products || products.length === 0) {
     return (
       <div className="bg-white rounded-2xl p-12 text-center">
@@ -18,19 +18,37 @@ export default function CategoryCarousel({ category, products = false, hideHeade
     <div id={category.id} className="bg-white rounded-2xl p-8 shadow-sm">
       {!hideHeader && (
   <div className="mb-6">
-    <Link 
-      to={`/shop?category=${category.id}`}
-      className="inline-flex items-center gap-3 group hover:opacity-80 transition"
-    >
-      <span className="text-4xl">{category.icon}</span>
-      <h3 className="text-3xl font-bold text-gray-800 capitalize group-hover:text-primary transition">
-        {category.name}
-      </h3>
-      <ChevronRight className="w-7 h-7 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition" />
-      <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-semibold rounded-full">
-        {products.length} {products.length === 1 ? 'producto' : 'productos'}
-      </span>
-    </Link>
+    {isSubcategory ? (
+      // Sin link para subcategorías
+      <div className="inline-flex items-center gap-3">
+        <span className="text-4xl">{category.icon}</span>
+        <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 capitalize">
+          {category.name}
+        </h3>
+        <span className="px-3 py-1 bg-gray-100 text-gray-700 text-xs sm:text-sm font-semibold rounded-full">
+          {products.length} {products.length === 1 ? 'producto' : 'productos'}
+        </span>
+      </div>
+    ) : (
+      // Con link para categorías principales
+      <Link 
+        to={`/shop?category=${category.id}`}
+        className="inline-flex items-center gap-3 group hover:opacity-80 transition"
+      >
+        <span className="text-4xl">{category.icon}</span>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
+          <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 capitalize group-hover:text-primary transition">
+            {category.name}
+          </h3>
+          <div className="flex items-center gap-2 mt-1 sm:mt-0">
+            <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition" />
+            <span className="px-3 py-1 bg-gray-100 text-gray-700 text-xs sm:text-sm font-semibold rounded-full">
+              {products.length} {products.length === 1 ? 'producto' : 'productos'}
+            </span>
+          </div>
+        </div>
+      </Link>
+    )}
   </div>
 )}
 
