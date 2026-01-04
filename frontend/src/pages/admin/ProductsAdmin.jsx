@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { Plus, Edit2, Trash2, AlertCircle, Package, Search, X } from 'lucide-react';
+import { useToast } from '../../context/ToastContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -22,7 +23,7 @@ export default function ProductsAdmin() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const { logout } = useAuth();
-
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
   description: '',
@@ -66,59 +67,67 @@ export default function ProductsAdmin() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem('token');
-      const url = editingProduct
-        ? `${API_URL}/api/products/${editingProduct._id}`
-        : `${API_URL}/api/products`;
+  e.preventDefault();
+  try {
+    const token = localStorage.getItem('token');
+    const url = editingProduct
+      ? `${API_URL}/api/products/${editingProduct._id}`
+      : `${API_URL}/api/products`;
 
-      const method = editingProduct ? 'PUT' : 'POST';
+    const method = editingProduct ? 'PUT' : 'POST';
 
-      const cleanedData = {
-        ...formData,
-        images: formData.images.filter((img) => img.trim() !== ''),
-        price: Number(formData.price),
-        stock: Number(formData.stock),
-      };
+    const cleanedData = {
+      ...formData,
+      images: formData.images.filter((img) => img.trim() !== ''),
+      price: Number(formData.price),
+      stock: Number(formData.stock),
+    };
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(cleanedData),
-      });
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(cleanedData),
+    });
 
-      if (!response.ok) {
-        throw new Error('Error al guardar producto');
-      }
-
-      await fetchProducts();
-      closeModal();
-    } catch (err) {
-      alert(err.message);
+    if (!response.ok) {
+      throw new Error('Error al guardar producto');
     }
-  };
 
-  const handleDelete = async (id) => {
-    if (!confirm('¿Estás seguro de desactivar este producto?')) return;
-
-    try {
-      const token = localStorage.getItem('token');
-      await fetch(`${API_URL}/api/products/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      await fetchProducts();
-    } catch {
-      alert('Error al eliminar producto');
+    // Notificaciones según acción
+    if (editingProduct) {
+      showToast('Producto actualizado con éxito', 'success');
+    } else {
+      showToast('Producto creado con éxito', 'success');
     }
-  };
+
+    await fetchProducts();
+    closeModal();
+  } catch (err) {
+    showToast(err.message || 'Error al guardar producto', 'error');
+  }
+};
+const handleDelete = async (id) => {
+  if (!confirm('¿Estás seguro de desactivar este producto?')) return;
+
+  try {
+    const token = localStorage.getItem('token');
+    await fetch(`${API_URL}/api/products/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    showToast('Producto desactivado', 'info'); // ← AGREGAR
+
+    await fetchProducts();
+  } catch {
+    showToast('Error al eliminar producto', 'error'); // ← AGREGAR
+  }
+};
 
   const openModal = (product = null) => {
     if (product) {

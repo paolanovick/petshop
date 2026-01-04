@@ -5,12 +5,12 @@ import { ToastProvider } from "./context/ToastContext";
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <ToastProvider>  {/* ← AGREGAR */}
+     <AuthProvider>
+      <ToastProvider>  {/* ← PRIMERO ToastProvider */}
+        <CartProvider>  {/* ← DESPUÉS CartProvider */}
           <AppRouter />
-        </ToastProvider>
-      </CartProvider>
+        </CartProvider>
+      </ToastProvider>
     </AuthProvider>
   );
 }
