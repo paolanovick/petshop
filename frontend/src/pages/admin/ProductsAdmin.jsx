@@ -257,128 +257,216 @@ const handleDelete = async (id) => {
         )}
 
         {/* Products Table */}
-        {filteredProducts.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm p-12 text-center">
-            <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">No hay productos</h3>
-            <p className="text-gray-500">Creá tu primer producto para empezar</p>
+       {/* Products Table/Cards */}
+{filteredProducts.length === 0 ? (
+  <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+    <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+    <h3 className="text-xl font-semibold text-gray-700 mb-2">No hay productos</h3>
+    <p className="text-gray-500">Creá tu primer producto para empezar</p>
+  </div>
+) : (
+  <>
+    {/* DESKTOP: Tabla */}
+    <div className="hidden md:block bg-white rounded-xl shadow-sm overflow-hidden">
+      <table className="w-full">
+        <thead className="bg-gray-100 border-b border-gray-200">
+          <tr>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Imagen</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nombre</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Categoría</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Precio</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Stock</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Estado</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Acciones</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200">
+          {filteredProducts.map((product) => (
+            <tr key={product._id} className="hover:bg-gray-50 transition">
+              {/* Imagen */}
+              <td className="px-4 py-3">
+                <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+                  {product.images?.[0] ? (
+                    <img
+                      src={product.images[0]}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Package className="w-8 h-8 text-gray-300" />
+                    </div>
+                  )}
+                </div>
+              </td>
+
+              {/* Nombre */}
+              <td className="px-4 py-3">
+                <div>
+                  <p className="font-semibold text-gray-800">{product.name}</p>
+                  <p className="text-xs text-gray-500 mt-1 line-clamp-1">{product.description}</p>
+                </div>
+              </td>
+
+              {/* Categoría */}
+              <td className="px-4 py-3">
+                <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full capitalize">
+                  {product.category}
+                </span>
+              </td>
+
+              {/* Precio */}
+              <td className="px-4 py-3">
+                <span className="font-bold text-orange-600">${product.price}</span>
+              </td>
+
+              {/* Stock */}
+              <td className="px-4 py-3">
+                <span
+                  className={`font-semibold ${
+                    product.stock > 10
+                      ? 'text-green-600'
+                      : product.stock > 0
+                      ? 'text-yellow-600'
+                      : 'text-red-600'
+                  }`}
+                >
+                  {product.stock}
+                </span>
+              </td>
+
+              {/* Estado */}
+              <td className="px-4 py-3">
+                <div className="flex flex-col gap-1">
+                  {product.destacado && (
+                    <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-semibold w-fit">
+                      Destacado
+                    </span>
+                  )}
+                  {product.oferta && (
+                    <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded font-semibold w-fit">
+                      Oferta
+                    </span>
+                  )}
+                  {!product.activo && (
+                    <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded font-semibold w-fit">
+                      Inactivo
+                    </span>
+                  )}
+                  {product.activo && !product.destacado && !product.oferta && (
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold w-fit">
+                      Activo
+                    </span>
+                  )}
+                </div>
+              </td>
+
+              {/* Acciones */}
+              <td className="px-4 py-3">
+                <div className="flex items-center justify-end gap-2">
+                  <button
+                    onClick={() => openModal(product)}
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                    title="Editar"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                    title="Eliminar"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* MOBILE: Cards */}
+    <div className="md:hidden space-y-4">
+      {filteredProducts.map((product) => (
+        <div key={product._id} className="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
+          <div className="flex gap-4">
+            {/* Imagen */}
+            <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+              {product.images?.[0] ? (
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Package className="w-8 h-8 text-gray-300" />
+                </div>
+              )}
+            </div>
+
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-gray-800 mb-1">{product.name}</h3>
+              <p className="text-xs text-gray-500 mb-2 line-clamp-2">{product.description}</p>
+              
+              <div className="flex items-center gap-2 flex-wrap mb-2">
+                <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded capitalize">
+                  {product.category}
+                </span>
+                {product.destacado && (
+                  <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded font-semibold">
+                    Destacado
+                  </span>
+                )}
+                {product.oferta && (
+                  <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">
+                    Oferta
+                  </span>
+                )}
+                {!product.activo && (
+                  <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">
+                    Inactivo
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-orange-600">${product.price}</span>
+                  <span className={`ml-3 text-sm font-semibold ${
+                    product.stock > 10 ? 'text-green-600' : product.stock > 0 ? 'text-yellow-600' : 'text-red-600'
+                  }`}>
+                    Stock: {product.stock}
+                  </span>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => openModal(product)}
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                    title="Editar"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                    title="Eliminar"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        ) : (
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-gray-100 border-b border-gray-200">
-                <tr>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Imagen</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nombre</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Categoría</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Precio</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Stock</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Estado</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Acciones</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {filteredProducts.map((product) => (
-                  <tr key={product._id} className="hover:bg-gray-50 transition">
-                    {/* Imagen */}
-                    <td className="px-4 py-3">
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
-                        {product.images?.[0] ? (
-                          <img
-                            src={product.images[0]}
-                            alt={product.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Package className="w-8 h-8 text-gray-300" />
-                          </div>
-                        )}
-                      </div>
-                    </td>
-
-                    {/* Nombre */}
-                    <td className="px-4 py-3">
-                      <div>
-                        <p className="font-semibold text-gray-800">{product.name}</p>
-                        <p className="text-xs text-gray-500 mt-1 line-clamp-1">{product.description}</p>
-                      </div>
-                    </td>
-
-                    {/* Categoría */}
-                    <td className="px-4 py-3">
-                      <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full capitalize">
-                        {product.category}
-                      </span>
-                    </td>
-
-                    {/* Precio */}
-                    <td className="px-4 py-3">
-                      <span className="font-bold text-orange-600">${product.price}</span>
-                    </td>
-
-                    {/* Stock */}
-                    <td className="px-4 py-3">
-                      <span
-                        className={`font-semibold ${
-                          product.stock > 10
-                            ? 'text-green-600'
-                            : product.stock > 0
-                            ? 'text-yellow-600'
-                            : 'text-red-600'
-                        }`}
-                      >
-                        {product.stock}
-                      </span>
-                    </td>
-
-                    {/* Estado */}
-                    <td className="px-4 py-3">
-                      <div className="flex flex-col gap-1">
-                        {product.destacado && (
-                          <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-semibold w-fit">
-                            Destacado
-                          </span>
-                        )}
-                        {!product.activo && (
-                          <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded font-semibold w-fit">
-                            Inactivo
-                          </span>
-                        )}
-                        {product.activo && !product.destacado && (
-                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold w-fit">
-                            Activo
-                          </span>
-                        )}
-                      </div>
-                    </td>
-
-                    {/* Acciones */}
-                    <td className="px-4 py-3">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => openModal(product)}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
-                          title="Editar"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(product._id)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                          title="Eliminar"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+        </div>
+      ))}
+    </div>
+  </>
+)}
+      </div>  {/* Cierre de max-w-7xl */}
 
       {/* Modal */}
       {showModal && (
