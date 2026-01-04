@@ -65,11 +65,11 @@ export default function ProductDetail() {
         {/* Imagen */}
         <div className="bg-gray-100 rounded-xl overflow-hidden">
           {product.images?.[0] ? (
-            <img
-              src={product.images[0]}
-              alt={product.name}
-              className="w-full h-96 object-cover"
-            />
+           <img
+  src={product.images[0]}
+  alt={product.name}
+  className="w-full h-full object-contain p-8"
+/>
           ) : (
             <div className="w-full h-96 flex items-center justify-center">
               <span className="text-gray-400">Sin imagen</span>
