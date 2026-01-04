@@ -10,7 +10,9 @@ import ScrollToTop from "../components/ScrollToTop";
 import Login from "../pages/Login";
 import DashboardAdmin from "../pages/admin/DashboardAdmin";
 import AppointmentsAdmin from "../pages/admin/AppointmentsAdmin";
+import ProductsAdmin from "../pages/admin/ProductsAdmin";
 import PrivateRoute from "../components/auth/PrivateRoute";
+import CategoryDashboard from "../pages/admin/CategoryDashboard";
 
 export default function AppRouter() {
   return (
@@ -48,7 +50,26 @@ export default function AppRouter() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/admin/products"
+          element={
+            <PrivateRoute>
+              <ProductsAdmin />
+            </PrivateRoute>
+          }
+        />
+         <Route
+          path="/admin/category/:category"
+          element={
+            <PrivateRoute>
+              <CategoryDashboard />
+            </PrivateRoute>
+          }
+        />
       </Routes>
+     
+      
     </BrowserRouter>
   );
 }
