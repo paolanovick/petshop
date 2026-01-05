@@ -35,9 +35,7 @@ export default function Categories() {
     <section className="py-8 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-6">
 
-        <div className="mb-20">
-          <FeaturedProductsCarousel />
-        </div>
+      
 
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full text-red-600 font-semibold mb-4">

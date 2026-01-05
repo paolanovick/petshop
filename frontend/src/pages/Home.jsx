@@ -1,13 +1,17 @@
 import Hero from "../components/home/Hero";
+import SponsorsCarousel from "../components/home/SponsorsCarousel";
+import FeaturedProductsCarousel from "../components/home/FeaturedProductsCarousel";
 import Categories from "../components/home/Categories";
 import OurFriends from "../components/home/OurFriends";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-16">
+    <>
       <Hero />
+      <SponsorsCarousel />
+      <FeaturedProductsCarousel />
       <Categories />
-      <OurFriends /> 
-    </div>
+      <OurFriends />
+    </>
   );
 }

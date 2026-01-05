@@ -104,3 +104,16 @@
 .animate-slide-in-right {
   animation: slide-in-right 0.3s ease-out;
 }
+
+@keyframes sponsors-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-sponsors {
+  animation: sponsors-scroll 25s linear infinite;
+}

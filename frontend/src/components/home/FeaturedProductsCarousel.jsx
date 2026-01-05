@@ -28,9 +28,14 @@ export default function FeaturedProductsCarousel() {
   if (loading) {
     return (
       <section className="mt-24 mb-24">
-        <h3 className="text-4xl md:text-5xl font-black text-gray-900 mb-12 text-center">
-          Productos destacados
-        </h3>
+        <h2 className="text-4xl md:text-5xl font-black mb-4 text-gray-900">
+      Productos destacados
+    </h2>
+
+    <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
+      Aprovechá las ofertas que tenemos
+    </p>
+
         <div className="text-center py-12">
           <p className="text-gray-500">Cargando productos destacados...</p>
         </div>
@@ -40,10 +45,17 @@ export default function FeaturedProductsCarousel() {
 
   return (
     <section className="mt-24 mb-24">
-      <h3 className="text-4xl md:text-5xl font-black text-gray-900 mb-12 text-center">
-        Productos destacados
-      </h3>
+  <div className="max-w-7xl mx-auto px-6 text-center">
+    
+    <h2 className="text-4xl md:text-5xl font-black mb-4 text-gray-900">
+      Productos destacados
+    </h2>
 
+    <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
+      Aprovechá las ofertas que tenemos
+    </p>
+
+  </div>
      <div className="relative overflow-hidden mb-24 pb-12">
 
         <div className="flex gap-6 animate-scroll">
