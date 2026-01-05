@@ -3,12 +3,13 @@ import React from "react";
 export default function SponsorsCarousel() {
   const sponsors = [
     "/brands/eukanuba.png",
-    "/brands/frikis.jpeg",
+    "/brands/friskis.jpeg",
     "/brands/pedigre.png",
     "/brands/proplan.jpeg",
     "/brands/purina.png",
     "/brands/royal.png",
-    "/brands/whiscas.jpeg",
+      "/brands/whiscas.jpeg",
+    "/brands/pedigre.png",
   ];
 
   return (
