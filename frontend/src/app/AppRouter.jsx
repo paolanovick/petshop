@@ -90,8 +90,7 @@ function AppContent() {
             </PrivateRoute>
           }
         />
-      </Routes>
-      <Route
+         <Route
   path="/admin/friends"
   element={
     <PrivateRoute>
@@ -99,6 +98,8 @@ function AppContent() {
     </PrivateRoute>
   }
 />
+      </Routes>
+     
     </>
   );
 }
