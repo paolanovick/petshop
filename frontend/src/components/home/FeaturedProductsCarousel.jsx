@@ -44,7 +44,8 @@ export default function FeaturedProductsCarousel() {
         Productos destacados
       </h3>
 
-      <div className="relative overflow-hidden mb-16">
+     <div className="relative overflow-hidden mb-24 pb-12">
+
         <div className="flex gap-6 animate-scroll">
           {/* Duplicamos el array para efecto infinito */}
           {[...products, ...products].map((product, index) => (
