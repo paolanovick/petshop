@@ -41,3 +41,6 @@ app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
   console.log(`📍 http://localhost:${PORT}`);
 });
+
+const friendRoutes = require('./routes/friends');
+app.use('/api/friends', friendRoutes);
