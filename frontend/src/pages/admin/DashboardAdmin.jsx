@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Calendar, Package, Users, LogOut, Dog, Cat, ShoppingBag, Utensils, Scissors, Star } from 'lucide-react';
+import { Calendar, Package, Users, LogOut, Dog, Cat, ShoppingBag, Utensils, Scissors, Star, PawPrint } from 'lucide-react';
+
 
 const CATEGORIES = [
   { id: 'alimentos', name: 'Alimentos', icon: Utensils, color: 'bg-green-100 text-green-600 hover:bg-green-200' },
