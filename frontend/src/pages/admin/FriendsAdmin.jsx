@@ -19,9 +19,7 @@ export default function FriendsAdmin() {
     description: "",
   });
 
-  useEffect(() => {
-    fetchFriends();
-  }, []);
+ 
 
   const fetchFriends = async () => {
     try {
@@ -44,7 +42,11 @@ export default function FriendsAdmin() {
     } finally {
       setLoading(false);
     }
-  };
+    };
+    useEffect(() => {
+  fetchFriends();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
