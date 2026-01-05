@@ -14,6 +14,7 @@ import AppointmentsAdmin from "../pages/admin/AppointmentsAdmin";
 import ProductsAdmin from "../pages/admin/ProductsAdmin";
 import PrivateRoute from "../components/auth/PrivateRoute";
 import CategoryDashboard from "../pages/admin/CategoryDashboard";
+import FriendsAdmin from "../pages/admin/FriendsAdmin";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -90,6 +91,14 @@ function AppContent() {
           }
         />
       </Routes>
+      <Route
+  path="/admin/friends"
+  element={
+    <PrivateRoute>
+      <FriendsAdmin />
+    </PrivateRoute>
+  }
+/>
     </>
   );
 }

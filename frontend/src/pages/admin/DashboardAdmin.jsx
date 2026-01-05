@@ -101,6 +101,17 @@ export default function DashboardAdmin() {
             })}
           </div>
         </div>
+        <Link
+  to="/admin/friends"
+  className="bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl p-8 text-white hover:shadow-2xl transition-all hover:-translate-y-2"
+>
+  <div className="flex items-center justify-between mb-4">
+    <PawPrint className="w-12 h-12" />
+    <span className="text-3xl font-black">{/* número de amigos */}</span>
+  </div>
+  <h3 className="text-xl font-bold">Amigos Vagabundos</h3>
+  <p className="text-white/80 text-sm mt-2">Gestionar galería de mascotas</p>
+</Link>
       </main>
     </div>
   );
