@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
     endpoints: {
       products: "/api/products",
       appointments: "/api/appointments",
+      friends: "/api/friends",
       admin: "/api/admin/login",
     },
   });
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 // Rutas
 app.use("/api/products", require("./routes/products"));
 app.use("/api/appointments", require("./routes/appointments"));
+app.use("/api/friends", require("./routes/friends"));  // ← ACÁ
 app.use("/api/admin", require("./routes/admin"));
 
 // 404
@@ -41,6 +43,3 @@ app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
   console.log(`📍 http://localhost:${PORT}`);
 });
-
-const friendRoutes = require('./routes/friends');
-app.use('/api/friends', friendRoutes);

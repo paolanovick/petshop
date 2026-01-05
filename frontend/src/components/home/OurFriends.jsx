@@ -12,16 +12,20 @@ export default function OurFriends() {
   }, []);
 
   const fetchFriends = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/friends`);
-      const data = await response.json();
-      setFriends(data);
-    } catch (error) {
-      console.error('Error al cargar amigos:', error);
-    } finally {
-      setLoading(false);
+  try {
+    const response = await fetch(`${API_URL}/api/friends`);
+    if (!response.ok) {
+      throw new Error('Error al obtener amigos');
     }
-  };
+    const data = await response.json();
+    setFriends(Array.isArray(data) ? data : []); // ← AGREGAR VALIDACIÓN
+  } catch (error) {
+    console.error('Error al cargar amigos:', error);
+    setFriends([]); // ← ASEGURAR QUE SEA ARRAY
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return (
