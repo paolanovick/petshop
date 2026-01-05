@@ -40,7 +40,7 @@ export default function DashboardAdmin() {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Sección de Gestión General */}
+       {/* Sección de Gestión General */}
         <div className="mb-8">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Gestión General</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -68,14 +68,30 @@ export default function DashboardAdmin() {
               <p className="text-gray-600 text-sm">Crear y administrar productos de la tienda</p>
             </Link>
 
-            {/* Gestión de Clientes */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 opacity-60 cursor-not-allowed">
-              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-gray-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Gestión de Clientes</h3>
-              <p className="text-gray-600 text-sm">Próximamente</p>
-            </div>
+            {/* Amigos Vagabundos */}
+            {/* Amigos de Vagabundo */}
+<Link
+  to="/admin/friends"
+  className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group relative overflow-hidden"
+>
+  {/* Patrón de patitas de fondo */}
+  <div 
+    className="absolute inset-0 opacity-5 group-hover:opacity-10 transition"
+    style={{
+      backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f97316' fill-opacity='1'%3E%3Cpath d='M0 0h20v20H0V0zm10 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'/%3E%3C/g%3E%3C/svg%3E")`,
+    }}
+  />
+  
+  <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-red-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition relative z-10">
+    <PawPrint className="w-6 h-6 text-orange-600" />
+  </div>
+  <h3 className="text-lg font-semibold text-gray-800 mb-2 relative z-10">
+    Amigos de Vagabundo 🐾
+  </h3>
+  <p className="text-gray-600 text-sm relative z-10">
+    Gestionar galería de mascotas
+  </p>
+</Link>
           </div>
         </div>
 
@@ -102,17 +118,6 @@ export default function DashboardAdmin() {
             })}
           </div>
         </div>
-        <Link
-  to="/admin/friends"
-  className="bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl p-8 text-white hover:shadow-2xl transition-all hover:-translate-y-2"
->
-  <div className="flex items-center justify-between mb-4">
-    <PawPrint className="w-12 h-12" />
-    <span className="text-3xl font-black">{/* número de amigos */}</span>
-  </div>
-  <h3 className="text-xl font-bold">Amigos Vagabundos</h3>
-  <p className="text-white/80 text-sm mt-2">Gestionar galería de mascotas</p>
-</Link>
       </main>
     </div>
   );
