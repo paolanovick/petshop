@@ -197,21 +197,31 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-gray-700 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
-            <div className="flex items-center gap-2">
-              <span>© {new Date().getFullYear()} Pet Shop Vagabundo</span>
-              <span>•</span>
-              <span>Todos los derechos reservados</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>Hecho con</span>
-              <Heart className="w-4 h-4 text-primary fill-primary animate-pulse" />
-              <span>para tu mascota</span>
-            </div>
-          </div>
-        </div>
+       {/* Bottom bar */}
+<div className="border-t border-gray-700 py-6">
+  <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+    <div className="flex items-center gap-2">
+      <span>© {new Date().getFullYear()} Pet Shop Vagabundo</span>
+      <span>•</span>
+      <span>Todos los derechos reservados</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <span>Hecho con</span>
+      <Heart className="w-4 h-4 text-primary fill-primary animate-pulse" />
+      <span>por</span>
+      <a
+        href="https://concodigoart.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold text-primary hover:underline"
+      >
+        ConCodigoArt
+      </a>
+    </div>
+  </div>
+</div>
+
       </div>
     </footer>
   );
