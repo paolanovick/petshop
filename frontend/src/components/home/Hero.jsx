@@ -20,8 +20,8 @@ export default function Hero() {
       id="hero-paws"
       x="0"
       y="0"
-      width="25"
-      height="18"
+      width="22"
+      height="20"
       patternUnits="userSpaceOnUse"
     >
       <path
