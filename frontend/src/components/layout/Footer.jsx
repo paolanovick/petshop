@@ -9,6 +9,8 @@ import {
   Clock,
   ArrowRight,
 } from "lucide-react";
+import { Plus, Edit2, Trash2, AlertCircle, Package, BarChart3, ArrowLeft, PawPrint } from 'lucide-react';
+
 
 export default function Footer() {
   return (
@@ -198,6 +200,7 @@ export default function Footer() {
         </div>
 
        {/* Bottom bar */}
+{/* Bottom bar */}
 <div className="border-t border-gray-700 py-6">
   <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
     <div className="flex items-center gap-2">
@@ -208,7 +211,7 @@ export default function Footer() {
 
     <div className="flex items-center gap-2">
       <span>Hecho con</span>
-      <Heart className="w-4 h-4 text-primary fill-primary animate-pulse" />
+      <PawPrint className="w-4 h-4 text-primary fill-primary animate-pulse" />
       <span>por</span>
       <a
         href="https://concodigoart.vercel.app/"
@@ -221,6 +224,7 @@ export default function Footer() {
     </div>
   </div>
 </div>
+
 
       </div>
     </footer>
