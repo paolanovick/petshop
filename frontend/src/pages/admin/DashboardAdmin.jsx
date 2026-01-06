@@ -106,7 +106,7 @@ export default function DashboardAdmin() {
 
         {/* Sección de Categorías */}
         <div>
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Carga de productos Categoría</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Carga de productos por Categoría</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {CATEGORIES.map((category) => {
               const Icon = category.icon;
