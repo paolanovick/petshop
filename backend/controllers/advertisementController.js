@@ -1,10 +1,13 @@
 const Advertisement = require('../models/Advertisement');
 
-// Obtener publicidad activa
+// Obtener publicidad activa (ahora devuelve array)
 exports.getActiveAd = async (req, res) => {
   try {
-    const ad = await Advertisement.findOne({ active: true }).sort({ createdAt: -1 });
-    res.json(ad);
+    const ads = await Advertisement.find({ active: true }).sort({ createdAt: -1 });
+    if (ads.length === 0) {
+      return res.status(404).json({ message: 'No hay publicidad activa' });
+    }
+    res.json(ads);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener publicidad', error: error.message });
   }
@@ -20,13 +23,10 @@ exports.getAllAds = async (req, res) => {
   }
 };
 
-// Crear publicidad
+/// Crear publicidad (ya no desactiva las demás)
 exports.createAd = async (req, res) => {
   try {
     const { image } = req.body;
-    
-    // Desactivar todas las demás
-    await Advertisement.updateMany({}, { active: false });
     
     const ad = await Advertisement.create({ image, active: true });
     res.status(201).json(ad);
@@ -34,7 +34,6 @@ exports.createAd = async (req, res) => {
     res.status(500).json({ message: 'Error al crear publicidad', error: error.message });
   }
 };
-
 // Actualizar
 exports.updateAd = async (req, res) => {
   try {
@@ -43,6 +42,9 @@ exports.updateAd = async (req, res) => {
       req.body,
       { new: true }
     );
+    if (!ad) {
+      return res.status(404).json({ message: 'Publicidad no encontrada' });
+    }
     res.json(ad);
   } catch (error) {
     res.status(500).json({ message: 'Error al actualizar publicidad', error: error.message });

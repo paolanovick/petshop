@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { Link } from "react-router-dom";
-import { Image, Plus, Trash2, X } from "lucide-react";
+import { Image, Plus, Trash2, X, Eye, EyeOff } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -40,10 +40,10 @@ export default function AdvertisementsAdmin() {
     }
   };
 
- useEffect(() => {
-  fetchAds();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+  useEffect(() => {
+    fetchAds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,6 +73,31 @@ export default function AdvertisementsAdmin() {
     } catch (error) {
       console.error(error);
       showToast('Error al crear publicidad', 'error');
+    }
+  };
+
+  const handleToggleActive = async (id, currentStatus) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/api/advertisements/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ active: !currentStatus }),
+      });
+
+      if (!res.ok) throw new Error('Error al actualizar');
+
+      showToast(
+        !currentStatus ? 'Publicidad activada' : 'Publicidad desactivada',
+        'success'
+      );
+      fetchAds();
+    } catch (error) {
+      console.error(error);
+      showToast('Error al actualizar', 'error');
     }
   };
 
@@ -111,7 +136,9 @@ export default function AdvertisementsAdmin() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-800">Publicidad Popup</h1>
-              <p className="text-sm text-gray-600 mt-1">Se muestra 3 segundos al entrar</p>
+              <p className="text-sm text-gray-600 mt-1">
+                {ads.filter(ad => ad.active).length} activas • 5 segundos cada una
+              </p>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -122,7 +149,7 @@ export default function AdvertisementsAdmin() {
                 Nueva Publicidad
               </button>
               <Link to="/admin" className="text-orange-600 hover:text-orange-700 font-medium">
-                Volver
+                ← Volver
               </Link>
             </div>
           </div>
@@ -139,21 +166,63 @@ export default function AdvertisementsAdmin() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {ads.map((ad) => (
-              <div key={ad._id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 overflow-hidden">
-                <div className="aspect-video bg-gray-100 overflow-hidden">
+              <div
+                key={ad._id}
+                className="bg-white rounded-xl shadow-sm hover:shadow-md transition border-2 border-gray-200 overflow-hidden"
+                style={{ borderColor: ad.active ? '#f97316' : '#e5e7eb' }}
+              >
+                <div className="aspect-video bg-gray-100 overflow-hidden relative">
                   <img src={ad.image} alt="Publicidad" className="w-full h-full object-contain" />
+                  {!ad.active && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <EyeOff className="w-12 h-12 text-white" />
+                    </div>
+                  )}
                 </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className={`text-xs px-2 py-1 rounded font-semibold ${ad.active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>
-                      {ad.active ? 'Activa' : 'Inactiva'}
+
+                <div className="p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className={`text-xs px-3 py-1 rounded-full font-bold ${
+                      ad.active 
+                        ? 'bg-green-100 text-green-700' 
+                        : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {ad.active ? '✓ Activa' : '✗ Inactiva'}
                     </span>
-                    <span className="text-xs text-gray-500">{new Date(ad.createdAt).toLocaleDateString()}</span>
+                    <span className="text-xs text-gray-500">
+                      {new Date(ad.createdAt).toLocaleDateString()}
+                    </span>
                   </div>
-                  <button onClick={() => handleDelete(ad._id)} className="w-full flex items-center justify-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition">
-                    <Trash2 className="w-4 h-4" />
-                    Eliminar
-                  </button>
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleToggleActive(ad._id, ad.active)}
+                      className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-medium transition ${
+                        ad.active
+                          ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                          : 'bg-orange-500 hover:bg-orange-600 text-white'
+                      }`}
+                    >
+                      {ad.active ? (
+                        <>
+                          <EyeOff className="w-4 h-4" />
+                          Desactivar
+                        </>
+                      ) : (
+                        <>
+                          <Eye className="w-4 h-4" />
+                          Activar
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(ad._id)}
+                      className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -161,6 +230,7 @@ export default function AdvertisementsAdmin() {
         )}
       </main>
 
+      {/* Modal igual que antes */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full">
