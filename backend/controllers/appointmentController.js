@@ -200,3 +200,17 @@ exports.getAvailabilityByDate = async (req, res) => {
     });
   }
 };
+// Eliminar turno físicamente
+exports.deleteAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findByIdAndDelete(req.params.id);
+    
+    if (!appointment) {
+      return res.status(404).json({ message: 'Turno no encontrado' });
+    }
+    
+    res.json({ message: 'Turno eliminado permanentemente' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar turno', error: error.message });
+  }
+};

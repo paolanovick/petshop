@@ -12,6 +12,6 @@ router.get("/", verifyAdmin, appointmentController.getAllAppointments);
 router.get("/:id", verifyAdmin, appointmentController.getAppointmentById);
 router.put("/:id", verifyAdmin, appointmentController.updateAppointment);
 router.patch("/:id/status", verifyAdmin, appointmentController.updateAppointmentStatus);
-router.delete("/:id", verifyAdmin, appointmentController.cancelAppointment);
+router.delete('/:id', verifyAdmin, appointmentController.deleteAppointment); 
 
 module.exports = router;
