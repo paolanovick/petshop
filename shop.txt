@@ -769,3 +769,62 @@ Tamaño reducido (max 400px)
 Se ve bien sin ocupar toda la pantalla
 
 6. Backend preparado para notificaciones
+
+✅ 1. Sistema de Checkout con WhatsApp
+
+Botón verde que envía orden completa por WhatsApp
+Incluye: productos, cantidades, precios, datos del cliente
+Limpia carrito automáticamente
+
+✅ 2. Retiro en Tienda vs Envío
+
+Cliente elige método de entrega
+Retiro en tienda → Paga en el local
+Envío a domicilio → Paga por WhatsApp (Mercado Pago)
+Envío gratis si compra > $30.000
+Validaciones y cálculos automáticos
+
+✅ 3. Sistema de Publicidad Popup
+
+Backend completo (modelo, controller, rutas)
+Popup sutil (fondo blur, 5 segundos)
+Dashboard admin para crear/activar/desactivar múltiples publicidades
+Carrusel automático si hay varias activas
+Contador y dots de navegación
+
+✅ 4. Turnos con WhatsApp
+
+Al pedir turno → Abre WhatsApp con confirmación completa
+Mensaje incluye: cliente, mascota, servicio, fecha/hora
+Dashboard admin mejorado:
+
+Ordenamiento por fecha/hora (próximo primero)
+Filtros por estado (todos, pendiente, confirmado, terminado, rechazado)
+Botón eliminar para borrar turnos permanentemente
+Calendario visual con día y mes
+Select para cambiar estado rápidamente
+Turnos pasados en gris
+
+
+
+✅ 5. Amigos de Vagabundo
+
+Galería frontend con diseño simpático
+Dashboard admin para gestionar fotos de mascotas
+Backend completo (CRUD)
+Activar/desactivar fotos
+
+✅ 6. Mejoras ProductDetail
+
+Imagen reducida (max 400px)
+Se ve proporcionada
+
+
+📊 ESTADO ACTUAL:
+FuncionalidadEstadoNotasCheckout WhatsApp✅ PRODFuncionandoRetiro/Envío✅ PRODFuncionandoPublicidad Popup✅ PRODFuncionandoTurnos WhatsApp✅ PRODFuncionandoDashboard Turnos✅ PRODOrdenado, filtrado, eliminaciónAmigos Vagabundo✅ PRODFuncionandoBackend API✅ PRODMongoDB conectado ✅Frontend Vercel✅ PRODAuto-deploy
+
+🚀 URLs EN PRODUCCIÓN:
+
+Frontend: https://vagabundo.com.ar
+API: https://api.vagabundo.com.ar
+Dashboard: https://vagabundo.com.ar/admin
