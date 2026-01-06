@@ -35,6 +35,7 @@ exports.getAppointmentById = async (req, res) => {
 };
 
 // Crear un turno
+// Crear un turno
 exports.createAppointment = async (req, res) => {
   try {
     const { fecha, hora, servicio, cliente, mascota } = req.body;
@@ -63,8 +64,36 @@ exports.createAppointment = async (req, res) => {
       mascota,
     });
 
-    // 🔔 Hook n8n futuro
-    // notifyN8N('appointment_created', appointment);
+    // 🔔 Notificar a n8n para enviar WhatsApp
+    try {
+      const n8nWebhook = process.env.N8N_WEBHOOK_TURNO;
+      
+      if (n8nWebhook) {
+        await fetch(n8nWebhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tipo: 'nuevo_turno',
+            turno: {
+              nombre: appointment.cliente.nombre,
+              telefono: appointment.cliente.telefono,
+              email: appointment.cliente.email || '',
+              servicio: appointment.servicio,
+              fecha: appointment.fecha,
+              hora: appointment.hora,
+              mascota: appointment.mascota.nombre,
+              raza: appointment.mascota.raza || '',
+            }
+          })
+        });
+        console.log('✅ Webhook n8n enviado correctamente');
+      } else {
+        console.log('⚠️ N8N_WEBHOOK_TURNO no configurado en .env');
+      }
+    } catch (webhookError) {
+      console.error('❌ Error al notificar n8n:', webhookError.message);
+      // No falla la creación del turno si falla el webhook
+    }
 
     res.status(201).json(appointment);
 
@@ -75,7 +104,6 @@ exports.createAppointment = async (req, res) => {
     });
   }
 };
-
 
 
 // Actualizar un turno

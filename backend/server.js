@@ -21,6 +21,7 @@ app.get("/", (req, res) => {
       products: "/api/products",
       appointments: "/api/appointments",
       friends: "/api/friends",
+      advertisements: "/api/advertisements", // ← AGREGAR
       admin: "/api/admin/login",
     },
   });
@@ -29,7 +30,8 @@ app.get("/", (req, res) => {
 // Rutas
 app.use("/api/products", require("./routes/products"));
 app.use("/api/appointments", require("./routes/appointments"));
-app.use("/api/friends", require("./routes/friends"));  // ← ACÁ
+app.use("/api/friends", require("./routes/friends"));
+app.use("/api/advertisements", require("./routes/advertisements")); // ← ACÁ
 app.use("/api/admin", require("./routes/admin"));
 
 // 404

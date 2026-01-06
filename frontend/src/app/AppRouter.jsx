@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import Layout from "./Layout";
 import Home from "../pages/Home";
@@ -15,27 +15,20 @@ import ProductsAdmin from "../pages/admin/ProductsAdmin";
 import PrivateRoute from "../components/auth/PrivateRoute";
 import CategoryDashboard from "../pages/admin/CategoryDashboard";
 import FriendsAdmin from "../pages/admin/FriendsAdmin";
+import AdvertisementsAdmin from "../pages/admin/AdvertisementsAdmin";
 
 function AppContent() {
-  const navigate = useNavigate();
-
   useEffect(() => {
-    // Limpiar carrito al recargar
     const handleBeforeUnload = () => {
       localStorage.removeItem('cart');
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
 
-    // Redirigir al inicio si se recargó la página
-    if (window.performance && performance.navigation.type === 1) {
-      navigate('/');
-    }
-
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [navigate]);
+  }, []);
 
   return (
     <>
@@ -95,6 +88,14 @@ function AppContent() {
   element={
     <PrivateRoute>
       <FriendsAdmin />
+    </PrivateRoute>
+  }
+        />
+        <Route
+  path="/admin/advertisements"
+  element={
+    <PrivateRoute>
+      <AdvertisementsAdmin />
     </PrivateRoute>
   }
 />

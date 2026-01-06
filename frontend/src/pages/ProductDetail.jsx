@@ -11,6 +11,7 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(0); // ← AGREGAR
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -62,27 +63,53 @@ export default function ProductDetail() {
       </Link>
 
       <div className="grid md:grid-cols-2 gap-12">
-        {/* Imagen */}
-        <div className="bg-gray-100 rounded-xl overflow-hidden">
-          {product.images?.[0] ? (
-           <img
-  src={product.images[0]}
-  alt={product.name}
-  className="w-full h-full object-contain p-8"
-/>
-          ) : (
-            <div className="w-full h-96 flex items-center justify-center">
-              <span className="text-gray-400">Sin imagen</span>
+        {/* Imagen Principal + Miniaturas */}
+        <div>
+          {/* Imagen grande */}
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-8 mb-4">
+            {product.images?.[selectedImage] ? (
+              <img
+                src={product.images[selectedImage]}
+                alt={product.name}
+                className="w-full h-auto max-h-[400px] object-contain mx-auto"
+              />
+            ) : (
+              <div className="w-full h-96 flex items-center justify-center">
+                <span className="text-gray-400">Sin imagen</span>
+              </div>
+            )}
+          </div>
+
+          {/* Miniaturas */}
+          {product.images && product.images.length > 1 && (
+            <div className="flex gap-3 overflow-x-auto pb-2">
+              {product.images.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
+                    selectedImage === index
+                      ? 'border-orange-500 ring-2 ring-orange-200'
+                      : 'border-gray-200 hover:border-orange-300'
+                  }`}
+                >
+                  <img
+                    src={image}
+                    alt={`${product.name} - ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
             </div>
           )}
         </div>
 
-        {/* Info */}
+        {/* Info del producto */}
         <div className="flex flex-col gap-6">
           <h1 className="text-4xl font-bold">{product.name}</h1>
 
           <span className="text-3xl font-bold text-orange-600">
-            ${product.price}
+            ${product.price.toLocaleString()}
           </span>
 
           <p className="text-gray-600">{product.description}</p>

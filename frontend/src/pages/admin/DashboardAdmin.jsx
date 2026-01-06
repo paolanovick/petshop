@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Calendar, Package, Users, LogOut, Dog, Cat, ShoppingBag, Utensils, Scissors, Star, PawPrint } from 'lucide-react';
+import { Calendar, Package, Users, LogOut, Dog, Cat, ShoppingBag, Utensils, Scissors, Star, PawPrint, Image  } from 'lucide-react';
 
 
 const CATEGORIES = [
@@ -40,60 +40,69 @@ export default function DashboardAdmin() {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-       {/* Sección de Gestión General */}
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Gestión General</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Gestión de Turnos */}
-            <Link
-              to="/admin/appointments"
-              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group"
-            >
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-200 transition">
-                <Calendar className="w-6 h-6 text-orange-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Gestión de Turnos</h3>
-              <p className="text-gray-600 text-sm">Ver y administrar todos los turnos del sistema</p>
-            </Link>
+   {/* Sección de Gestión General */}
+<div className="mb-8">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">Gestión General</h2>
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    {/* Gestión de Turnos */}
+    <Link
+      to="/admin/appointments"
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group"
+    >
+      <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-200 transition">
+        <Calendar className="w-6 h-6 text-orange-600" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">Gestión de Turnos</h3>
+      <p className="text-gray-600 text-sm">Ver y administrar todos los turnos</p>
+    </Link>
 
-            {/* Gestión de Productos */}
-            <Link
-              to="/admin/products"
-              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group"
-            >
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-200 transition">
-                <Package className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Gestión de Productos</h3>
-              <p className="text-gray-600 text-sm">Crear y administrar productos de la tienda</p>
-            </Link>
+    {/* Gestión de Productos */}
+    <Link
+      to="/admin/products"
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group"
+    >
+      <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-200 transition">
+        <Package className="w-6 h-6 text-purple-600" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">Gestión de Productos</h3>
+      <p className="text-gray-600 text-sm">Crear y administrar productos</p>
+    </Link>
 
-            {/* Amigos Vagabundos */}
-            {/* Amigos de Vagabundo */}
-<Link
-  to="/admin/friends"
-  className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group relative overflow-hidden"
->
-  {/* Patrón de patitas de fondo */}
-  <div 
-    className="absolute inset-0 opacity-5 group-hover:opacity-10 transition"
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f97316' fill-opacity='1'%3E%3Cpath d='M0 0h20v20H0V0zm10 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'/%3E%3C/g%3E%3C/svg%3E")`,
-    }}
-  />
-  
-  <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-red-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition relative z-10">
-    <PawPrint className="w-6 h-6 text-orange-600" />
+    {/* Amigos de Vagabundo */}
+    <Link
+      to="/admin/friends"
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group relative overflow-hidden"
+    >
+      <div 
+        className="absolute inset-0 opacity-5 group-hover:opacity-10 transition"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f97316' fill-opacity='1'%3E%3Cpath d='M0 0h20v20H0V0zm10 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'/%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+      />
+      <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-red-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition relative z-10">
+        <PawPrint className="w-6 h-6 text-orange-600" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2 relative z-10">
+        Amigos de Vagabundo 🐾
+      </h3>
+      <p className="text-gray-600 text-sm relative z-10">
+        Gestionar galería de mascotas
+      </p>
+    </Link>
+
+    {/* Publicidad */}
+    <Link
+      to="/admin/advertisements"
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group"
+    >
+      <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-200 transition">
+        <Image className="w-6 h-6 text-red-600" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">Publicidad Popup</h3>
+      <p className="text-gray-600 text-sm">Gestionar popup de inicio</p>
+    </Link>
   </div>
-  <h3 className="text-lg font-semibold text-gray-800 mb-2 relative z-10">
-    Amigos de Vagabundo 🐾
-  </h3>
-  <p className="text-gray-600 text-sm relative z-10">
-    Gestionar galería de mascotas
-  </p>
-</Link>
-          </div>
-        </div>
+</div>
 
         {/* Sección de Categorías */}
         <div>
