@@ -129,7 +129,7 @@ const handleSubmit = async (e) => {
       `Hora: ${time}\n\n` +
       `✅ *Turno confirmado y registrado en el sistema*`;
 
-    const telefono = '5491144691400'; // ← CAMBIAR POR TU NÚMERO
+    const telefono = '5491161891880'; // ← CAMBIAR POR TU NÚMERO
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     
     // Abrir WhatsApp
