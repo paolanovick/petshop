@@ -727,3 +727,45 @@ Redirección de URLs viejas
 ✅ Limpiar carrito - Al recargar página se vacía y vuelve al inicio
 ✅ Cambiar Peluquería → Turnos
 ✅ Estados de turnos - Confirmado/Terminado/Rechazado
+
+¡Tranquila! Dejamos Evolution API y seguimos con algo más simple. Te hago el resumen:
+
+📋 RESUMEN COMPLETO - DÍA DE HOY
+✅ LO QUE COMPLETAMOS:
+1. Checkout con WhatsApp
+
+Botón verde que envía orden completa por WhatsApp
+Mensaje incluye: productos, cantidades, precios, datos del cliente
+Limpia carrito al finalizar
+
+2. Retiro en tienda vs Envío
+
+Cliente elige entre:
+
+Retiro en tienda → Paga en el local
+Envío a domicilio → Paga por WhatsApp (MP)
+
+
+Envío gratis si compra > $30.000
+Validaciones y cálculos automáticos
+
+3. Sistema de Publicidad Popup
+
+Backend completo: Modelo, controller, rutas
+Frontend: Popup que aparece 5 segundos
+Dashboard admin: Crear/activar/desactivar múltiples publicidades
+Carrusel automático si hay varias activas
+Fondo blur sutil, tamaño medio
+
+4. Amigos de Vagabundo
+
+Galería frontend con diseño simpático
+Dashboard admin para gestionar fotos
+Backend completo (CRUD)
+
+5. Imagen en ProductDetail
+
+Tamaño reducido (max 400px)
+Se ve bien sin ocupar toda la pantalla
+
+6. Backend preparado para notificaciones
