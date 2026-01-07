@@ -123,7 +123,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-gray-400 text-sm">
                 <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <span>Av. Principal 1234, Buenos Aires, Argentina</span>
+                <span>Pueyrredón 888, Ramos Mejía.Buenos Aires, Argentina</span>
               </li>
               <li className="flex items-center gap-3 text-gray-400 text-sm">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0" />
@@ -131,7 +131,7 @@ export default function Footer() {
                   href="tel:+5491122334455"
                   className="hover:text-primary transition-colors"
                 >
-                  +54 9 11 2233 4455
+                  +54 9 11 61891880
                 </a>
               </li>
               <li className="flex items-center gap-3 text-gray-400 text-sm">
@@ -140,7 +140,7 @@ export default function Footer() {
                   href="mailto:info@vagabundo.com"
                   className="hover:text-primary transition-colors"
                 >
-                  info@vagabundo.com
+                  lucaseluchans@hotmail.com
                 </a>
               </li>
             </ul>
