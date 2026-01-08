@@ -10,9 +10,37 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Plus, Edit2, Trash2, AlertCircle, Package, BarChart3, ArrowLeft, PawPrint } from 'lucide-react';
+import { useState } from "react";
+import { subscribeToNewsletter } from "../services/newsletter";
 
 
-export default function Footer() {
+  export default function Footer() {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!email || !email.includes('@')) {
+      setMessage('Por favor ingresá un email válido');
+      return;
+    }
+
+    setLoading(true);
+    setMessage('');
+
+    const result = await subscribeToNewsletter(email);
+    
+    setMessage(result.message);
+    setLoading(false);
+    
+    if (result.success) {
+      setEmail(''); // Limpiar el input
+    }
+  };
+
+ 
   return (
     <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white mt-24 overflow-hidden">
       {/* Animated background pattern */}
@@ -177,27 +205,41 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Newsletter section */}
-        <div className="border-t border-gray-700 py-8">
-          <div className="max-w-2xl mx-auto text-center space-y-4">
-            <h3 className="font-bold text-xl">
-              Suscríbete a nuestro newsletter
-            </h3>
-            <p className="text-gray-400 text-sm">
-              Recibe ofertas exclusivas y novedades para tu mascota
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="tu@email.com"
-                className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-primary transition-colors"
-              />
-              <button className="bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                Suscribirse
-              </button>
-            </div>
-          </div>
-        </div>
+       {/* Newsletter section */}
+<div className="border-t border-gray-700 py-8">
+  <div className="max-w-2xl mx-auto text-center space-y-4">
+    <h3 className="font-bold text-xl">
+      Suscríbete a nuestro newsletter
+    </h3>
+    <p className="text-gray-400 text-sm">
+      Recibe ofertas exclusivas y novedades para tu mascota
+    </p>
+    
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="tu@email.com"
+        disabled={loading}
+        className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-primary transition-colors disabled:opacity-50"
+      />
+      <button 
+        type="submit"
+        disabled={loading}
+        className="bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {loading ? 'Enviando...' : 'Suscribirse'}
+      </button>
+    </form>
+
+    {message && (
+      <p className={`text-sm ${message.includes('exitosa') ? 'text-green-400' : 'text-red-400'}`}>
+        {message}
+      </p>
+    )}
+  </div>
+</div>
 
        {/* Bottom bar */}
 {/* Bottom bar */}
