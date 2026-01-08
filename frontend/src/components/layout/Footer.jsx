@@ -102,7 +102,7 @@ export default function Footer() {
                 { name: "Tienda", to: "/shop" },
                 { name: "Turnos", to: "/turns" },
                 { name: "Carrito", to: "/cart" },
-                { name: "Nosotros", to: "/about" },
+                
               ].map((link) => (
                 <li key={link.to}>
                   <Link
