@@ -98,8 +98,8 @@ export default function DashboardAdmin() {
       <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-200 transition">
         <Image className="w-6 h-6 text-red-600" />
       </div>
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">Publicidad Popup</h3>
-      <p className="text-gray-600 text-sm">Gestionar popup de inicio</p>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">Publicidad y Envios</h3>
+      <p className="text-gray-600 text-sm">Gestionar publicidades y Envios</p>
     </Link>
   </div>
 </div>
