@@ -212,7 +212,7 @@ import { subscribeToNewsletter } from "../services/newsletter";
       Suscríbete a nuestro newsletter
     </h3>
     <p className="text-gray-400 text-sm">
-      Recibe ofertas exclusivas y novedades para tu mascota
+      Recibe ofertas exclusivas y novedades para tu mascota!!
     </p>
     
     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
