@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Plus, Edit2, Trash2, AlertCircle, Package, BarChart3, ArrowLeft, PawPrint } from 'lucide-react';
 import { useState } from "react";
-import { subscribeToNewsletter } from "../services/newsletter";
+import { subscribeToNewsletter } from "../../services/newsletter";
 
 
   export default function Footer() {
