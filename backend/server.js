@@ -31,7 +31,8 @@ app.get("/", (req, res) => {
 app.use("/api/products", require("./routes/products"));
 app.use("/api/appointments", require("./routes/appointments"));
 app.use("/api/friends", require("./routes/friends"));
-app.use("/api/advertisements", require("./routes/advertisements")); // ← ACÁ
+app.use("/api/advertisements", require("./routes/advertisements"));
+app.use('/api/shipping-config', require('./routes/shippingConfig'));// ← ACÁ
 app.use("/api/admin", require("./routes/admin"));
 
 // 404

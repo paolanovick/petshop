@@ -17,6 +17,12 @@ export default function AdvertisementsAdmin() {
     image: "",
   });
 
+  // 👇 AGREGAR ESTO ACÁ - Estado de configuración de envío
+  const [shippingConfig, setShippingConfig] = useState({
+    envio_costo: 5000,
+    envio_minimo_gratis: 30000
+  });
+
   const fetchAds = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -43,6 +49,21 @@ export default function AdvertisementsAdmin() {
   useEffect(() => {
     fetchAds();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 👇 AGREGAR ESTO ACÁ - Cargar configuración de envío
+  useEffect(() => {
+    const fetchShippingConfig = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/shipping-config`);
+        const data = await res.json();
+        setShippingConfig(data);
+      } catch (error) {
+        console.error('Error al cargar config de envío:', error);
+      }
+    };
+    
+    fetchShippingConfig();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -121,6 +142,28 @@ export default function AdvertisementsAdmin() {
     }
   };
 
+  // 👇 AGREGAR ESTO ACÁ - Guardar configuración de envío
+  const handleSaveShipping = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/api/shipping-config`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(shippingConfig),
+      });
+
+      if (res.ok) {
+        showToast('Configuración de envío actualizada', 'success');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showToast('Error al actualizar configuración', 'error');
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -157,78 +200,87 @@ export default function AdvertisementsAdmin() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-         {/* ← AGREGAR ESTO ACÁ */}
-  <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border-2 border-indigo-200">
-    <div className="flex items-center gap-3 mb-6">
-      <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-        <DollarSign className="w-6 h-6 text-indigo-600" />
-      </div>
-      <div>
-        <h2 className="text-xl font-bold text-gray-800">Configuración de Envío</h2>
-        <p className="text-sm text-gray-600">Ajustá los costos de envío a domicilio</p>
-      </div>
-    </div>
+        {/* Configuración de Envío */}
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border-2 border-indigo-200">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <DollarSign className="w-6 h-6 text-indigo-600" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-gray-800">Configuración de Envío</h2>
+              <p className="text-sm text-gray-600">Ajustá los costos de envío a domicilio</p>
+            </div>
+          </div>
 
-    <div className="grid md:grid-cols-2 gap-6">
-      {/* Costo de envío */}
-      <div>
-        <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
-          <DollarSign className="w-4 h-4 text-orange-500" />
-          Costo de Envío
-        </label>
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-gray-400">$</span>
-          <input
-            type="number"
-            defaultValue={localStorage.getItem('envio_costo') || '5000'}
-            onBlur={(e) => {
-              localStorage.setItem('envio_costo', e.target.value);
-              showToast('Costo de envío guardado', 'success');
-            }}
-            className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
-            min="0"
-            step="100"
-          />
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Costo de envío */}
+            <div>
+              <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
+                <DollarSign className="w-4 h-4 text-orange-500" />
+                Costo de Envío
+              </label>
+              <div className="flex items-center gap-2">
+                <span className="text-xl font-bold text-gray-400">$</span>
+                <input
+                  type="number"
+                  value={shippingConfig.envio_costo}
+                  onChange={(e) => setShippingConfig({
+                    ...shippingConfig,
+                    envio_costo: Number(e.target.value)
+                  })}
+                  className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+                  min="0"
+                  step="100"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Precio que se cobra cuando no alcanza el mínimo
+              </p>
+            </div>
+
+            {/* Mínimo para envío gratis */}
+            <div>
+              <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
+                <Truck className="w-4 h-4 text-green-500" />
+                Mínimo para Envío Gratis
+              </label>
+              <div className="flex items-center gap-2">
+                <span className="text-xl font-bold text-gray-400">$</span>
+                <input
+                  type="number"
+                  value={shippingConfig.envio_minimo_gratis}
+                  onChange={(e) => setShippingConfig({
+                    ...shippingConfig,
+                    envio_minimo_gratis: Number(e.target.value)
+                  })}
+                  className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+                  min="0"
+                  step="1000"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Si la compra supera este monto, envío gratis
+              </p>
+            </div>
+          </div>
+
+          {/* Botón guardar */}
+          <div className="mt-6 flex items-center justify-between">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex-1 mr-4">
+              <p className="text-xs text-blue-800">
+                💡 <strong>Vista previa:</strong> Compra menor a ${shippingConfig.envio_minimo_gratis.toLocaleString()} → Costo: ${shippingConfig.envio_costo.toLocaleString()} • Compra mayor → Envío GRATIS
+              </p>
+            </div>
+            <button
+              onClick={handleSaveShipping}
+              className="flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold transition whitespace-nowrap"
+            >
+              <Save className="w-5 h-5" />
+              Guardar
+            </button>
+          </div>
         </div>
-        <p className="text-xs text-gray-500 mt-1">
-          Precio que se cobra cuando no alcanza el mínimo
-        </p>
-      </div>
 
-      {/* Mínimo para envío gratis */}
-      <div>
-        <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
-          <Truck className="w-4 h-4 text-green-500" />
-          Mínimo para Envío Gratis
-        </label>
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-gray-400">$</span>
-          <input
-            type="number"
-            defaultValue={localStorage.getItem('envio_minimo_gratis') || '30000'}
-            onBlur={(e) => {
-              localStorage.setItem('envio_minimo_gratis', e.target.value);
-              showToast('Mínimo para envío gratis guardado', 'success');
-            }}
-            className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
-            min="0"
-            step="1000"
-          />
-        </div>
-        <p className="text-xs text-gray-500 mt-1">
-          Si la compra supera este monto, envío gratis
-        </p>
-      </div>
-    </div>
-
-    {/* Preview */}
-    <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
-      <p className="text-xs text-blue-800">
-        💡 <strong>Vista previa:</strong> Compra menor a ${(localStorage.getItem('envio_minimo_gratis') || '30000')} → Costo: ${(localStorage.getItem('envio_costo') || '5000')} • Compra mayor → Envío GRATIS
-      </p>
-    </div>
-  </div>
-  {/* ← HASTA ACÁ */}
         {ads.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm p-12 text-center">
             <Image className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -302,7 +354,7 @@ export default function AdvertisementsAdmin() {
         )}
       </main>
 
-      {/* Modal igual que antes */}
+      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full">

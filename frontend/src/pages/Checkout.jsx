@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Store, Truck } from "lucide-react";
 
 export default function Checkout() {
@@ -13,6 +13,30 @@ export default function Checkout() {
     address: "",
     deliveryMethod: "delivery", // "delivery" o "pickup"
   });
+
+  // 👇 Estado de configuración de envío
+  const [envioConfig, setEnvioConfig] = useState({
+    envio_costo: 5000,
+    envio_minimo_gratis: 30000
+  });
+
+  // 👇 Cargar configuración de envío al montar el componente
+  useEffect(() => {
+    const fetchShippingConfig = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/shipping-config`);
+        const data = await res.json();
+        setEnvioConfig({
+          envio_costo: data.envio_costo,
+          envio_minimo_gratis: data.envio_minimo_gratis
+        });
+      } catch (error) {
+        console.error('Error al cargar config de envío:', error);
+      }
+    };
+    
+    fetchShippingConfig();
+  }, []);
 
   if (cart.length === 0) {
     return (
@@ -32,17 +56,14 @@ export default function Checkout() {
     );
   }
 
-  const ENVIO_COSTO = Number(localStorage.getItem('envio_costo')) || 5000;
-const ENVIO_MINIMO = Number(localStorage.getItem('envio_minimo_gratis')) || 30000;
+  const shouldShowEnvio = () => {
+    return formData.deliveryMethod === "delivery" && subtotal < envioConfig.envio_minimo_gratis;
+  };
 
- const shouldShowEnvio = () => {
-  return formData.deliveryMethod === "delivery" && subtotal < ENVIO_MINIMO;
-};
-
-const calculateTotal = () => {
-  const envio = shouldShowEnvio() ? ENVIO_COSTO : 0;
-  return subtotal + envio;
-};
+  const calculateTotal = () => {
+    const envio = shouldShowEnvio() ? envioConfig.envio_costo : 0;
+    return subtotal + envio;
+  };
 
   const handleCheckout = () => {
     // Validar datos
@@ -57,7 +78,7 @@ const calculateTotal = () => {
     }
 
     const total = calculateTotal();
-    const envio = shouldShowEnvio() ? ENVIO_COSTO : 0;
+    const envio = shouldShowEnvio() ? envioConfig.envio_costo : 0;
 
     // Armar mensaje para WhatsApp
     let mensaje = `🐾 *NUEVA ORDEN - Pet Shop Vagabundo*\n\n`;
@@ -87,7 +108,7 @@ const calculateTotal = () => {
       if (envio > 0) {
         mensaje += `Envío: $${envio.toLocaleString()}\n`;
       } else {
-        mensaje += `Envío: GRATIS (compra mayor a $${ENVIO_MINIMO.toLocaleString()})\n`;
+        mensaje += `Envío: GRATIS (compra mayor a $${envioConfig.envio_minimo_gratis.toLocaleString()})\n`;
       }
     }
     
@@ -99,7 +120,7 @@ const calculateTotal = () => {
       mensaje += `📲 *Por favor enviame el link de Mercado Pago para confirmar el pago*`;
     }
 
-    // Número de WhatsApp (CAMBIAR POR EL TUYO)
+    // Número de WhatsApp
     const telefono = '5491161891880';
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     
@@ -135,10 +156,10 @@ const calculateTotal = () => {
                 <h3 className="font-bold text-lg mb-2">Envío a domicilio</h3>
                 <p className="text-sm text-gray-600">
                   Recibilo en tu casa
-                  {subtotal >= ENVIO_MINIMO ? (
+                  {subtotal >= envioConfig.envio_minimo_gratis ? (
                     <span className="block text-green-600 font-semibold mt-1">¡Envío GRATIS!</span>
                   ) : (
-                    <span className="block text-gray-500 mt-1">${ENVIO_COSTO.toLocaleString()}</span>
+                    <span className="block text-gray-500 mt-1">${envioConfig.envio_costo.toLocaleString()}</span>
                   )}
                 </p>
               </button>
@@ -267,7 +288,7 @@ const calculateTotal = () => {
               <div className="flex justify-between text-gray-600">
                 <span>Envío</span>
                 {shouldShowEnvio() ? (
-                  <span className="font-semibold">${ENVIO_COSTO.toLocaleString()}</span>
+                  <span className="font-semibold">${envioConfig.envio_costo.toLocaleString()}</span>
                 ) : (
                   <span className="text-green-600 font-semibold">GRATIS</span>
                 )}
@@ -287,9 +308,9 @@ const calculateTotal = () => {
             <span className="text-orange-600">${calculateTotal().toLocaleString()}</span>
           </div>
 
-          {formData.deliveryMethod === "delivery" && subtotal < ENVIO_MINIMO && (
+          {formData.deliveryMethod === "delivery" && subtotal < envioConfig.envio_minimo_gratis && (
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-800">
-              💡 Agregá ${(ENVIO_MINIMO - subtotal).toLocaleString()} más para envío gratis
+              💡 Agregá ${(envioConfig.envio_minimo_gratis - subtotal).toLocaleString()} más para envío gratis
             </div>
           )}
         </div>
