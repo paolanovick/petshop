@@ -100,7 +100,7 @@ export default function FeaturedProductsCarousel() {
                 to={`/product/${product._id}`}
                 className="min-w-[280px] bg-white rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 flex-shrink-0"
               >
-                <div className="h-64 bg-gray-100 flex items-center justify-center overflow-hidden rounded-t-2xl">
+                <div className="h-72 bg-gray-100 flex items-center justify-center overflow-hidden rounded-t-2xl">
                   {product.images?.[0] ? (
                     <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
                   ) : (
