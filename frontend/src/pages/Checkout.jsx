@@ -32,17 +32,17 @@ export default function Checkout() {
     );
   }
 
-  const ENVIO_COSTO = 5000;
-  const ENVIO_MINIMO = 30000;
+  const ENVIO_COSTO = Number(localStorage.getItem('envio_costo')) || 5000;
+const ENVIO_MINIMO = Number(localStorage.getItem('envio_minimo_gratis')) || 30000;
 
-  const shouldShowEnvio = () => {
-    return formData.deliveryMethod === "delivery" && subtotal < ENVIO_MINIMO;
-  };
+ const shouldShowEnvio = () => {
+  return formData.deliveryMethod === "delivery" && subtotal < ENVIO_MINIMO;
+};
 
-  const calculateTotal = () => {
-    const envio = shouldShowEnvio() ? ENVIO_COSTO : 0;
-    return subtotal + envio;
-  };
+const calculateTotal = () => {
+  const envio = shouldShowEnvio() ? ENVIO_COSTO : 0;
+  return subtotal + envio;
+};
 
   const handleCheckout = () => {
     // Validar datos

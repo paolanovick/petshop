@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { Link } from "react-router-dom";
-import { Image, Plus, Trash2, X, Eye, EyeOff } from "lucide-react";
+import { Image, Plus, Trash2, X, Eye, EyeOff, DollarSign, Truck, Save } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -157,6 +157,78 @@ export default function AdvertisementsAdmin() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+         {/* ← AGREGAR ESTO ACÁ */}
+  <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border-2 border-indigo-200">
+    <div className="flex items-center gap-3 mb-6">
+      <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+        <DollarSign className="w-6 h-6 text-indigo-600" />
+      </div>
+      <div>
+        <h2 className="text-xl font-bold text-gray-800">Configuración de Envío</h2>
+        <p className="text-sm text-gray-600">Ajustá los costos de envío a domicilio</p>
+      </div>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-6">
+      {/* Costo de envío */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
+          <DollarSign className="w-4 h-4 text-orange-500" />
+          Costo de Envío
+        </label>
+        <div className="flex items-center gap-2">
+          <span className="text-xl font-bold text-gray-400">$</span>
+          <input
+            type="number"
+            defaultValue={localStorage.getItem('envio_costo') || '5000'}
+            onBlur={(e) => {
+              localStorage.setItem('envio_costo', e.target.value);
+              showToast('Costo de envío guardado', 'success');
+            }}
+            className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+            min="0"
+            step="100"
+          />
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          Precio que se cobra cuando no alcanza el mínimo
+        </p>
+      </div>
+
+      {/* Mínimo para envío gratis */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
+          <Truck className="w-4 h-4 text-green-500" />
+          Mínimo para Envío Gratis
+        </label>
+        <div className="flex items-center gap-2">
+          <span className="text-xl font-bold text-gray-400">$</span>
+          <input
+            type="number"
+            defaultValue={localStorage.getItem('envio_minimo_gratis') || '30000'}
+            onBlur={(e) => {
+              localStorage.setItem('envio_minimo_gratis', e.target.value);
+              showToast('Mínimo para envío gratis guardado', 'success');
+            }}
+            className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+            min="0"
+            step="1000"
+          />
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          Si la compra supera este monto, envío gratis
+        </p>
+      </div>
+    </div>
+
+    {/* Preview */}
+    <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
+      <p className="text-xs text-blue-800">
+        💡 <strong>Vista previa:</strong> Compra menor a ${(localStorage.getItem('envio_minimo_gratis') || '30000')} → Costo: ${(localStorage.getItem('envio_costo') || '5000')} • Compra mayor → Envío GRATIS
+      </p>
+    </div>
+  </div>
+  {/* ← HASTA ACÁ */}
         {ads.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm p-12 text-center">
             <Image className="w-16 h-16 text-gray-300 mx-auto mb-4" />
