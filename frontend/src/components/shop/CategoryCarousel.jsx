@@ -5,40 +5,35 @@ import { useEffect, useRef } from "react";
 export default function CategoryCarousel({ category, products, hideHeader = false, isSubcategory = false }) {
   const scrollRef = useRef(null);
 
-  // Autoplay - más rápido en móvil
+  // Autoplay - MÁS LENTO
   useEffect(() => {
     if (!scrollRef.current || !products || products.length === 0) return;
 
     const scrollContainer = scrollRef.current;
     const isMobile = window.innerWidth < 768;
-    const interval = isMobile ? 1000 : 2000; // 2s en móvil, 4s en desktop
+    
+    // ARREGLO: Intervalos más lentos - 3s en móvil, 4s en desktop
+    const interval = isMobile ? 3000 : 4000;
 
     const autoScroll = setInterval(() => {
       const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
       const currentScroll = scrollContainer.scrollLeft;
 
       if (currentScroll >= maxScroll - 10) {
-        // Volver al inicio
         scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        // Avanzar
-        scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+        // ARREGLO: Scroll más pequeño - 200px en vez de 300px
+        scrollContainer.scrollBy({ left: 200, behavior: 'smooth' });
       }
     }, interval);
 
-    // Pausar autoplay al hacer hover
     const handleMouseEnter = () => clearInterval(autoScroll);
-    const handleMouseLeave = () => {
-      // Reiniciar autoplay cuando sale el mouse
-    };
-
+    
     scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       clearInterval(autoScroll);
       scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [products]);
 
@@ -59,7 +54,6 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
       {!hideHeader && (
         <div className="mb-6">
           {isSubcategory ? (
-            // Sin link para subcategorías
             <div className="inline-flex items-center gap-3">
               <span className="text-4xl">{category.icon}</span>
               <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 capitalize">
@@ -70,7 +64,6 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
               </span>
             </div>
           ) : (
-            // Con link para categorías principales
             <Link 
               to={`/shop?category=${category.id}`}
               className="inline-flex items-center gap-3 group hover:opacity-80 transition"
@@ -110,36 +103,39 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                 }`}
               >
                 <Link to={`/product/${product._id}`} className="block relative">
-                  {/* Badge Sin Stock sobre la imagen */}
-                 {/* Badge Destacado - Ribbon diagonal */}
-{product.destacado && !sinStock && (
-  <div className="absolute top-0 left-0 z-10 overflow-hidden w-32 h-32 pointer-events-none">
-    <div className="absolute top-6 -left-8 bg-red-600 text-white text-xs font-bold py-1 px-12 rotate-[-45deg] shadow-lg text-center uppercase">
-      Destacado
-    </div>
-  </div>
-)}
+                  {/* Badge Destacado */}
+                  {product.destacado && !sinStock && (
+                    <div className="absolute top-0 left-0 z-10 overflow-hidden w-32 h-32 pointer-events-none">
+                      <div className="absolute top-6 -left-8 bg-red-600 text-white text-xs font-bold py-1 px-12 rotate-[-45deg] shadow-lg text-center uppercase">
+                        Destacado
+                      </div>
+                    </div>
+                  )}
 
-{/* Badge Sin Stock */}
-{sinStock && (
-  <div className="absolute top-4 right-4 z-10 bg-red-600 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
-    Sin stock
-  </div>
-)}
+                  {/* Badge Sin Stock */}
+                  {sinStock && (
+                    <div className="absolute top-4 right-4 z-10 bg-red-600 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
+                      Sin stock
+                    </div>
+                  )}
                   
-                  <div className={`h-64 flex items-center justify-center overflow-hidden p-4 ${
+                  {/* ARREGLO: Solo cambio en contenedor de imagen - aspect-ratio fijo */}
+                  <div className={`relative w-full aspect-square overflow-hidden ${
                     sinStock ? 'bg-gray-200' : 'bg-gray-50'
                   }`}>
                     {product.images?.[0] ? (
                       <img
                         src={product.images[0]}
                         alt={product.name}
-                        className={`w-full h-full object-contain transition duration-300 ${
+                        className={`absolute inset-0 w-full h-full object-contain p-4 transition duration-300 ${
                           sinStock ? 'grayscale opacity-50' : 'group-hover:scale-110'
                         }`}
+                        loading="lazy"
                       />
                     ) : (
-                      <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
+                      </div>
                     )}
                   </div>
                 </Link>
@@ -151,7 +147,6 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                     {product.name}
                   </h4>
                   
-                  {/* Descripción corta */}
                   <p className={`text-sm mb-3 h-10 overflow-hidden line-clamp-2 ${
                     sinStock ? 'text-gray-400' : 'text-gray-600'
                   }`}>
@@ -166,7 +161,6 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                     </span>
                   </div>
 
-                  {/* Botón Ver detalles */}
                   {sinStock ? (
                     <button
                       disabled
@@ -183,14 +177,17 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                       <ChevronRight className="w-4 h-4" />
                     </Link>
                   )}
-
-                 
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </div>
   );
 }

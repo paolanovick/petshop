@@ -93,18 +93,26 @@ export default function FeaturedProductsCarousel() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="flex gap-6 ">
+          <div className="flex gap-6">
             {[...products, ...products].map((product, index) => (
               <Link
                 key={`${product._id}-${index}`}
                 to={`/product/${product._id}`}
                 className="min-w-[280px] bg-white rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 flex-shrink-0"
               >
-                <div className="h-72 bg-gray-100 flex items-center justify-center overflow-hidden rounded-t-2xl">
+                {/* ARREGLO: Solo cambio en la imagen - aspect-ratio fijo */}
+                <div className="relative w-full aspect-square bg-gray-100 rounded-t-2xl overflow-hidden">
                   {product.images?.[0] ? (
-                    <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                    <img 
+                      src={product.images[0]} 
+                      alt={product.name} 
+                      className="absolute inset-0 w-full h-full object-contain p-4"
+                      loading="lazy"
+                    />
                   ) : (
-                    <ShoppingBag className="w-16 h-16 text-gray-300" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <ShoppingBag className="w-16 h-16 text-gray-300" />
+                    </div>
                   )}
                 </div>
                 <div className="p-5">
@@ -128,11 +136,10 @@ export default function FeaturedProductsCarousel() {
             onTouchEnd={() => setTimeout(() => setIsPaused(false), 1000)}
           >
             <div 
-              className="absolute h-full bg-primary rounded-full"
+              className="absolute h-full bg-primary rounded-full transition-all duration-200"
               style={{ width: '15%', left: `${scrollProgress * 85}%` }}
             />
           </div>
-          
         </div>
       </div>
 
