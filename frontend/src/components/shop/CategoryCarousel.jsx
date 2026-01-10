@@ -96,7 +96,7 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
             return (
               <div
                 key={product._id}
-                className={`min-w-[280px] max-w-[280px] rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group flex-shrink-0 border ${
+                className={`min-w-[280px] max-w-[280px] rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group flex-shrink-0 border flex flex-col ${
                   sinStock 
                     ? 'bg-gray-100 border-gray-200 opacity-75' 
                     : 'bg-white border-gray-100'
@@ -119,23 +119,21 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
                     </div>
                   )}
                   
-                  {/* ARREGLO: Solo cambio en contenedor de imagen - aspect-ratio fijo */}
-                  <div className={`relative w-full aspect-square overflow-hidden ${
+                  {/* Imagen con altura fija de 280px */}
+                  <div className={`h-[280px] flex items-center justify-center overflow-hidden p-4 ${
                     sinStock ? 'bg-gray-200' : 'bg-gray-50'
                   }`}>
                     {product.images?.[0] ? (
                       <img
                         src={product.images[0]}
                         alt={product.name}
-                        className={`absolute inset-0 w-full h-full object-contain p-4 transition duration-300 ${
+                        className={`max-w-full max-h-full object-contain transition duration-300 ${
                           sinStock ? 'grayscale opacity-50' : 'group-hover:scale-110'
                         }`}
                         loading="lazy"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
-                      </div>
+                      <ShoppingBag className={`w-12 h-12 ${sinStock ? 'text-gray-400' : 'text-gray-300'}`} />
                     )}
                   </div>
                 </Link>

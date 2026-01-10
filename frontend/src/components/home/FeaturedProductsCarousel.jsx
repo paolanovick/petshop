@@ -86,7 +86,7 @@ export default function FeaturedProductsCarousel() {
         </p>
       </div>
 
-      <div className="relative">
+      <div className="relative max-w-7xl mx-auto px-6">
         <div
           ref={scrollRef}
           className="overflow-x-auto scrollbar-hide pb-12"
@@ -98,33 +98,31 @@ export default function FeaturedProductsCarousel() {
               <Link
                 key={`${product._id}-${index}`}
                 to={`/product/${product._id}`}
-                className="min-w-[280px] bg-white rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 flex-shrink-0"
+                className="min-w-[280px] bg-white rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 flex-shrink-0 flex flex-col"
               >
-                {/* ARREGLO: Solo cambio en la imagen - aspect-ratio fijo */}
-                <div className="relative w-full aspect-square bg-gray-100 rounded-t-2xl overflow-hidden">
+                {/* Imagen con altura fija */}
+                <div className="h-[280px] bg-gray-100 rounded-t-2xl overflow-hidden flex items-center justify-center p-4">
                   {product.images?.[0] ? (
                     <img 
                       src={product.images[0]} 
                       alt={product.name} 
-                      className="absolute inset-0 w-full h-full object-contain p-4"
+                      className="max-w-full max-h-full object-contain"
                       loading="lazy"
                     />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <ShoppingBag className="w-16 h-16 text-gray-300" />
-                    </div>
+                    <ShoppingBag className="w-16 h-16 text-gray-300" />
                   )}
                 </div>
-                <div className="p-5">
-                  <h4 className="font-semibold text-gray-800 text-lg">{product.name}</h4>
-                  <p className="text-primary font-bold text-xl mt-2">${product.price.toLocaleString()}</p>
+                <div className="p-5 flex-1 flex flex-col">
+                  <h4 className="font-semibold text-gray-800 text-lg line-clamp-2 mb-2">{product.name}</h4>
+                  <p className="text-primary font-bold text-xl mt-auto">${product.price.toLocaleString()}</p>
                 </div>
               </Link>
             ))}
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 mt-6">
+        <div className="mt-6">
           <div 
             ref={progressBarRef}
             className="relative h-3 bg-gray-200 rounded-full cursor-pointer"
