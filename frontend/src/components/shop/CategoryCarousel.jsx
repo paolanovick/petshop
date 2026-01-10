@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag, ChevronRight } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CategoryCarousel({ category, products, hideHeader = false, isSubcategory = false }) {
   const scrollRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   // Autoplay - MÁS LENTO
   useEffect(() => {
-    if (!scrollRef.current || !products || products.length === 0) return;
+    if (!scrollRef.current || !products || products.length === 0 || isPaused) return;
 
     const scrollContainer = scrollRef.current;
     const isMobile = window.innerWidth < 768;
@@ -25,17 +28,36 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
         // ARREGLO: Scroll más pequeño - 200px en vez de 300px
         scrollContainer.scrollBy({ left: 200, behavior: 'smooth' });
       }
+      
+      // Actualizar barra de progreso
+      setScrollProgress(scrollContainer.scrollLeft / maxScroll);
     }, interval);
 
-    const handleMouseEnter = () => clearInterval(autoScroll);
+    const handleMouseEnter = () => setIsPaused(true);
+    const handleMouseLeave = () => setIsPaused(false);
     
     scrollContainer.addEventListener('mouseenter', handleMouseEnter);
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       clearInterval(autoScroll);
       scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [products]);
+  }, [products, isPaused]);
+
+  // Función para arrastrar la barra de progreso
+  const handleBarInteraction = (e) => {
+    if (!scrollRef.current || !progressBarRef.current) return;
+    
+    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    const barRect = progressBarRef.current.getBoundingClientRect();
+    const percentage = Math.max(0, Math.min(1, (clientX - barRect.left) / barRect.width));
+    const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+    
+    scrollRef.current.scrollLeft = percentage * maxScroll;
+    setScrollProgress(percentage);
+  };
 
   if (!products || products.length === 0) {
     return (
@@ -179,6 +201,25 @@ export default function CategoryCarousel({ category, products, hideHeader = fals
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Barra de progreso manual */}
+      <div className="mt-6">
+        <div 
+          ref={progressBarRef}
+          className="relative h-3 bg-gray-200 rounded-full cursor-pointer"
+          onMouseDown={(e) => { setIsPaused(true); handleBarInteraction(e); }}
+          onMouseMove={(e) => e.buttons === 1 && handleBarInteraction(e)}
+          onMouseUp={() => setTimeout(() => setIsPaused(false), 1000)}
+          onTouchStart={handleBarInteraction}
+          onTouchMove={handleBarInteraction}
+          onTouchEnd={() => setTimeout(() => setIsPaused(false), 1000)}
+        >
+          <div 
+            className="absolute h-full bg-primary rounded-full transition-all duration-200"
+            style={{ width: '15%', left: `${scrollProgress * 85}%` }}
+          />
         </div>
       </div>
 
