@@ -12,6 +12,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+
 // Ruta base
 app.get("/", (req, res) => {
   res.json({
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 });
 
 // Rutas
+app.use("/api/upload", require("./routes/upload"));
 app.use("/api/products", require("./routes/products"));
 app.use("/api/appointments", require("./routes/appointments"));
 app.use("/api/friends", require("./routes/friends"));

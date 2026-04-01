@@ -31,15 +31,7 @@ const productSchema = new mongoose.Schema({
   enum: ['perros', 'gatos', 'ambos', null],
   default: null
 },
- images: [{
-  type: String,
-  validate: {
-    validator: function(v) {
-      return /^https?:\/\/.+/i.test(v);
-    },
-    message: 'Debe ser una URL válida'
-  }
-}],
+ images: [{ type: String }],
   destacado: {
     type: Boolean,
     default: false

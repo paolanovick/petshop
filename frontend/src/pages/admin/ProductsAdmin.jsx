@@ -36,6 +36,8 @@ export default function ProductsAdmin() {
    oferta: false,  // ← AGREGAR ESTA LÍNEA
   activo: true,
   });
+  const [imageModes, setImageModes] = useState(['url']);
+  const [uploadingIndex, setUploadingIndex] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -132,6 +134,7 @@ const handleDelete = async (id) => {
   const openModal = (product = null) => {
     if (product) {
       setEditingProduct(product);
+      const imgs = product.images.length > 0 ? product.images : [''];
       setFormData({
          name: product.name,
   description: product.description,
@@ -139,11 +142,12 @@ const handleDelete = async (id) => {
   stock: product.stock,
   category: product.category,
   subcategory: product.subcategory || null,  // ← AGREGAR
-  images: product.images.length > 0 ? product.images : [''],
+  images: imgs,
   destacado: product.destacado,
    oferta: product.oferta || false,  // ← AGREGAR ESTA LÍNEA
   activo: product.activo,
       });
+      setImageModes(imgs.map(() => 'url'));
     } else {
       setEditingProduct(null);
       setFormData({
@@ -157,6 +161,7 @@ const handleDelete = async (id) => {
   destacado: false,
   activo: true,
       });
+      setImageModes(['url']);
     }
     setShowModal(true);
   };
@@ -172,13 +177,47 @@ const handleDelete = async (id) => {
     setFormData({ ...formData, images: newImages });
   };
 
+  const handleImageModeChange = (index, mode) => {
+    const newModes = [...imageModes];
+    newModes[index] = mode;
+    setImageModes(newModes);
+    const newImages = [...formData.images];
+    newImages[index] = '';
+    setFormData({ ...formData, images: newImages });
+  };
+
+  const handleFileUpload = async (index, file) => {
+    if (!file) return;
+    setUploadingIndex(index);
+    try {
+      const token = localStorage.getItem('token');
+      const data = new FormData();
+      data.append('image', file);
+      const res = await fetch(`${API_URL}/api/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: data,
+      });
+      if (!res.ok) throw new Error('Error al subir imagen');
+      const { url } = await res.json();
+      handleImageChange(index, url);
+    } catch {
+      showToast('Error al subir la imagen', 'error');
+    } finally {
+      setUploadingIndex(null);
+    }
+  };
+
   const addImageField = () => {
     setFormData({ ...formData, images: [...formData.images, ''] });
+    setImageModes([...imageModes, 'url']);
   };
 
   const removeImageField = (index) => {
     const newImages = formData.images.filter((_, i) => i !== index);
+    const newModes = imageModes.filter((_, i) => i !== index);
     setFormData({ ...formData, images: newImages });
+    setImageModes(newModes);
   };
 
   const filteredProducts = products.filter((product) => {
@@ -565,24 +604,57 @@ const handleDelete = async (id) => {
 </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Imágenes (URLs)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Imágenes</label>
                 {formData.images.map((image, index) => (
-                  <div key={index} className="flex gap-2 mb-2">
-                    <input
-                      type="url"
-                      value={image}
-                      onChange={(e) => handleImageChange(index, e.target.value)}
-                      placeholder="https://ejemplo.com/imagen.jpg"
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
-                    />
-                    {formData.images.length > 1 && (
+                  <div key={index} className="mb-3 border border-gray-200 rounded-lg p-3">
+                    <div className="flex gap-2 mb-2">
                       <button
                         type="button"
-                        onClick={() => removeImageField(index)}
-                        className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                        onClick={() => handleImageModeChange(index, 'url')}
+                        className={`text-xs px-3 py-1 rounded-full border transition ${imageModes[index] === 'url' ? 'bg-orange-500 text-white border-orange-500' : 'text-gray-600 border-gray-300 hover:bg-gray-50'}`}
                       >
-                        <X className="w-5 h-5" />
+                        URL
                       </button>
+                      <button
+                        type="button"
+                        onClick={() => handleImageModeChange(index, 'file')}
+                        className={`text-xs px-3 py-1 rounded-full border transition ${imageModes[index] === 'file' ? 'bg-orange-500 text-white border-orange-500' : 'text-gray-600 border-gray-300 hover:bg-gray-50'}`}
+                      >
+                        Desde mi ordenador
+                      </button>
+                      {formData.images.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeImageField(index)}
+                          className="ml-auto px-2 py-1 text-red-600 hover:bg-red-50 rounded-lg transition"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                    {imageModes[index] === 'url' ? (
+                      <input
+                        type="url"
+                        value={image}
+                        onChange={(e) => handleImageChange(index, e.target.value)}
+                        placeholder="https://ejemplo.com/imagen.jpg"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm"
+                      />
+                    ) : (
+                      <div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleFileUpload(index, e.target.files[0])}
+                          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
+                        />
+                        {uploadingIndex === index && (
+                          <p className="text-xs text-orange-500 mt-1">Subiendo imagen...</p>
+                        )}
+                      </div>
+                    )}
+                    {image && (
+                      <img src={image} alt="preview" className="mt-2 h-20 object-cover rounded-lg border border-gray-200" />
                     )}
                   </div>
                 ))}

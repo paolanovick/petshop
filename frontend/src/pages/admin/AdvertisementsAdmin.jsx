@@ -16,6 +16,30 @@ export default function AdvertisementsAdmin() {
   const [form, setForm] = useState({
     image: "",
   });
+  const [imageMode, setImageMode] = useState('url');
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleFileUpload = async (file) => {
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const token = localStorage.getItem('token');
+      const data = new FormData();
+      data.append('image', file);
+      const res = await fetch(`${API_URL}/api/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: data,
+      });
+      if (!res.ok) throw new Error('Error al subir imagen');
+      const { url } = await res.json();
+      setForm({ ...form, image: url });
+    } catch {
+      showToast('Error al subir la imagen', 'error');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   // 👇 AGREGAR ESTO ACÁ - Estado de configuración de envío
   const [shippingConfig, setShippingConfig] = useState({
@@ -89,6 +113,7 @@ export default function AdvertisementsAdmin() {
 
       showToast('Publicidad creada con éxito', 'success');
       setForm({ image: "" });
+      setImageMode('url');
       setShowModal(false);
       fetchAds();
     } catch (error) {
@@ -366,15 +391,44 @@ export default function AdvertisementsAdmin() {
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">URL de la imagen</label>
-                <input
-                  type="url"
-                  value={form.image}
-                  onChange={(e) => setForm({ ...form, image: e.target.value })}
-                  placeholder="https://ejemplo.com/publicidad.jpg"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none"
-                  required
-                />
+                <label className="block text-sm font-medium text-gray-700 mb-2">Imagen</label>
+                <div className="flex gap-2 mb-3">
+                  <button
+                    type="button"
+                    onClick={() => { setImageMode('url'); setForm({ ...form, image: '' }); }}
+                    className={`text-xs px-3 py-1 rounded-full border transition ${imageMode === 'url' ? 'bg-orange-500 text-white border-orange-500' : 'text-gray-600 border-gray-300 hover:bg-gray-50'}`}
+                  >
+                    URL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setImageMode('file'); setForm({ ...form, image: '' }); }}
+                    className={`text-xs px-3 py-1 rounded-full border transition ${imageMode === 'file' ? 'bg-orange-500 text-white border-orange-500' : 'text-gray-600 border-gray-300 hover:bg-gray-50'}`}
+                  >
+                    Desde mi ordenador
+                  </button>
+                </div>
+                {imageMode === 'url' ? (
+                  <input
+                    type="url"
+                    value={form.image}
+                    onChange={(e) => setForm({ ...form, image: e.target.value })}
+                    placeholder="https://ejemplo.com/publicidad.jpg"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none"
+                  />
+                ) : (
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileUpload(e.target.files[0])}
+                      className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
+                    />
+                    {uploadingImage && (
+                      <p className="text-xs text-orange-500 mt-1">Subiendo imagen...</p>
+                    )}
+                  </div>
+                )}
                 {form.image && (
                   <div className="mt-4 rounded-lg border border-gray-200">
                     <img src={form.image} alt="Preview" className="w-full h-auto max-h-96 object-contain" />
