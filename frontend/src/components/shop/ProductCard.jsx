@@ -18,6 +18,20 @@ export default function ProductCard({ product }) {
       onClick={() => navigate(`/product/${product._id}`)}
       className="group cursor-pointer relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
     >
+      {/* Badge Oferta */}
+      {product.oferta && (
+        <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow">
+          OFERTA
+        </div>
+      )}
+
+      {/* Badge Últimas unidades */}
+      {!product.oferta && product.stock > 0 && product.stock <= 5 && (
+        <div className="absolute top-4 left-4 z-10 bg-orange-400 text-white text-xs font-bold px-2 py-1 rounded-lg shadow">
+          ÚLTIMAS UNIDADES
+        </div>
+      )}
+
       {/* Like */}
       <button
         onClick={(e) => {

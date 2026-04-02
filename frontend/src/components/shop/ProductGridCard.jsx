@@ -26,6 +26,20 @@ export default function ProductGridCard({ product }) {
       Sin stock
     </div>
   )}
+
+  {/* Badge Oferta */}
+  {!sinStock && product.oferta && (
+    <div className="absolute top-4 left-4 z-10 bg-red-500 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
+      OFERTA
+    </div>
+  )}
+
+  {/* Badge Últimas unidades */}
+  {!sinStock && !product.oferta && product.stock <= 5 && (
+    <div className="absolute top-4 left-4 z-10 bg-orange-400 text-white px-3 py-1 rounded-lg font-bold text-sm shadow-lg">
+      ÚLTIMAS UNIDADES
+    </div>
+  )}
   
   <div className={`h-48 flex items-center justify-center overflow-hidden p-4 ${
     sinStock ? 'bg-gray-200' : 'bg-gray-50'
