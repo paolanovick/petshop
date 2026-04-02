@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+
+const API_URL = import.meta.env.VITE_API_URL;
 import ServiceSelector from "../components/turns/ServiceSelector";
 import TurnCalendar from "../components/turns/TurnCalendar";
 import TimeSlots from "../components/turns/TimeSlots";
@@ -47,7 +49,7 @@ useEffect(() => {
 
     try {
       const res = await fetch(
-        `https://api.vagabundo.com.ar/api/appointments/availability?fecha=${date}`
+        `${API_URL}/api/appointments/availability?fecha=${date}`
       );
       const data = await res.json();
       setSlots(data.horarios || []);
@@ -78,7 +80,7 @@ const handleSubmit = async (e) => {
 
   try {
     const res = await fetch(
-      "https://api.vagabundo.com.ar/api/appointments",
+      `${API_URL}/api/appointments`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
