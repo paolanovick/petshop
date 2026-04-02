@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getShippingConfig, updateShippingConfig } = require('../controllers/shippingConfigController');
-const { protect } = require('../middleware/authMiddleware');
+const protect = require('../middleware/verifyAdmin');
 
 // Pública - para que los clientes lean
 router.get('/', getShippingConfig);

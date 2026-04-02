@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
+const verifyAdmin = require('../middleware/verifyAdmin');
 
 // GET /api/products - Obtener todos los productos (con filtros opcionales)
 router.get('/', productController.getAllProducts);
@@ -9,15 +10,15 @@ router.get('/', productController.getAllProducts);
 router.get('/:id', productController.getProductById);
 
 // POST /api/products - Crear un producto
-router.post('/', productController.createProduct);
+router.post('/', verifyAdmin, productController.createProduct);
 
 // PUT /api/products/:id - Actualizar un producto
-router.put('/:id', productController.updateProduct);
+router.put('/:id', verifyAdmin, productController.updateProduct);
 
 // DELETE /api/products/:id - Desactivar un producto (soft delete)
-router.delete('/:id', productController.deleteProduct);
+router.delete('/:id', verifyAdmin, productController.deleteProduct);
 
 // PATCH /api/products/:id/stock - Actualizar stock
-router.patch('/:id/stock', productController.updateStock);
+router.patch('/:id/stock', verifyAdmin, productController.updateStock);
 
 module.exports = router;

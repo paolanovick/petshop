@@ -125,23 +125,27 @@ exports.updateAppointment = async (req, res) => {
 
 // Actualizar estado de un turno
 exports.updateAppointmentStatus = async (req, res) => {
-  const { estado } = req.body;
+  try {
+    const { estado } = req.body;
 
-  if (!['pendiente', 'confirmado', 'terminado', 'rechazado'].includes(estado)) {
-    return res.status(400).json({ message: 'Estado inválido' });
+    if (!['pendiente', 'confirmado', 'terminado', 'rechazado'].includes(estado)) {
+      return res.status(400).json({ message: 'Estado inválido' });
+    }
+
+    const appointment = await Appointment.findByIdAndUpdate(
+      req.params.id,
+      { estado },
+      { new: true }
+    );
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Turno no encontrado' });
+    }
+
+    res.json(appointment);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar estado', error: error.message });
   }
-
-  const appointment = await Appointment.findByIdAndUpdate(
-    req.params.id,
-    { estado },
-    { new: true }
-  );
-
-  if (!appointment) {
-    return res.status(404).json({ message: 'Turno no encontrado' });
-  }
-
-  res.json(appointment);
 };
 
 

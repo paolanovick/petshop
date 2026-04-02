@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 exports.loginAdmin = (req, res) => {
   const { email, password } = req.body;
 
@@ -5,11 +7,24 @@ exports.loginAdmin = (req, res) => {
     email === process.env.ADMIN_EMAIL &&
     password === process.env.ADMIN_PASSWORD
   ) {
-    return res.json({ success: true });
+    const token = jwt.sign(
+      { email, role: 'admin' },
+      process.env.JWT_SECRET,
+      { expiresIn: '8h' }
+    );
+
+    return res.json({
+      success: true,
+      token,
+      admin: { email },
+    });
   }
 
   return res
     .status(401)
-    .json({ success: false, message: "Credenciales inválidas" });
+    .json({ success: false, message: 'Credenciales inválidas' });
 };
 
+exports.verifyAdmin = (req, res) => {
+  res.json({ success: true, admin: req.admin });
+};
