@@ -28,6 +28,16 @@ export default function Shop() {
   
   const [productsByCategory, setProductsByCategory] = useState({});
   const [loading, setLoading] = useState(true);
+  const [sortOrder, setSortOrder] = useState('default');
+
+  const sortProducts = (products) => {
+    const sorted = [...products];
+    if (sortOrder === 'price_asc') return sorted.sort((a, b) => a.price - b.price);
+    if (sortOrder === 'price_desc') return sorted.sort((a, b) => b.price - a.price);
+    if (sortOrder === 'name_asc') return sorted.sort((a, b) => a.name.localeCompare(b.name));
+    if (sortOrder === 'name_desc') return sorted.sort((a, b) => b.name.localeCompare(a.name));
+    return sorted;
+  };
   // ... resto del código
 
   useEffect(() => {
@@ -105,28 +115,45 @@ export default function Shop() {
       <div className="max-w-7xl mx-auto px-6 py-12">
   {categoryFilter ? (
     // ============ VISTA GRID - Cuando hay filtro ============
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <>
+      {/* Selector de ordenamiento */}
+      <div className="flex justify-end mb-6">
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-xl text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
+        >
+          <option value="default">Ordenar por...</option>
+          <option value="price_asc">Precio: menor a mayor</option>
+          <option value="price_desc">Precio: mayor a menor</option>
+          <option value="name_asc">Nombre: A-Z</option>
+          <option value="name_desc">Nombre: Z-A</option>
+        </select>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {categoriesToShow.map((category) => {
         const products = productsByCategory[category.id] || [];
-        
+
         // Para Alimentos: combinar todas las subcategorías
         if (category.id === 'alimentos') {
           const perros = products.filter(p => p.subcategory === 'perros');
           const gatos = products.filter(p => p.subcategory === 'gatos');
           const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
-          const allProducts = [...perros, ...gatos, ...ambos];
-          
+          const allProducts = sortProducts([...perros, ...gatos, ...ambos]);
+
           return allProducts.map(product => (
             <ProductGridCard key={product._id} product={product} />
           ));
         }
-        
+
         // Otras categorías
-        return products.map(product => (
+        return sortProducts(products).map(product => (
           <ProductGridCard key={product._id} product={product} />
         ));
       })}
-    </div>
+      </div>
+    </>
   ) : (
    // ============ VISTA CAROUSELES - Sin filtro ============
 <div className="space-y-16">
