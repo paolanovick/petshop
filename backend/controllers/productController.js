@@ -3,12 +3,13 @@ const Product = require('../models/Product');
 // Obtener todos los productos (con filtros opcionales)
 exports.getAllProducts = async (req, res) => {
   try {
-    const { category, destacado, activo } = req.query;
-    
+    const { category, destacado, activo, search } = req.query;
+
     const filter = {};
     if (category) filter.category = category;
     if (destacado) filter.destacado = destacado === 'true';
     if (activo !== undefined) filter.activo = activo === 'true';
+    if (search) filter.name = { $regex: search, $options: 'i' };
 
     const products = await Product.find(filter).sort({ createdAt: -1 });
     res.json(products);
