@@ -16,6 +16,7 @@ import PrivateRoute from "../components/auth/PrivateRoute";
 import CategoryDashboard from "../pages/admin/CategoryDashboard";
 import FriendsAdmin from "../pages/admin/FriendsAdmin";
 import AdvertisementsAdmin from "../pages/admin/AdvertisementsAdmin";
+import CategoriesAdmin from "../pages/admin/CategoriesAdmin";
 
 function AppContent() {
   useEffect(() => {
@@ -99,6 +100,14 @@ function AppContent() {
     </PrivateRoute>
   }
 />
+        <Route
+          path="/admin/categories"
+          element={
+            <PrivateRoute>
+              <CategoriesAdmin />
+            </PrivateRoute>
+          }
+        />
       </Routes>
      
     </>

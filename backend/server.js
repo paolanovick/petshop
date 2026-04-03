@@ -5,8 +5,9 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-// Conectar DB
-connectDB();
+// Conectar DB y seed de categorías
+const { seedIfEmpty } = require('./controllers/categoryController');
+connectDB().then(() => seedIfEmpty());
 
 // Middlewares
 app.use(cors());
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 
 // Rutas
 app.use("/api/upload", require("./routes/upload"));
+app.use("/api/categories", require("./routes/categories"));
 app.use("/api/products", require("./routes/products"));
 app.use("/api/appointments", require("./routes/appointments"));
 app.use("/api/friends", require("./routes/friends"));

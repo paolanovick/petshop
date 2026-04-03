@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Calendar, Package, Users, LogOut, Dog, Cat, ShoppingBag, Utensils, Scissors, Star, PawPrint, Image  } from 'lucide-react';
+import { Calendar, Package, Users, LogOut, Dog, Cat, ShoppingBag, Utensils, Scissors, Star, PawPrint, Image, LayoutGrid } from 'lucide-react';
 
 
 const CATEGORIES = [
@@ -100,6 +100,18 @@ export default function DashboardAdmin() {
       </div>
       <h3 className="text-lg font-semibold text-gray-800 mb-2">Publicidad y Envios</h3>
       <p className="text-gray-600 text-sm">Gestionar publicidades y Envios</p>
+    </Link>
+
+    {/* Categorías */}
+    <Link
+      to="/admin/categories"
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200 group"
+    >
+      <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-teal-200 transition">
+        <LayoutGrid className="w-6 h-6 text-teal-600" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">Categorías</h3>
+      <p className="text-gray-600 text-sm">Gestionar categorías de la tienda</p>
     </Link>
   </div>
 </div>

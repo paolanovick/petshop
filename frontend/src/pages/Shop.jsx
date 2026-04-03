@@ -6,14 +6,6 @@ import ProductGridCard from "../components/shop/ProductGridCard";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const CATEGORIES = [
-  { id: 'alimentos', name: 'Alimentos', icon: '🍖' },
-  { id: 'accesorios', name: 'Accesorios', icon: '🎀' },
-  { id: 'juguetes', name: 'Juguetes', icon: '🎾' },
-  { id: 'higiene', name: 'Higiene', icon: '🧼' },
-  { id: 'otros', name: 'Otros', icon: '📦' },
-];
-
 export default function Shop() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -26,6 +18,7 @@ export default function Shop() {
     }
   }, [categoryFilter]);
   
+  const [categories, setCategories] = useState([]);
   const [productsByCategory, setProductsByCategory] = useState({});
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState('default');
@@ -45,6 +38,20 @@ export default function Shop() {
   }, [location.search]);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/categories`);
+        const data = await res.json();
+        setCategories(data);
+      } catch {
+        console.error('Error al cargar categorías');
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    if (categories.length === 0) return;
     const fetchProducts = async () => {
       try {
         if (categoryFilter) {
@@ -52,10 +59,10 @@ export default function Shop() {
           const data = await response.json();
           setProductsByCategory({ [categoryFilter]: data });
         } else {
-          const promises = CATEGORIES.map(async (category) => {
-            const response = await fetch(`${API_URL}/api/products?category=${category.id}&activo=true`);
+          const promises = categories.map(async (category) => {
+            const response = await fetch(`${API_URL}/api/products?category=${category.slug}&activo=true`);
             const data = await response.json();
-            return { categoryId: category.id, products: data };
+            return { categoryId: category.slug, products: data };
           });
           const results = await Promise.all(promises);
           const grouped = {};
@@ -71,7 +78,7 @@ export default function Shop() {
       }
     };
     fetchProducts();
-  }, [categoryFilter]);
+  }, [categoryFilter, categories]);
 
   if (loading) {
     return (
@@ -81,8 +88,8 @@ export default function Shop() {
     );
   }
 
-  const currentCategory = CATEGORIES.find(cat => cat.id === categoryFilter);
-  const categoriesToShow = categoryFilter ? CATEGORIES.filter(cat => cat.id === categoryFilter) : CATEGORIES;
+  const currentCategory = categories.find(cat => cat.slug === categoryFilter);
+  const categoriesToShow = categoryFilter ? categories.filter(cat => cat.slug === categoryFilter) : categories;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -133,10 +140,10 @@ export default function Shop() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {categoriesToShow.map((category) => {
-        const products = productsByCategory[category.id] || [];
+        const products = productsByCategory[category.slug] || [];
 
         // Para Alimentos: combinar todas las subcategorías
-        if (category.id === 'alimentos') {
+        if (category.slug === 'alimentos') {
           const perros = products.filter(p => p.subcategory === 'perros');
           const gatos = products.filter(p => p.subcategory === 'gatos');
           const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
@@ -158,16 +165,16 @@ export default function Shop() {
    // ============ VISTA CAROUSELES - Sin filtro ============
 <div className="space-y-16">
   {categoriesToShow.map((category) => {
-    const products = productsByCategory[category.id] || [];
+    const products = productsByCategory[category.slug] || [];
     
     // Caso especial: Alimentos - separar por subcategoría
-    if (category.id === 'alimentos') {
+    if (category.slug === 'alimentos') {
       const perros = products.filter(p => p.subcategory === 'perros');
       const gatos = products.filter(p => p.subcategory === 'gatos');
       const ambos = products.filter(p => p.subcategory === 'ambos' || !p.subcategory);
 
       return (
-        <div key={category.id} className="space-y-16">
+        <div key={category.slug} className="space-y-16">
          {perros.length > 0 && (
   <CategoryCarousel
     category={{ 
@@ -210,7 +217,7 @@ export default function Shop() {
     
     return (
       <CategoryCarousel
-        key={category.id}
+        key={category.slug}
         category={category}
         products={products}
         hideHeader={false}
