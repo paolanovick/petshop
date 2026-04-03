@@ -1,6 +1,7 @@
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
+import CookieBanner from "../components/CookieBanner";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
@@ -12,6 +13,7 @@ export default function Layout() {
       </main>
       <Footer />
       <WhatsAppButton />
+      <CookieBanner />
     </>
   );
 }
