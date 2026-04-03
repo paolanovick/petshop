@@ -21,32 +21,26 @@ const appointmentSchema = new mongoose.Schema({
   },
   servicio: {
     type: String,
-    enum: [
-      'baño',
-      'peluquería',
-      'baño_y_peluquería',
-      'corte_uñas',
-    ],
+    enum: ['baño', 'peluquería', 'baño_y_peluquería', 'corte_uñas'],
     required: true,
   },
-  fecha: {
-    type: Date,
-    required: true,
-  },
-  hora: {
-    type: String,
-    required: true,
-  },
+  fecha: { type: Date, required: true },
+  hora: { type: String, required: true },
   estado: {
     type: String,
-    enum: ['pendiente', 'confirmado', 'terminado', 'rechazado'],
+    enum: ['pendiente', 'confirmado', 'terminado', 'rechazado', 'cancelado'],
     default: 'pendiente',
   },
 }, { timestamps: true });
 
+// Índice único solo para turnos activos (pendiente o confirmado)
+// Esto previene double-booking a nivel de base de datos (race condition fix)
 appointmentSchema.index(
   { fecha: 1, hora: 1 },
-  { unique: true, partialFilterExpression: { estado: { $ne: 'cancelado' } } }
+  {
+    unique: true,
+    partialFilterExpression: { estado: { $in: ['pendiente', 'confirmado'] } },
+  }
 );
 
 module.exports = mongoose.model('Appointment', appointmentSchema);
