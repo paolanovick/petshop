@@ -3,6 +3,8 @@ import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
 import { Store, Truck } from "lucide-react";
 
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER;
+
 export default function Checkout() {
   const { cart, subtotal } = useCart();
   
@@ -121,7 +123,7 @@ export default function Checkout() {
     }
 
     // Número de WhatsApp
-    const telefono = '5491161891880';
+    const telefono = WHATSAPP_NUMBER;
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     
     // Limpiar carrito y abrir WhatsApp

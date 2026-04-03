@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER;
 import ServiceSelector from "../components/turns/ServiceSelector";
 import TurnCalendar from "../components/turns/TurnCalendar";
 import TimeSlots from "../components/turns/TimeSlots";
@@ -131,7 +132,7 @@ const handleSubmit = async (e) => {
       `Hora: ${time}\n\n` +
       `✅ *Turno confirmado y registrado en el sistema*`;
 
-    const telefono = '5491161891880'; // ← CAMBIAR POR TU NÚMERO
+    const telefono = WHATSAPP_NUMBER;
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     
     // Abrir WhatsApp
