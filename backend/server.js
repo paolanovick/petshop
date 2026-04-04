@@ -10,18 +10,7 @@ const { seedIfEmpty } = require('./controllers/categoryController');
 connectDB().then(() => seedIfEmpty());
 
 // Middlewares
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173')
-  .split(',')
-  .map(o => o.trim());
-
-app.use(cors({
-  origin: (origin, callback) => {
-    // Permitir requests sin origin (ej: Postman, curl en dev)
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error('CORS: origen no permitido'));
-  },
-  credentials: true,
-}));
+app.use(cors());
 app.use(express.json());
 
 
