@@ -24,7 +24,6 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     required: [true, 'La categoría es obligatoria'],
-    enum: ['alimentos', 'accesorios', 'juguetes', 'higiene', 'otros']
   },
   subcategory: {
   type: String,
