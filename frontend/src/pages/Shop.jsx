@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import CategoryCarousel from "../components/shop/CategoryCarousel";
 import ProductGridCard from "../components/shop/ProductGridCard";
+import { useSEO } from "../hooks/useSEO";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,6 +11,12 @@ export default function Shop() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const categoryFilter = params.get("category");
+
+  useSEO({
+    title: categoryFilter ? `${categoryFilter.charAt(0).toUpperCase() + categoryFilter.slice(1)}` : 'Tienda',
+    description: 'Explorá todos nuestros productos para mascotas: alimentos, accesorios, juguetes y más. Envíos a todo el país.',
+    url: '/shop',
+  });
   
   // Redirección para URLs viejas de subcategorías
   useEffect(() => {

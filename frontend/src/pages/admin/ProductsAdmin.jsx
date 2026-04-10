@@ -6,16 +6,9 @@ import { useToast } from '../../context/ToastContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const CATEGORIES = [
-  { value: 'alimentos', label: 'Alimentos' },
-  { value: 'accesorios', label: 'Accesorios' },
-  { value: 'juguetes', label: 'Juguetes' },
-  { value: 'higiene', label: 'Higiene' },
-  { value: 'otros', label: 'Otros' },
-];
-
 export default function ProductsAdmin() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +22,7 @@ export default function ProductsAdmin() {
   description: '',
   price: '',
   stock: '',
-  category: 'alimentos',
+  category: '',
   subcategory: null,  // ← AGREGAR
   images: [''],
   destacado: false,
@@ -41,8 +34,22 @@ export default function ProductsAdmin() {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/api/categories/admin`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      setCategories(data);
+    } catch {
+      console.error('Error al cargar categorías');
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -155,7 +162,7 @@ const handleDelete = async (id) => {
   description: '',
   price: '',
   stock: '',
-  category: 'alimentos',
+  category: categories[0]?.slug || '',
   subcategory: null,  // ← AGREGAR
   images: [''],
   destacado: false,
@@ -279,9 +286,9 @@ const handleDelete = async (id) => {
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
           >
             <option value="">Todas las categorías</option>
-            {CATEGORIES.map((cat) => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
+            {categories.map((cat) => (
+              <option key={cat.slug} value={cat.slug}>
+                {cat.icon} {cat.name}
               </option>
             ))}
                   </select>
@@ -580,9 +587,9 @@ const handleDelete = async (id) => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                   required
                 >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value}>
-                      {cat.label}
+                  {categories.map((cat) => (
+                    <option key={cat.slug} value={cat.slug}>
+                      {cat.icon} {cat.name}
                     </option>
                   ))}
                 </select>

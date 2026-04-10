@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
 import { ShoppingCart, ArrowLeft } from "lucide-react";
+import { useSEO } from "../hooks/useSEO";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,6 +13,17 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0); // ← AGREGAR
+
+  useSEO({
+    title: product?.name ?? 'Producto',
+    description: product?.description
+      ? `${product.description} — Comprá en Pet Shop Vagabundo con envío a todo el país.`
+      : undefined,
+    image: product?.images?.[0] ?? undefined,
+    url: product ? `/product/${product._id}` : undefined,
+    type: 'product',
+    price: product?.price,
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {

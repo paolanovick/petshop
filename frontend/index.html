@@ -2,16 +2,18 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/logoSF.png" />
-  <link rel="apple-touch-icon" href="/logoSF.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pet Shop Vagabundo | Alimentos, Accesorios y Peluquería para Mascotas</title>
-  <meta name="description" content="Pet Shop Vagabundo: alimentos premium, accesorios, juguetes, higiene y peluquería profesional para tu mascota. Envíos a todo el país. Comprá online en vagabundo.com.ar" />
-  <meta name="keywords" content="pet shop, alimentos para mascotas, accesorios mascotas, peluquería canina, juguetes perros, gatos, envío mascotas Argentina, Buenos Aires" />
-  <meta name="robots" content="index, follow" />
-  <meta name="author" content="Pet Shop Vagabundo" />
-  <link rel="canonical" href="https://vagabundo.com.ar" />
 
+  <!-- SEO -->
+  <meta name="description" content="Pet Shop Vagabundo: alimentos premium, accesorios, juguetes, higiene y peluquería para perros y gatos. Productos premium con envíos a todo el país." />
+  <meta name="keywords" content="pet shop, alimentos para perros, alimentos para gatos, accesorios mascotas, juguetes mascotas, peluquería canina, envío mascotas Argentina, vagabundo" />
+  <meta name="author" content="Pet Shop Vagabundo" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#C41E3A" />
+  <link rel="canonical" href="https://vagabundo.com.ar/" />
+
+  <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://vagabundo.com.ar/" />
   <meta property="og:title" content="Pet Shop Vagabundo | Alimentos, Accesorios y Peluquería para Mascotas" />
@@ -19,6 +21,8 @@
   <meta property="og:image" content="https://vagabundo.com.ar/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Pet Shop Vagabundo - Productos para mascotas" />
+  <meta property="og:locale" content="es_AR" />
   <meta property="og:site_name" content="Pet Shop Vagabundo" />
 
   <meta name="twitter:card" content="summary_large_image" />
@@ -26,27 +30,48 @@
   <meta name="twitter:title" content="Pet Shop Vagabundo | Alimentos, Accesorios y Peluquería para Mascotas" />
   <meta name="twitter:description" content="Alimentos premium, accesorios, juguetes, higiene y peluquería para tu mejor amigo." />
   <meta name="twitter:image" content="https://vagabundo.com.ar/og-image.jpg" />
+  <meta name="twitter:image:alt" content="Pet Shop Vagabundo - Productos para mascotas" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logoSF.png" />
+  <link rel="apple-touch-icon" href="/logoSF.png" />
+
+  <!-- JSON-LD: PetStore -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "PetStore",
     "name": "Pet Shop Vagabundo",
-    "url": "https://vagabundo.com.ar",
-    "description": "Alimentos premium, accesorios, juguetes, higiene y peluquería profesional para mascotas.",
+    "url": "https://vagabundo.com.ar/",
+    "logo": "https://vagabundo.com.ar/logoSF.png",
+    "image": "https://vagabundo.com.ar/og-image.jpg",
+    "description": "Alimentos premium, accesorios, juguetes, higiene y peluquería profesional para mascotas. Envíos a todo el país.",
+    "priceRange": "$$",
+    "currenciesAccepted": "ARS",
+    "paymentAccepted": "Transferencia bancaria, Mercado Pago, efectivo",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Buenos Aires",
       "addressCountry": "AR"
     },
-    "areaServed": "AR",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Argentina"
+    },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Productos para mascotas"
+      "name": "Productos para mascotas",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Alimentos para perros y gatos" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Accesorios para mascotas" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Juguetes para mascotas" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Peluquería canina" } }
+      ]
     }
   }
-  <\/script>
+  </script>
 
+  <!-- Microsoft Clarity -->
   <script type="text/javascript">
     (function (c, l, a, r, i, t, y) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -59,4 +84,5 @@
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
+
 </html>
