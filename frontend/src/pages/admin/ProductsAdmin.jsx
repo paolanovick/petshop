@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Plus, Edit2, Trash2, AlertCircle, Package, Search, X } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function ProductsAdmin() {
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ export default function ProductsAdmin() {
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState('todos');
+  const [activeTab, setActiveTab] = useState(location.state?.filterCategory || 'todos');
   const [sortOrder, setSortOrder] = useState('newest');
   const { logout } = useAuth();
   const { showToast } = useToast();
