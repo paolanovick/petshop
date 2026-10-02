@@ -4,6 +4,8 @@ import { useToast } from "../../context/ToastContext";
 import { Link } from "react-router-dom";
 import { PawPrint, Plus, Trash2, Edit2, X } from "lucide-react";
 
+import { uploadImage } from "../../services/uploadImage";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function FriendsAdmin() {
@@ -25,16 +27,7 @@ export default function FriendsAdmin() {
     if (!file) return;
     setUploadingImage(true);
     try {
-      const token = localStorage.getItem('token');
-      const data = new FormData();
-      data.append('image', file);
-      const res = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: data,
-      });
-      if (!res.ok) throw new Error('Error al subir imagen');
-      const { url } = await res.json();
+      const url = await uploadImage(file);
       setForm((prev) => ({ ...prev, image: url }));
     } catch {
       showToast('Error al subir la imagen', 'error');

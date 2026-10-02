@@ -2,19 +2,22 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const { seedIfEmpty } = require("./controllers/categoryController");
 
 const app = express();
 
-// Conectar DB y seed de categorías
-const { seedIfEmpty } = require('./controllers/categoryController');
-connectDB().then(() => seedIfEmpty());
-
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
+// Vercel starts a new function instance as needed. Wait for MongoDB before
+// handling a request so a cold start cannot race the database connection.
+app.use((req, res, next) => {
+  connectDB().then(() => next()).catch((error) => {
+    console.error('MongoDB unavailable:', error.name);
+    res.status(503).json({ message: 'Servicio temporalmente no disponible' });
+  });
+});
 
-// Ruta base
 app.get("/", (req, res) => {
   res.json({
     message: "🐾 Pet Shop Vagabundo API",
@@ -23,30 +26,36 @@ app.get("/", (req, res) => {
       products: "/api/products",
       appointments: "/api/appointments",
       friends: "/api/friends",
-      advertisements: "/api/advertisements", // ← AGREGAR
+      advertisements: "/api/advertisements",
       admin: "/api/admin/login",
     },
   });
 });
 
-// Rutas
 app.use("/api/upload", require("./routes/upload"));
 app.use("/api/categories", require("./routes/categories"));
 app.use("/api/products", require("./routes/products"));
 app.use("/api/appointments", require("./routes/appointments"));
 app.use("/api/friends", require("./routes/friends"));
 app.use("/api/advertisements", require("./routes/advertisements"));
-app.use('/api/shipping-config', require('./routes/shippingConfig'));// ← ACÁ
+app.use("/api/shipping-config", require("./routes/shippingConfig"));
 app.use("/api/admin", require("./routes/admin"));
 
-// 404
 app.use((req, res) => {
   res.status(404).json({ message: "Ruta no encontrada" });
 });
 
-// Server
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
-  console.log(`📍 http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL && require.main === module) {
+  connectDB()
+    .then(() => seedIfEmpty())
+    .then(() => {
+      const port = process.env.PORT || 5001;
+      app.listen(port, () => console.log('Pet Shop Vagabundo API listening on port ' + port));
+    })
+    .catch((error) => {
+      console.error('Could not start API:', error.name);
+      process.exitCode = 1;
+    });
+}
+
+module.exports = app;

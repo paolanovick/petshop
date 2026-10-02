@@ -4,6 +4,8 @@ import { useToast } from "../../context/ToastContext";
 import { Link } from "react-router-dom";
 import { Image, Plus, Trash2, X, Eye, EyeOff, DollarSign, Truck, Save } from "lucide-react";
 
+import { uploadImage } from "../../services/uploadImage";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function AdvertisementsAdmin() {
@@ -23,16 +25,7 @@ export default function AdvertisementsAdmin() {
     if (!file) return;
     setUploadingImage(true);
     try {
-      const token = localStorage.getItem('token');
-      const data = new FormData();
-      data.append('image', file);
-      const res = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: data,
-      });
-      if (!res.ok) throw new Error('Error al subir imagen');
-      const { url } = await res.json();
+      const url = await uploadImage(file);
       setForm({ ...form, image: url });
     } catch {
       showToast('Error al subir la imagen', 'error');
