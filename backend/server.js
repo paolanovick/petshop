@@ -13,7 +13,7 @@ app.use(express.json());
 // handling a request so a cold start cannot race the database connection.
 app.use((req, res, next) => {
   connectDB().then(() => next()).catch((error) => {
-    console.error('MongoDB unavailable:', error.name);
+    console.error('MongoDB unavailable:', error.name, [...(error.reason?.servers?.values() || [])].map((server) => server.error?.code || server.error?.cause?.code || server.error?.name || 'unknown').join(','));
     res.status(503).json({ message: 'Servicio temporalmente no disponible' });
   });
 });
