@@ -4,6 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { Plus, Edit2, Trash2, AlertCircle, Package, Search, X } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 
+import { uploadImage } from "../../services/uploadImage";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function ProductsAdmin() {
@@ -179,16 +181,7 @@ export default function ProductsAdmin() {
     if (!file) return;
     setUploadingIndex(index);
     try {
-      const token = localStorage.getItem('token');
-      const data = new FormData();
-      data.append('image', file);
-      const res = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: data,
-      });
-      if (!res.ok) throw new Error('Error al subir imagen');
-      const { url } = await res.json();
+      const url = await uploadImage(file);
       handleImageChange(index, url);
     } catch {
       showToast('Error al subir la imagen', 'error');
